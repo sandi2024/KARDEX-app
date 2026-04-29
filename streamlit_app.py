@@ -13,20 +13,19 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
 # ============================================
 # FUNCIONES AUXILIARES
 # ============================================
 
 def load_css():
     """Carga el archivo CSS externo"""
-    css_file = Path("styles_uabc.css")
+    css_file = Path("assets/styles.css")
     if css_file.exists():
         with open(css_file, "r", encoding="utf-8") as f:
             css_content = f.read()
         st.markdown(f"<style>{css_content}</style>", unsafe_allow_html=True)
     else:
-        st.warning("⚠️ No se encontró el archivo CSS. Verifica que 'styles_uabc.css' esté en el directorio.")
+        st.warning("⚠️ No se encontró el archivo CSS. Verifica que 'assets/styles.css' esté en el directorio.")
 
 def get_image_base64(image_path):
     """Convierte una imagen a base64 para incrustar en HTML"""
@@ -104,7 +103,7 @@ def render_header():
     """Renderiza el header institucional con el logo UABC"""
     
     # Intentar cargar el logo
-    logo_base64 = get_image_base64("logo_uabc.jpg")
+    logo_base64 = get_image_base64("assets/UABC-Llogo.png")
     logo_html = f'<img src="data:image/jpeg;base64,{logo_base64}" alt="Logo UABC">' if logo_base64 else '<div style="width: 70px; height: 70px; background: #C5A35E; border-radius: 8px;"></div>'
     
     st.markdown(f"""
@@ -341,4 +340,116 @@ def render_tab_riesgo(df):
                 
                 # Recomendaciones
                 st.markdown("**📋 Recomendaciones:**")
-                if
+                if alumno['promedio_general'] < 60:
+                    st.markdown(create_uabc_alert("• Programa de regularización académica inmediato", "danger"), unsafe_allow_html=True)
+                if alumno['porcentaje_avance'] < 50:
+                    st.markdown(create_uabc_alert("• Asesoría para planificación de créditos", "warning"), unsafe_allow_html=True)
+                if alumno['examenes_regularizacion'] > 3:
+                    st.markdown(create_uabc_alert("• Intervención tutorial especializada", "warning"), unsafe_allow_html=True)
+    else:
+        st.markdown(create_uabc_alert("✅ No se encontraron alumnos en situación de riesgo", "success"), unsafe_allow_html=True)
+    
+    # Métricas de riesgo
+    st.markdown("### 📊 Análisis de Riesgo")
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        bajo_riesgo = len(df[df['promedio_general'] >= 80])
+        st.markdown(create_uabc_metric_card("Bajo Riesgo", bajo_riesgo, "promedio ≥ 80", "🟢"), unsafe_allow_html=True)
+    
+    with col2:
+        riesgo_medio = len(df[(df['promedio_general'] >= 60) & (df['promedio_general'] < 80)])
+        st.markdown(create_uabc_metric_card("Riesgo Moderado", riesgo_medio, "promedio 60-80", "🟡"), unsafe_allow_html=True)
+    
+    with col3:
+        alto_riesgo = len(df[df['promedio_general'] < 60])
+        st.markdown(create_uabc_metric_card("Alto Riesgo", alto_riesgo, "promedio < 60", "🔴"), unsafe_allow_html=True)
+
+def render_tab_detalle(df, mostrar_detalles):
+    """Renderiza la pestaña de detalle de alumnos"""
+    
+    if mostrar_detalles:
+        st.markdown("### 📋 Listado Detallado de Alumnos")
+        
+        # Selector de columna para ordenar
+        ordenar_por = st.selectbox("Ordenar por:", ["matricula", "promedio_general", "porcentaje_avance"])
+        ascending = st.checkbox("Ascendente", True)
+        
+        display_df = df[['matricula', 'nombre', 'carrera', 'promedio_general', 
+                        'porcentaje_avance', 'examenes_regularizacion', 'estatus']].copy()
+        display_df = display_df.sort_values(ordenar_por, ascending=ascending)
+        
+        # Formatear para mejor visualización
+        display_df['promedio_general'] = display_df['promedio_general'].round(1)
+        display_df['porcentaje_avance'] = display_df['porcentaje_avance'].round(1)
+        
+        st.dataframe(display_df, use_container_width=True, height=400)
+        
+        # Exportar datos
+        csv = display_df.to_csv(index=False).encode('utf-8')
+        st.download_button("📥 Descargar datos (CSV)", csv, "datos_academicos.csv", "text/csv")
+    else:
+        st.info("ℹ️ Activa 'Mostrar detalles académicos' en el panel lateral para ver el listado completo")
+
+def render_footer():
+    """Renderiza el footer institucional"""
+    
+    st.markdown("""
+    <div class="uabc-footer">
+        <p><strong>Universidad Autónoma de Baja California</strong> | Facultad de Ciencias Químicas e Ingeniería</p>
+        <p>"Por la realización plena del ser"</p>
+        <small>📊 Dashboard de Gestión Académica | Datos actualizados al periodo actual</small>
+    </div>
+    """, unsafe_allow_html=True)
+
+# ============================================
+# MAIN
+# ============================================
+
+def main():
+    """Función principal del dashboard"""
+    
+    # Cargar CSS
+    load_css()
+    
+    # Renderizar header
+    render_header()
+    
+    # Renderizar sidebar y obtener filtros
+    carrera, periodo, umbral_reprobacion, mostrar_solo_riesgo, mostrar_detalles = render_sidebar()
+    
+    # Cargar datos
+    with st.spinner("🔄 Cargando datos académicos..."):
+        students_df = load_sample_data()
+    
+    # Aplicar filtros
+    df_filtered = students_df.copy()
+    if carrera != "Todas":
+        df_filtered = df_filtered[df_filtered['carrera'] == carrera]
+    if mostrar_solo_riesgo:
+        df_filtered = df_filtered[df_filtered['estatus'].isin(['RIESGO', 'REZAGADO'])]
+    
+    # Renderizar métricas
+    render_metrics(df_filtered)
+    
+    # Tabs principales
+    tab1, tab2, tab3, tab4 = st.tabs(["📊 Visión General", "🎯 Rendimiento por Carrera", "🚨 Detección de Riesgo", "📋 Detalle de Alumnos"])
+    
+    with tab1:
+        render_tab_general(df_filtered)
+    
+    with tab2:
+        render_tab_carreras(df_filtered)
+    
+    with tab3:
+        render_tab_riesgo(df_filtered)
+    
+    with tab4:
+        render_tab_detalle(df_filtered, mostrar_detalles)
+    
+    # Renderizar footer
+    render_footer()
+
+# Ejecutar la aplicación
+if __name__ == "__main__":
+    main()
