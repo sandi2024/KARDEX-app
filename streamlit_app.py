@@ -9,7 +9,6 @@ from pathlib import Path
 # Configuración de página
 st.set_page_config(
     page_title="Dashboard Académico - FCQI | UABC",
-    page_icon="🎓",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -128,7 +127,7 @@ def render_sidebar():
     
     with st.sidebar:
         # Logo en sidebar
-        logo_base64 = get_image_base64("logo_uabc.jpg")
+        logo_base64 = get_image_base64("assets/UABC-logo.png")
         logo_html = f'<img src="data:image/jpeg;base64,{logo_base64}" alt="UABC" style="height: 80px;">' if logo_base64 else '<div style="height: 80px;"></div>'
         
         st.markdown(f"""
