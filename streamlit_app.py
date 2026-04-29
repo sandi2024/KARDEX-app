@@ -103,7 +103,7 @@ def render_header():
     """Renderiza el header institucional con el logo UABC"""
     
     # Intentar cargar el logo
-    logo_base64 = get_image_base64("assets/UABC-Llogo.png")
+    logo_base64 = get_image_base64("assets/UABC-logo.png")
     logo_html = f'<img src="data:image/jpeg;base64,{logo_base64}" alt="Logo UABC">' if logo_base64 else '<div style="width: 70px; height: 70px; background: #C5A35E; border-radius: 8px;"></div>'
     
     st.markdown(f"""
