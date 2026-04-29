@@ -15,6 +15,9 @@ def main():
     "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
     )
 
+def load_data():
+    data = pd.read_csv('kardex.csv')
+    return data 
 
 if __name__ == '__main__':
     main()
