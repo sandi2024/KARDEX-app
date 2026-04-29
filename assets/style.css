@@ -1,21 +1,18 @@
 /* ========================================
-   DASHBOARD ACADÉMICO UABC - ESTILOS INSTITUCIONALES
-   Facultad de Ciencias Químicas e Ingeniería
-   Universidad Autónoma de Baja California
+   DASHBOARD ACADÉMICO - ESTILOS
    ======================================== */
 
-/* Variables institucionales UABC */
 :root {
-    --uabc-blue: #003366;
-    --uabc-gold: #C5A35E;
-    --uabc-light-blue: #4A90E2;
-    --uabc-dark-blue: #002244;
-    --uabc-gray: #F5F5F5;
-    --uabc-white: #FFFFFF;
-    --uabc-success: #4CAF50;
-    --uabc-warning: #FF9800;
-    --uabc-danger: #F44336;
-    --uabc-info: #2196F3;
+    --blue: #003366;
+    --gold: #C5A35E;
+    --light-blue: #4A90E2;
+    --dark-blue: #002244;
+    --gray: #F5F5F5;
+    --white: #FFFFFF;
+    --success: #4CAF50;
+    --warning: #FF9800;
+    --danger: #F44336;
+    --info: #2196F3;
     
     --primary-gradient: linear-gradient(135deg, #003366, #004d99);
     --gold-gradient: linear-gradient(135deg, #C5A35E, #D4B47C);
@@ -51,7 +48,7 @@
     overflow: hidden;
     animation: slideDown 0.5s ease;
 }
-
+/* Línea decorativa dorada */
 .uabc-header::before {
     content: '';
     position: absolute;
@@ -61,51 +58,51 @@
     height: 4px;
     background: var(--gold-gradient);
 }
-
+/* Contenido del header */
 .header-content {
     display: flex;
     align-items: center;
     gap: 1.5rem;
     flex-wrap: wrap;
 }
-
+/* Logo UABC */
 .logo-container {
-    background: var(--uabc-white);
-    padding: 0.5rem;
+    background: var(--white);
+    padding: 0.5rem;   /* Espacio alrededor del logo */
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-sm);
     transition: var(--transition-normal);
 }
-
+/* Efecto hover para el logo */
 .logo-container:hover {
     transform: scale(1.02);
     box-shadow: var(--shadow-md);
 }
-
+/* Ajuste del tamaño del logo */
 .logo-container img {
     height: 70px;
     width: auto;
     display: block;
 }
-
+/* Título y subtítulo */
 .title-container {
     flex: 1;
 }
-
+/* Estilos para el título principal */
 .title-container h1 {
-    color: var(--uabc-white);
+    color: var(--white);
     margin: 0;
     font-size: 1.8rem;
     font-weight: 700;
     letter-spacing: -0.5px;
 }
-
+/* Estilos para el subtítulo */
 .title-container p {
     color: rgba(255,255,255,0.9);
     margin: 0.25rem 0 0 0;
     font-size: 0.9rem;
 }
-
+/* ========== BADGE INSTITUCIONAL ========== */
 .uabc-badge {
     background: rgba(255,255,255,0.2);
     backdrop-filter: blur(10px);
@@ -119,22 +116,22 @@
 
 /* ========== TARJETAS DE MÉTRICAS ========== */
 .metric-card-uabc {
-    background: linear-gradient(135deg, var(--uabc-white), #F8F9FA);
+    background: linear-gradient(135deg, var(--white), #F8F9FA);
     padding: 1.2rem;
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-sm);
     transition: var(--transition-normal);
-    border-left: 4px solid var(--uabc-blue);
+    border-left: 4px solid var(--blue);
     margin-bottom: 1rem;
     position: relative;
     overflow: hidden;
 }
-
+/* Efecto hover para las tarjetas de métricas */
 .metric-card-uabc:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-lg);
 }
-
+/* Línea decorativa dorada en la parte inferior de la tarjeta */
 .metric-card-uabc::after {
     content: '';
     position: absolute;
@@ -144,7 +141,7 @@
     height: 2px;
     background: var(--gold-gradient);
 }
-
+/* Estilos para el título de la métrica */
 .metric-card-uabc h3 {
     margin: 0;
     color: #666;
@@ -153,15 +150,15 @@
     letter-spacing: 0.5px;
     font-weight: 600;
 }
-
+/* Estilos para el valor de la métrica */
 .metric-card-uabc .metric-value {
     font-size: 2rem;
     font-weight: bold;
-    color: var(--uabc-blue);
+    color: var(--blue);
     margin: 0.5rem 0;
     line-height: 1;
 }
-
+/* Estilos para el subtítulo o descripción de la métrica */
 .metric-card-uabc .metric-sub {
     font-size: 0.75rem;
     color: #888;
@@ -195,7 +192,7 @@
 
 .alert-uabc-info {
     background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
-    border-left: 4px solid var(--uabc-info);
+    border-left: 4px solid var(--info);
     color: #1565C0;
 }
 
@@ -208,19 +205,19 @@
 [data-testid="stSidebar"] .sidebar-logo {
     text-align: center;
     padding: 1.5rem;
-    border-bottom: 2px solid var(--uabc-gold);
+    border-bottom: 2px solid var(--gold);
     margin-bottom: 1rem;
-    background: var(--uabc-white);
+    background: var(--white);
 }
 
 .sidebar-title {
     text-align: center;
-    color: var(--uabc-blue);
+    color: var(--blue);
     font-size: 1.2rem;
     font-weight: bold;
     margin: 1rem 0;
     padding: 0.5rem;
-    border-bottom: 2px solid var(--uabc-gold);
+    border-bottom: 2px solid var(--gold);
     display: inline-block;
     width: 100%;
 }
@@ -228,7 +225,7 @@
 /* ========== TABS ========== */
 .stTabs [data-baseweb="tab-list"] {
     gap: 0.5rem;
-    background: var(--uabc-gray);
+    background: var(--gray);
     padding: 0.5rem;
     border-radius: var(--border-radius-md);
     margin-bottom: 1rem;
@@ -243,7 +240,7 @@
 
 .stTabs [aria-selected="true"] {
     background: var(--primary-gradient);
-    color: var(--uabc-white) !important;
+    color: var(--white) !important;
     box-shadow: var(--shadow-sm);
 }
 
@@ -341,7 +338,7 @@
 /* ========== BOTONES ========== */
 .stButton > button {
     background: var(--primary-gradient) !important;
-    color: var(--uabc-white) !important;
+    color: var(--white) !important;
     border: none !important;
     border-radius: var(--border-radius-sm) !important;
     transition: var(--transition-normal) !important;
@@ -359,34 +356,34 @@
 
 /* ========== SELECTORES ========== */
 .stSelectbox > div > div {
-    border-color: var(--uabc-blue) !important;
+    border-color: var(--blue) !important;
     border-radius: var(--border-radius-sm) !important;
 }
 
 .stSelectbox label {
-    color: var(--uabc-blue) !important;
+    color: var(--blue) !important;
     font-weight: 500 !important;
 }
 
 /* ========== SLIDERS ========== */
 .stSlider > div > div > div {
-    background-color: var(--uabc-blue) !important;
+    background-color: var(--blue) !important;
 }
 
 /* ========== CHECKBOX ========== */
 .stCheckbox label {
-    color: var(--uabc-dark-blue) !important;
+    color: var(--dark-blue) !important;
 }
 
 /* ========== EXPANDERS ========== */
 .streamlit-expanderHeader {
     background: var(--primary-gradient) !important;
-    color: var(--uabc-white) !important;
+    color: var(--white) !important;
     border-radius: var(--border-radius-sm) !important;
 }
-
+/* Efecto hover para los headers de los expanders */
 .streamlit-expanderHeader:hover {
-    background: var(--uabc-dark-blue) !important;
+    background: var(--dark-blue) !important;
 }
 
 /* ========== LOADING SPINNER ========== */
@@ -394,13 +391,13 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
+/* Estilos para el spinner de carga personalizado */
 .loading-spinner-uabc {
     display: inline-block;
     width: 40px;
     height: 40px;
-    border: 3px solid var(--uabc-gray);
-    border-top: 3px solid var(--uabc-blue);
+    border: 3px solid var(--gray);
+    border-top: 3px solid var(--blue);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -482,12 +479,12 @@
 }
 
 .progress-info {
-    background: linear-gradient(90deg, var(--uabc-info), #1976D2);
+    background: linear-gradient(90deg, var(--info), #1976D2);
 }
 
 /* ========== CARDS ========== */
 .card-uabc {
-    background: var(--uabc-white);
+    background: var(--white);
     border-radius: var(--border-radius-md);
     padding: 1.5rem;
     margin-bottom: 1rem;
@@ -521,7 +518,7 @@
 }
 
 .stat-circle-uabc span {
-    color: var(--uabc-white);
+    color: var(--white);
     font-size: 1.5rem;
     font-weight: bold;
 }
@@ -535,7 +532,7 @@
 
 .tooltip-uabc .tooltip-text {
     visibility: hidden;
-    background-color: var(--uabc-dark-blue);
+    background-color: var(--dark-blue);
     color: var(--uabc-white);
     text-align: center;
     padding: 0.5rem;
@@ -598,7 +595,7 @@
     }
     
     .uabc-header {
-        background: var(--uabc-blue);
+        background: var(--blue);
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
@@ -617,15 +614,15 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--uabc-gray);
+    background: var(--gray);
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--uabc-blue);
+    background: var(--blue);
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--uabc-dark-blue);
+    background: var(--dark-blue);
 }
