@@ -19,13 +19,13 @@ st.set_page_config(
 
 def load_css():
     """Carga el archivo CSS externo"""
-    css_file = Path("assets/styles.css")
+    css_file = Path("assets/style.css")
     if css_file.exists():
         with open(css_file, "r", encoding="utf-8") as f:
             css_content = f.read()
         st.markdown(f"<style>{css_content}</style>", unsafe_allow_html=True)
     else:
-        st.warning("⚠️ No se encontró el archivo CSS. Verifica que 'assets/styles.css' esté en el directorio.")
+        st.warning("⚠️ No se encontró el archivo CSS. Verifica que 'assets/style.css' esté en el directorio.")
 
 def get_image_base64(image_path):
     """Convierte una imagen a base64 para incrustar en HTML"""
