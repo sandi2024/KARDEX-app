@@ -23,6 +23,7 @@ def load_css():
 # Llamar a la función para cargar CSS
 load_css()
 
+
 # Inicializar session state
 if 'data_loaded' not in st.session_state:
     st.session_state.data_loaded = False
