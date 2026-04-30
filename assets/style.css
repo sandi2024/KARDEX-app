@@ -182,19 +182,19 @@
 
 .alert-uabc-success {
     background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
-    border-left: 4px solid var(--uabc-success);
+    border-left: 4px solid var(--success);
     color: #2E7D32;
 }
 
 .alert-uabc-warning {
     background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
-    border-left: 4px solid var(--uabc-warning);
+    border-left: 4px solid var(--warning);
     color: #E65100;
 }
 
 .alert-uabc-danger {
     background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
-    border-left: 4px solid var(--uabc-danger);
+    border-left: 4px solid var(--danger);
     color: #C62828;
 }
 
@@ -294,21 +294,21 @@
 
 .badge-excelente {
     background: var(--success-gradient);
-    color: var(--uabc-white);
+    color: var(--white);
 }
 
 .badge-regular {
     background: var(--warning-gradient);
-    color: var(--uabc-white);
+    color: var(--white);
 }
 
 .badge-riesgo {
     background: var(--danger-gradient);
-    color: var(--uabc-white);
+    color: var(--white);
 }
 
 .badge-info {
-    background: linear-gradient(135deg, var(--uabc-info), #1976D2);
+    background: linear-gradient(135deg, var(--info), #1976D2);
     color: var(--white);
 }
 
