@@ -39,9 +39,9 @@
 
 
 
-/* Cambio de fondo global */
-[data-testid="stAppViewContainer"] {
-    background-color: var(--gray);
+
+[data-testid="stVerticalBlock"] {
+    background-color: transparent;
 }
 
 
