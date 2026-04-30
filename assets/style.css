@@ -265,14 +265,14 @@
 
 .dataframe thead tr th {
     background: var(--primary-gradient) !important;
-    color: var(--uabc-white) !important;
+    color: var(--white) !important;
     padding: 0.75rem !important;
     font-weight: 600 !important;
     border: none !important;
 }
 
 .dataframe tbody tr:hover {
-    background: rgba(246, 249, 252, 0.05) !important;   
+    background: rgba(0,51,102,0.05) !important;   
     transition: var(--transition-fast);
 }
 
