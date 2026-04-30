@@ -127,7 +127,6 @@ def render_sidebar():
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown(logo_html, unsafe_allow_html=True)
         st.markdown("<div class='sidebar-title'> Panel de Control</div>", unsafe_allow_html=True)
 
     
