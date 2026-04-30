@@ -72,7 +72,6 @@
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-sm);
     transition: var(--transition-normal);
-    margin: 0 auto;
 }
 /* Efecto hover para el logo */
 .logo-container:hover {
