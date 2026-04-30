@@ -272,7 +272,7 @@
 }
 
 .dataframe tbody tr:hover {
-    background: rgba(0,51,102,0.05) !important;   
+    background: rgba(246, 249, 252, 0.05) !important;   
     transition: var(--transition-fast);
 }
 
