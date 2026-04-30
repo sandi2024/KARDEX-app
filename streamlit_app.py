@@ -122,7 +122,7 @@ def render_sidebar():
         st.markdown(f"""
         <div class="sidebar-logo">
             {logo_html}
-            <p style="font-size: 0.8rem; color: #666;">UABC</p>
+            <h3 style="font-size: 0.8rem; color: #666;">UABC</h3>
         </div>
         """, unsafe_allow_html=True)
 
