@@ -37,15 +37,9 @@
     --font-primary: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
-
-
-
-[data-testid="stVerticalBlock"] {
-    background-color: transparent;
+.stApp {
+    background-color: var(--gray); /* O el color que prefieras de tus variables */
 }
-
-
-
 
 /* ========== HEADER INSTITUCIONAL ========== */
 .uabc-header {
