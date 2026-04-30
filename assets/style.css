@@ -37,6 +37,11 @@
     --font-primary: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
+/* Fondo de TODO el contenido principal */
+.stApp {
+    background-color: var(--gray); /* O el color que prefieras de tus variables */
+}
+
 /* ========== HEADER INSTITUCIONAL ========== */
 .uabc-header {
     background: var(--primary-gradient);   
