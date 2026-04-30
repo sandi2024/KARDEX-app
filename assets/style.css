@@ -20,10 +20,10 @@
     --warning-gradient: linear-gradient(135deg, #FF9800, #FB8C00);
     --danger-gradient: linear-gradient(135deg, #F44336, #E53935);
     
-    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
-    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-    --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1); 
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1); 
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);   
+    --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);   
     
     --border-radius-sm: 8px;
     --border-radius-md: 12px;
@@ -198,7 +198,7 @@
 
 /* ========== SIDEBAR ========== */
 [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #F8F9FA, #EFEFEF);
+    background: var(--primary-gradient);
     border-right: 1px solid #E0E0E0;
 }
 
