@@ -103,13 +103,15 @@ def render_header():
     
     # Intentar cargar el logo
   #  logo_base64 = get_image_base64("assets/UABC-logo.png")
-   # logo_html = f'<img src="data:image/jpeg;base64,{logo_base64}" alt="Logo UABC">' if logo_base64 else '<div style="width: 70px; height: 70px; background: #C5A35E; border-radius: 8px;"></div>'
+ #   logo_html = f'<img src="data:image/jpeg;base64,{logo_base64}" alt="Logo UABC">' if logo_base64 else '<div style="width: 70px; height: 70px; background: #C5A35E; border-radius: 8px;"></div>'
     
     st.markdown(f"""
     <div class="uabc-header fade-in-up">
         <div class="header-content"> 
                 
-            
+            <div class="logo-container">
+                {logo_html} 
+            </div>
 
             <div class="title-container">
                 <h1>📊 Dashboard de Gestión Académica</h1>
