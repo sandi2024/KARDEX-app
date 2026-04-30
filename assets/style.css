@@ -104,7 +104,7 @@
 }
 /* ========== BADGE INSTITUCIONAL ========== */
 .uabc-badge {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.2);    
     backdrop-filter: blur(10px);
     padding: 0.5rem 1rem;
     border-radius: 20px;
@@ -264,7 +264,7 @@
 }
 
 .dataframe tbody tr:hover {
-    background: rgba(0,51,102,0.05) !important;
+    background: rgba(0,51,102,0.05) !important;   
     transition: var(--transition-fast);
 }
 
@@ -306,7 +306,7 @@
 
 /* ========== FOOTER ========== */
 .uabc-footer {
-    background: var(--primary-gradient);
+    background: var(--primary-gradient); 
     text-align: center;
     padding: 1.5rem;
     margin-top: 2rem;
@@ -316,7 +316,7 @@
     position: relative;
     overflow: hidden;
 }
-
+/* Línea decorativa dorada en la parte superior del footer */
 .uabc-footer::before {
     content: '';
     position: absolute;
@@ -324,13 +324,13 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: var(--gold-gradient);
+    background: var(--gold-gradient); 
 }
-
+/* Estilos para el texto del footer */
 .uabc-footer p {
     margin: 0.25rem 0;
 }
-
+/* Estilos para el texto pequeño del footer */
 .uabc-footer small {
     opacity: 0.8;
 }
@@ -453,7 +453,7 @@
 
 /* ========== PROGRESS BARS ========== */
 .progress-container {
-    background: #E0E0E0;
+    background: var(--blue); 
     border-radius: 10px;
     overflow: hidden;
     height: 8px;
