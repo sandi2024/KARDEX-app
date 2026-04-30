@@ -42,7 +42,7 @@
 }
 
  .stAppHeader {
-            background-color: #2E86C1; /* Elige tu color aquí */
+            background-color: var(--primary-gradient); /* Elige tu color aquí */
  }
 
 /* ========== HEADER INSTITUCIONAL ========== */
