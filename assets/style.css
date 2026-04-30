@@ -40,7 +40,7 @@
 /* ========== HEADER INSTITUCIONAL ========== */
 .uabc-header {
     background: var(--primary-gradient);   
-    padding: 1.5rem       
+    padding: 1.5rem 2rem;       
     border-radius: var(--border-radius-md);  
     margin-bottom: 2rem; 
     box-shadow: var(--shadow-md);   
