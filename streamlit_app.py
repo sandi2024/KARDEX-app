@@ -107,10 +107,10 @@ def render_header():
     
     st.markdown(f"""
     <div class="uabc-header fade-in-up">
-        <div class="header-content">
-            <div class="logo-container">
-                {logo_html}
-            </div>
+        <div class="header-content"> 
+                
+            
+
             <div class="title-container">
                 <h1>📊 Dashboard de Gestión Académica</h1>
                 <p>Facultad de Ciencias Químicas e Ingeniería | Universidad Autónoma de Baja California</p>
