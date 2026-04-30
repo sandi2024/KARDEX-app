@@ -123,7 +123,6 @@ def render_sidebar():
         <div class="sidebar-logo">
             {logo_html}
             <h3 style="color: #003366; margin-top: 0.5rem;">UABC</h3>
-            <p style="font-size: 0.8rem; color: #666;">"Por la realización plena del ser"</p>
         </div>
         """, unsafe_allow_html=True)
 
