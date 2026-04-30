@@ -107,7 +107,7 @@ def render_header():
     
     st.markdown(f"""
     <div class="uabc-header fade-in-up">
-        <div class="header-content"> 
+        
                 
 
             
@@ -115,7 +115,7 @@ def render_header():
                 <p>Facultad de Ciencias Químicas e Ingeniería | Universidad Autónoma de Baja California</p>
             
             
-        </div>
+        
     </div>
     """, unsafe_allow_html=True)
 
