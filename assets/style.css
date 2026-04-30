@@ -301,7 +301,7 @@
 
 .badge-info {
     background: linear-gradient(135deg, var(--uabc-info), #1976D2);
-    color: var(--uabc-white);
+    color: var(--white);
 }
 
 /* ========== FOOTER ========== */
@@ -311,7 +311,7 @@
     padding: 1.5rem;
     margin-top: 2rem;
     border-radius: var(--border-radius-md);
-    color: var(--uabc-white);
+    color: var(--white);
     font-size: 0.8rem;
     position: relative;
     overflow: hidden;
