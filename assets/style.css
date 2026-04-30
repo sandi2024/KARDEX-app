@@ -265,7 +265,7 @@
 
 .dataframe thead tr th {
     background: var(--primary-gradient) !important;
-    color: var(--white) !important;
+    color: var(--success) !important;
     padding: 0.75rem !important;
     font-weight: 600 !important;
     border: none !important;
