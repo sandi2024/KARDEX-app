@@ -41,6 +41,10 @@
     background-color: var(--gray); /* O el color que prefieras de tus variables */
 }
 
+ .stAppHeader {
+            background-color: #2E86C1; /* Elige tu color aquí */
+ }
+
 /* ========== HEADER INSTITUCIONAL ========== */
 .uabc-header {
     background: var(--primary-gradient);   
