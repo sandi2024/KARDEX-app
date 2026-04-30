@@ -55,7 +55,7 @@ def create_uabc_badge(text, type="regular"):
 def create_progress_bar(percentage, type="success"):
     """Crea una barra de progreso"""
     return f'''
-    <div class="progress-container">
+    <div class="progress-container">   
         <div class="progress-bar-uabc progress-{type}" style="width: {percentage}%"></div>
     </div>
     '''
@@ -156,7 +156,6 @@ def render_sidebar():
         st.markdown("""
         <div style="background: #E3F2FD; padding: 0.75rem; border-radius: 8px; font-size: 0.8rem;">
             <strong>📈 Datos actualizados:</strong><br>
-            • 6 carreras en análisis<br>
             • Seguimiento académico<br>
             • Alertas tempranas<br>
             • Sistema de riesgo
@@ -385,8 +384,7 @@ def render_footer():
     st.markdown("""
     <div class="uabc-footer">
         <p><strong>Universidad Autónoma de Baja California</strong> | Facultad de Ciencias Químicas e Ingeniería</p>
-        <p>"Por la realización plena del ser"</p>
-        <small>📊 Dashboard de Gestión Académica | Datos actualizados al periodo actual</small>
+        <small>📊 Dashboard de Gestión Académica | Analisis de datos</small>
     </div>
     """, unsafe_allow_html=True)
 
