@@ -118,9 +118,7 @@ def render_sidebar():
         # Logo en sidebar
         logo_base64 = get_image_base64("assets/UABC-logo.png")
         logo_html = f'<img src="data:image/jpeg;base64,{logo_base64}" alt="UABC" style="height: 80px;">' if logo_base64 else '<div style="height: 80px;"></div>'
-        st.markdown(logo_html, unsafe_allow_html=True)
-        st.markdown("<div class='sidebar-title'> Panel de Control</div>", unsafe_allow_html=True)
-
+       
         st.markdown(f"""
         <div class="sidebar-logo">
             {logo_html}
@@ -128,7 +126,11 @@ def render_sidebar():
             <p style="font-size: 0.8rem; color: #666;">"Por la realización plena del ser"</p>
         </div>
         """, unsafe_allow_html=True)
-        
+
+        st.markdown(logo_html, unsafe_allow_html=True)
+        st.markdown("<div class='sidebar-title'> Panel de Control</div>", unsafe_allow_html=True)
+
+    
         # Selector de carrera
         carrera = st.selectbox(
             "📚 Seleccionar Carrera",
