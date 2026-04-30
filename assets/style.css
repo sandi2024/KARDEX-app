@@ -196,7 +196,7 @@
     color: #1565C0;
 }
 
-/* ========== SIDEBAR ========== */
+/* ========== SIDEBAR/BARRA LATERAL ========== */
 [data-testid="stSidebar"] {
     background: var(--primary-gradient);
     border-right: 1px solid #E0E0E0;
@@ -207,7 +207,7 @@
     padding: 1.5rem;
     border-bottom: 2px solid var(--gold);
     margin-bottom: 1rem;
-    background: var(--white);
+    background: var(--primary-gradient);
 }
 
 .sidebar-title {
