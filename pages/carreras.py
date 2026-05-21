@@ -1,9 +1,10 @@
 import streamlit as st
 import plotly.express as px
 from src.database import fetch_analisis_reprobacion
-from src.utils import load_css, create_uabc_metric_card
+from src.utils import load_css, create_uabc_metric_card, render_header
 
 load_css()
+render_header()
 
 st.title("📈 Análisis por Carrera")
 
