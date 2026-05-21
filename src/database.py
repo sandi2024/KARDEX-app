@@ -3,12 +3,20 @@ import streamlit as st
 import pandas as pd
 
 def get_connection():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password=" ",
-        database="kardex"
-    )
+    try:
+        connection = mysql.connector.connect(
+            host="127.0.0.1",    # El 'Hostname' de Workbench
+            port=3306,           # El 'Port' de Workbench
+            user="root",         # El 'Username'
+            password=" ", # La clave que usas para entrar
+            database="kardex" # El nombre que ves en 'Schemas'
+        )
+        return connection
+    except mysql.connector.Error as err:
+        st.error(f"Error de conexión: {err}")
+        return None
+    
+
 
 @st.cache_data(ttl=600) # Optimiza la carga guardando datos en memoria
 def fetch_kardex_alumno(matricula):
