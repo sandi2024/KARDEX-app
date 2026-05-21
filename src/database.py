@@ -69,3 +69,36 @@ def fetch_carreras_alumno(matricula):
     df = pd.read_sql(query, conn, params=(matricula,))
     conn.close()
     return df
+
+def fetch_detalle_por_periodo(matricula, id_carrera):
+    """
+    Obtiene el historial académico detallado de un alumno filtrado por carrera,
+    ordenado cronológicamente por periodo.
+    """
+    conn = get_connection()
+    
+    # La consulta SQL debe unir el historial con el Plan de Estudios 
+    # para asegurar que las materias pertenezcan a la carrera seleccionada.
+    query = """
+    SELECT 
+        aa.id_periodo,
+        asig.descripcion AS materia,
+        aa.calificacion,
+        aa.tipo_examen,
+        aa.etapa,
+        ap.creditos
+    FROM alumno_asignatura aa
+    JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
+    JOIN Asignatura asig ON ap.id_asignatura = asig.id_asignatura
+    WHERE aa.matricula = %s 
+      AND ap.id_carrera = %s
+    ORDER BY aa.id_periodo ASC, asig.descripcion ASC
+    """
+    
+    try:
+        # Usamos pandas para leer directamente la consulta
+        df = pd.read_sql(query, conn, params=(matricula, id_carrera))
+    finally:
+        conn.close()
+        
+    return df
