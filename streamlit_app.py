@@ -13,8 +13,26 @@ with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
     st.markdown("### Panel de Control")
     carrera_global = st.selectbox("📚 Carrera", ["Todas", "Ingeniería Química", "..."])
+     # Periodo académico
+    periodo = st.selectbox(
+            "📅 Periodo Académico",
+            ["2024-1", "2024-2", "2025-1", "Todos los periodos"])
+        
+    st.markdown("---")
+    st.markdown("### ⚙️ Configuración")
+        
+    # Filtros adicionales
+    umbral_reprobacion = st.slider("Umbral de reprobación", 0, 100, 60)
+    mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos en riesgo")
+    mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
+
+
     # Guardamos en session_state para que otras páginas lo usen
     st.session_state['carrera'] = carrera_global
+    st.session_state['periodo'] = periodo
+    st.session_state['umbral_reprobacion'] = umbral_reprobacion
+    st.session_state['mostrar_solo_riesgo'] = mostrar_solo_riesgo
+    st.session_state['mostrar_detalles'] = mostrar_detalles
 
 # --- CUERPO DEL DASHBOARD ---
 st.title("📊 Visión General")
