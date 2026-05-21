@@ -8,7 +8,7 @@ def get_connection():
             host="127.0.0.1",    # El 'Hostname' de Workbench
             port=3306,           # El 'Port' de Workbench
             user="root",         # El 'Username'
-            password=" ", # La clave que usas para entrar
+            password="", # La clave que usas para entrar
             database="kardex" # El nombre que ves en 'Schemas'
         )
         return connection
