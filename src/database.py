@@ -55,3 +55,17 @@ def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
     df = pd.read_sql(query, conn, params=params)
     conn.close()
     return df
+
+def fetch_carreras_alumno(matricula):
+    """Identifica qué carreras ha cursado una matrícula"""
+    conn = get_connection()
+    query = """
+        SELECT DISTINCT c.id_carrera, c.nombre_carrera 
+        FROM alumno_asignatura aa
+        JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
+        JOIN Carrera c ON ap.id_carrera = c.id_carrera
+        WHERE aa.matricula = %s
+    """
+    df = pd.read_sql(query, conn, params=(matricula,))
+    conn.close()
+    return df
