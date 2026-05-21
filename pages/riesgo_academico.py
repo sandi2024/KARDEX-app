@@ -1,6 +1,6 @@
 import streamlit as st
 from src.database import fetch_analisis_reprobacion # La consulta SQL que hicimos antes
-from src.analysis import calcular_indice_riesgo
+from src.analisis import calcular_indice_riesgo
 from src.utils import load_css, render_header, create_uabc_metric_card
 
 load_css()
