@@ -3,6 +3,8 @@ import pandas as pd
 from src.utils import load_css, render_header, render_footer, create_uabc_metric_card
 from src.database import get_connection # Tu conexión real a MySQL
 
+import numpy as np
+
 st.set_page_config(page_title="Dashboard Académico - FCQI", layout="wide")
 
 load_css()
