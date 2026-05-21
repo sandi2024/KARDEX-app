@@ -16,7 +16,7 @@ render_header()
 # CARGA DE DATOS
 # ============================================
 
-student = calcular_indice_riesgo(fetch_kardex_alumno("001/32146"))
+df = calcular_indice_riesgo(fetch_kardex_alumno("001/32146"))
 
 # --- SIDEBAR COMPARTIDO ---
 with st.sidebar:
