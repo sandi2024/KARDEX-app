@@ -1,22 +1,39 @@
 import streamlit as st
-from src.utils import load_css, render_header, render_footer, create_uabc_metric_card
-from src.database import get_connection
+import plotly.express as px
 
-# Mismo diseño que la principal
-load_css()
-render_header()
-
-st.title("🔍 Análisis Individual por Alumno")
-
-matricula = st.text_input("Ingresa la matrícula:")
+# 1. Búsqueda de matrícula
+matricula = st.text_input("Matrícula")
 
 if matricula:
-    # 1. Llamar a database.py para traer datos de MySQL
-    # 2. Calcular métricas
-    # 3. Mostrar el Kardex
-    st.success(f"Mostrando datos para: {matricula}")
+    carreras = fetch_carreras_alumno(matricula)
     
-    # Ejemplo de tarjeta de métrica reusada
-    st.markdown(create_uabc_metric_card("Promedio de Alumno", "85.2"), unsafe_allow_html=True)
+    if len(carreras) > 1:
+        st.warning("⚠️ Este alumno tiene registros en múltiples carreras.")
+        seleccion = st.selectbox("Selecciona la carrera para el análisis:", 
+                                 carreras['nombre_carrera'])
+        id_carrera = carreras[carreras['nombre_carrera'] == seleccion]['id_carrera'].iloc[0]
+    else:
+        id_carrera = carreras['id_carrera'].iloc[0]
 
-render_footer()
+    # 2. Obtener materias filtradas por matrícula Y carrera
+    df_periodos = fetch_detalle_por_periodo(matricula, id_carrera)
+
+    # 3. Código del Análisis por Periodo
+    st.subheader(f"Análisis de Rendimiento por Periodo")
+    
+    # Agrupamos para obtener el promedio por periodo
+    df_stats_periodo = df_periodos.groupby('id_periodo').agg({
+        'calificacion': 'mean',
+        'materia': 'count'
+    }).reset_index()
+
+    # Gráfica de evolución
+    fig = px.line(df_stats_periodo, x='id_periodo', y='calificacion', 
+                  title="Evolución del Promedio Académico",
+                  markers=True, text="calificacion")
+    fig.update_traces(textposition="top center", line_color="#00723F") # Verde UABC
+    st.plotly_chart(fig, use_container_width=True)
+    
+    # Mostrar materias cursadas en ese periodo específico
+    st.write("### Detalle Cronológico")
+    st.table(df_periodos[['id_periodo', 'materia', 'calificacion']])
