@@ -23,3 +23,35 @@ def fetch_kardex_alumno(matricula):
     df = pd.read_sql(query, conn, params=(matricula,))
     conn.close()
     return df
+
+def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
+    conn = get_connection()
+    
+    # Base de la consulta: Unimos Alumno -> Alumno_Asignatura -> Asignatura_Plan -> Asignatura
+    query = """
+    SELECT 
+        c.nombre_carrera,
+        aa.id_periodo,
+        asig.descripcion AS materia,
+        aa.calificacion,
+        CASE WHEN aa.calificacion < 60 THEN 1 ELSE 0 END AS es_reprobado
+    FROM alumno_asignatura aa
+    JOIN Alumno al ON aa.matricula = al.matricula
+    JOIN Carrera c ON al.id_carrera = c.id_carrera
+    JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
+    JOIN Asignatura asig ON ap.id_asignatura = asig.id_asignatura
+    WHERE 1=1
+    """
+    
+    # Filtros dinámicos
+    params = []
+    if id_carrera:
+        query += " AND c.id_carrera = %s"
+        params.append(id_carrera)
+    if id_periodo:
+        query += " AND aa.id_periodo = %s"
+        params.append(id_periodo)
+        
+    df = pd.read_sql(query, conn, params=params)
+    conn.close()
+    return df
