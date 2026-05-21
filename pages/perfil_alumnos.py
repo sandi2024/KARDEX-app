@@ -1,5 +1,7 @@
 import streamlit as st
 import plotly.express as px
+from src.database import fetch_carreras_alumno, fetch_detalle_por_periodo
+from src.utils import load_css, render_header, create_uabc_metric_card          
 
 # 1. Búsqueda de matrícula
 matricula = st.text_input("Matrícula")
