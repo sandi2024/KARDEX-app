@@ -35,7 +35,21 @@ def create_uabc_metric_card(title, value, subtitle=None, icon="📊"):
         {f'<div class="metric-sub">{subtitle}</div>' if subtitle else ''}
     </div>
     '''
+def create_uabc_alert(message, type="info"):
+    """Crea una alerta con estilos UABC"""
+    return f'<div class="alert-uabc alert-uabc-{type}">{message}</div>'
 
+def create_uabc_badge(text, type="regular"):
+    """Crea una badge con estilos UABC"""
+    return f'<span class="badge-uabc badge-{type}">{text}</span>'
+
+def create_progress_bar(percentage, type="success"):
+    """Crea una barra de progreso"""
+    return f'''
+    <div class="progress-container">   
+        <div class="progress-bar-uabc progress-{type}" style="width: {percentage}%"></div>
+    </div>
+    '''
 def render_footer():
     st.markdown("""
     <div class="uabc-footer">
