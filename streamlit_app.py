@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 from src.utils import load_css, render_header, render_footer, create_uabc_metric_card
-from src.database import get_connection # Tu conexión real a MySQL
+from src.database import fetch_kardex_alumno, get_connection, fetch_analisis_reprobacion # Tu conexión real a MySQL
+from src.analisis import calcular_indice_riesgo
 
 import numpy as np
 
@@ -15,38 +16,7 @@ render_header()
 # CARGA DE DATOS
 # ============================================
 
-@st.cache_data
-def load_sample_data():
-    """Carga datos de ejemplo para el dashboard"""
-    
-    np.random.seed(42)  # Para reproducibilidad
-    
-    # Datos de alumnos
-    students = pd.DataFrame({
-        'matricula': [f'00{i}/46609' for i in range(1, 101)],
-        'nombre': [f'Alumno_{i}' for i in range(1, 101)],
-        'carrera': np.random.choice([
-            'Ingeniería Química', 'Ingeniería Industrial', 
-            'Química Farmacéutica', 'Ingeniería Ambiental',
-            'Ingeniería en Alimentos', 'Licenciatura en Química'
-        ], 100),
-        'plan_estudios': np.random.choice(['1994-2', '2005-1', '2010-1', '2015-2', '2020-1'], 100),
-        'promedio_general': np.random.normal(75, 12, 100).clip(0, 100),
-        'creditos_cursados': np.random.randint(0, 400, 100),
-        'creditos_requeridos': 326,
-        'examenes_regularizacion': np.random.randint(0, 5, 100),
-        'estatus': np.random.choice(['ACTIVO', 'REZAGADO', 'RIESGO', 'REGULAR'], 100, p=[0.5, 0.2, 0.2, 0.1])
-    })
-    
-    # Calcular métricas adicionales
-    students['creditos_faltantes'] = students['creditos_requeridos'] - students['creditos_cursados']
-    students['porcentaje_avance'] = (students['creditos_cursados'] / students['creditos_requeridos']) * 100
-    students['porcentaje_avance'] = students['porcentaje_avance'].clip(0, 100)
-    
-    return students
-
-
-
+student = calcular_indice_riesgo(fetch_kardex_alumno("001/32146"))
 
 # --- SIDEBAR COMPARTIDO ---
 with st.sidebar:
