@@ -40,19 +40,6 @@ def fetch_kardex_alumno(matricula):
     return df
 
 
-def fetch_carreras_alumno(matricula):
-    """Identifica qué carreras ha cursado una matrícula"""
-    conn = get_connection()
-    query = """
-        SELECT DISTINCT pe.id_programa, pe.nombre AS nombre_carrera
-        FROM alumno_asignatura aa
-        JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
-        JOIN programaEducativo pe ON ap.id_carrera = pe.id_programa
-        WHERE aa.matricula = %s
-    """
-    df = pd.read_sql(query, conn, params=(matricula,))
-    conn.close()
-    return df
 
 def fetch_detalle_por_periodo(matricula, id_carrera):
     """

@@ -18,37 +18,57 @@ def get_kardex_alumno(matricula):
     return run_query(query, (matricula,))
 
 
+import pandas as pd
+from database import run_query  # Asegúrate de importar run_query
+
 def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
+    """
+    Obtiene los datos detallados para el análisis de reprobación.
+    Usa la lógica de filtros dinámicos y delega la ejecución a run_query.
+    """
     # Base de la consulta
     query = """
     SELECT 
-        pe.id_programa AS ID_Carrera,
-        pe.nombre AS Carrera,
-        p.id_periodo AS ID_Periodo,
-        p.anio_periodo AS Periodo,
-        COUNT(aa.matricula) AS Total_Reprobados,
-        AVG(aa.calificacion) AS Promedio_General_Reprobados
+        pe.nombre AS nombre_carrera,
+        aa.id_periodo,
+        asig.nombre AS materia,
+        aa.calificacion,
+        CASE WHEN aa.calificacion < 60 THEN 1 ELSE 0 END AS es_reprobado
     FROM alumno_asignatura aa
+    JOIN Alumno al ON aa.matricula = al.matricula
+    JOIN programaEducativo pe ON al.id_carrera = pe.id_programa
     JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
-    JOIN plan_estudio ple ON ap.id_plan_estudio = ple.id_plan_estudio
-    JOIN programaEducativo pe ON ple.id_programa = pe.id_programa
-    JOIN Periodo p ON aa.id_periodo = p.id_periodo
-    WHERE aa.calificacion < 6.0  -- Filtro de reprobación
+    JOIN Asignatura asig ON ap.id_asignatura = asig.id_asignatura
+    WHERE 1=1
     """
     
     params = []
     
-    # Agregar filtros dinámicos según los argumentos
+    # Filtros dinámicos
     if id_carrera:
-        query += " AND pe.id_programa = %s"
+        query += " AND pe.id_programa = %s"  # Se agregó el '='
         params.append(id_carrera)
-    
+        
     if id_periodo:
-        query += " AND p.id_periodo = %s"
+        query += " AND aa.id_periodo = %s"   # Corregido: id_periodo en lugar de id_programa
         params.append(id_periodo)
         
-    # Agrupación y orden
-    query += " GROUP BY pe.id_programa, p.id_periodo ORDER BY p.anio_periodo DESC"
-    
-    # Ejecutamos usando la función run_query que explicamos antes
+    # Ejecución delegada a run_query
+    # Convertimos params a tupla si tiene elementos, sino pasamos None
     return run_query(query, tuple(params) if params else None)
+
+
+def fetch_carreras_alumno(matricula):
+    """
+    Identifica qué carreras ha cursado una matrícula.
+    Delegación directa a run_query.
+    """
+    query = """
+        SELECT DISTINCT pe.id_programa, pe.nombre AS nombre_carrera
+        FROM alumno_asignatura aa
+        JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
+        JOIN programaEducativo pe ON ap.id_carrera = pe.id_programa
+        WHERE aa.matricula = %s
+    """
+    # Pasamos la matrícula como una tupla (matricula,) para seguridad
+    return run_query(query, (matricula,))
