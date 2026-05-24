@@ -1,4 +1,5 @@
 from src.database import run_query
+import pandas as pd
 
 def get_kardex_alumno(matricula):
     query = """
@@ -17,9 +18,6 @@ def get_kardex_alumno(matricula):
     """
     return run_query(query, (matricula,))
 
-
-import pandas as pd
-from database import run_query  # Asegúrate de importar run_query
 
 def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
     """
