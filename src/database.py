@@ -45,7 +45,8 @@ def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
         CASE WHEN aa.calificacion < 60 THEN 1 ELSE 0 END AS es_reprobado
     FROM alumno_asignatura aa
     JOIN Alumno al ON aa.matricula = al.matricula
-    JOIN programaEducativo pe ON al.id_carrera = pe.id_carrera
+    JOIN programaEducativo pe ON al.id_carrera = pe.id_programa
+    
     JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
     JOIN Asignatura asig ON ap.id_asignatura = asig.id_asignatura
     WHERE 1=1
@@ -54,10 +55,10 @@ def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
     # Filtros dinámicos
     params = []
     if id_carrera:
-        query += " AND pe.id_carrera = %s"
+        query += " AND pe.id_programa %s"
         params.append(id_carrera)
     if id_periodo:
-        query += " AND aa.id_periodo = %s"
+        query += " AND aa.id_programa = %s"
         params.append(id_periodo)
         
     df = pd.read_sql(query, conn, params=params)
@@ -68,10 +69,10 @@ def fetch_carreras_alumno(matricula):
     """Identifica qué carreras ha cursado una matrícula"""
     conn = get_connection()
     query = """
-        SELECT DISTINCT pe.id_carrera, pe.nombre AS nombre_carrera
+        SELECT DISTINCT pe.id_programa, pe.nombre AS nombre_carrera
         FROM alumno_asignatura aa
         JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
-        JOIN programaEducativo pe ON ap.id_carrera = pe.id_carrera
+        JOIN programaEducativo pe ON ap.id_carrera = pe.id_programa
         WHERE aa.matricula = %s
     """
     df = pd.read_sql(query, conn, params=(matricula,))
@@ -99,7 +100,7 @@ def fetch_detalle_por_periodo(matricula, id_carrera):
     JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
     JOIN Asignatura asig ON ap.id_asignatura = asig.id_asignatura
     WHERE aa.matricula = %s 
-      AND ap.id_carrera = %s
+      AND ap.id_programa = %s
     ORDER BY aa.id_periodo ASC, asig.nombre ASC
     """
     
