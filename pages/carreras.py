@@ -9,7 +9,7 @@ render_header()
 st.title("📈 Análisis por Carrera")
 
 # Supongamos que traemos los datos de la carrera seleccionada
-df_carrera = fetch_analisis_reprobacion(id_programa=st.session_state.get('id_carrera_sel'))
+df_carrera = fetch_analisis_reprobacion(id_carrera=st.session_state.get('id_carrera_sel'))
 
 if not df_carrera.empty:
     # --- Gráfica de Barras: Top Materias Reprobadas ---
