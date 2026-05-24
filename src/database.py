@@ -15,7 +15,14 @@ def get_connection():
     except mysql.connector.Error as err:
         st.error(f"Error de conexión: {err}")
         return None
-    
+
+def run_query(query, params=None):
+    conn = get_connection()
+    if conn:
+        df = pd.read_sql(query, conn, params=params)   
+        conn.close()
+        return df
+    return pd.DataFrame()   # Devuelve un DataFrame vacío en caso de error de conexión
 
 
 @st.cache_data(ttl=600) # Optimiza la carga guardando datos en memoria
@@ -32,38 +39,6 @@ def fetch_kardex_alumno(matricula):
     conn.close()
     return df
 
-def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
-    conn = get_connection()
-    
-    # Base de la consulta: Unimos Alumno -> Alumno_Asignatura -> Asignatura_Plan -> Asignatura
-    query = """
-    SELECT 
-        pe.nombre AS nombre_carrera,
-        aa.id_periodo,
-        asig.nombre AS materia,
-        aa.calificacion,
-        CASE WHEN aa.calificacion < 60 THEN 1 ELSE 0 END AS es_reprobado
-    FROM alumno_asignatura aa
-    JOIN Alumno al ON aa.matricula = al.matricula
-    JOIN programaEducativo pe ON al.id_carrera = pe.id_programa
-    
-    JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
-    JOIN Asignatura asig ON ap.id_asignatura = asig.id_asignatura
-    WHERE 1=1
-    """
-    
-    # Filtros dinámicos
-    params = []
-    if id_carrera:
-        query += " AND pe.id_programa %s"
-        params.append(id_carrera)
-    if id_periodo:
-        query += " AND aa.id_programa = %s"
-        params.append(id_periodo)
-        
-    df = pd.read_sql(query, conn, params=params)
-    conn.close()
-    return df
 
 def fetch_carreras_alumno(matricula):
     """Identifica qué carreras ha cursado una matrícula"""
