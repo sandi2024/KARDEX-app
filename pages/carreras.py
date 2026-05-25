@@ -41,10 +41,7 @@ st.title("📈 Análisis por Carrera")
 # Supongamos que traemos los datos de la carrera seleccionada
 df_carrera = fetch_analisis_reprobacion(id_carrera=st.session_state.get('id_carrera_sel'))
 
-# --- CUERPO DEL DASHBOARD ---
-st.title("📊 Visión General")
-
-# Ejemplo de cómo usar las métricas ahora:
+# --- CARDS DE METRICAS --
 col1, col2, col3, col4, col5= st.columns(5)
 with col1:
     st.markdown(create_uabc_metric_card("Total Alumnos", "1,200", icon="🎓"), unsafe_allow_html=True)
