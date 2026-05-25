@@ -16,6 +16,7 @@ def get_connection():
         st.error(f"Error de conexión: {err}")
         return None
 
+
 def run_query(query, params=None):
     conn = get_connection()
     if conn:
