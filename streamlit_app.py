@@ -8,8 +8,8 @@ import numpy as np
 
 st.set_page_config(page_title="Dashboard Académico - FCQI", layout="wide")
 
-load_css()
-#render_header()
+#load_css()
+render_header()   # Renderizamos el header común a todas las páginas
 
 
 # ============================================
