@@ -33,7 +33,9 @@ with st.sidebar:
         
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
-        
+    periodo = st.selectbox(
+            "📅 Periodo Académico",
+            ["2024-1", "2024-2", "2025-1", "Todos los periodos"])    
     # Filtros adicionales
     umbral_reprobacion = st.slider("Umbral de reprobación", 0, 100, 60)
     mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos en riesgo")
