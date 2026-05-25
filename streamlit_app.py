@@ -9,7 +9,7 @@ import numpy as np
 st.set_page_config(page_title="Dashboard Académico - FCQI", layout="wide")
 
 load_css()
-render_header()
+#render_header()
 
 
 # ============================================
@@ -22,7 +22,7 @@ df = calcular_indice_riesgo(get_kardex_alumno("001/32146"))
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
     st.markdown("### Panel de Control")
-    carrera_global = st.selectbox("📚 Carrera", ["Todas", "Ingeniería Química", "..."])
+#    carrera_global = st.selectbox("📚 Carrera", ["Todas", "Ingeniería Química", "..."])
      # Periodo académico
     periodo = st.selectbox(
             "📅 Periodo Académico",
@@ -38,7 +38,7 @@ with st.sidebar:
 
 
     # Guardamos en session_state para que otras páginas lo usen
-    st.session_state['carrera'] = carrera_global
+ #   st.session_state['carrera'] = carrera_global
     st.session_state['periodo'] = periodo
     st.session_state['umbral_reprobacion'] = umbral_reprobacion
     st.session_state['mostrar_solo_riesgo'] = mostrar_solo_riesgo
