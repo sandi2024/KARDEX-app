@@ -9,7 +9,7 @@ render_header()
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
     st.markdown("### Panel de Control")
-    carrera_global = st.selectbox("📚 Carrera", ["Todas", "Ingeniería Química", "..."])
+    carrera_global = st.selectbox("📚 Carrera", ["Ingeniero en Computación", "Ingeniería Química", "..."])
      # Periodo académico
     periodo = st.selectbox(
             "📅 Periodo Académico",

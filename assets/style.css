@@ -413,6 +413,14 @@
     animation: spin 1s linear infinite;
 }
 
+/*========== SELECTBOX ========== */
+/* Fondo blanco del selectbox */
+.stSelectbox > div > div {
+    background-color: white !important;
+    color: black !important; /* Texto negro */
+    border-radius: var(--border-radius-sm) !important;
+}
+
 /* ========== ANIMACIONES ========== */
 @keyframes slideDown {
     from {
