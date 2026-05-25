@@ -21,10 +21,9 @@ def get_kardex_alumno(matricula):
 
 def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
     """
-    Obtiene los datos detallados para el análisis de reprobación.
-    Usa la lógica de filtros dinámicos y delega la ejecución a run_query.
+    Obtiene los datos de reprobación siguiendo la ruta correcta del diagrama.
+    Ruta: alumno_asignatura -> Alumno -> alumno_plan_estudio -> plan_estudio -> programaEducativo
     """
-    # Base de la consulta
     query = """
     SELECT 
         pe.nombre AS nombre_carrera,
@@ -33,8 +32,14 @@ def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
         aa.calificacion,
         CASE WHEN aa.calificacion < 60 THEN 1 ELSE 0 END AS es_reprobado
     FROM alumno_asignatura aa
+    -- Unimos con Alumno para saber quién es
     JOIN Alumno al ON aa.matricula = al.matricula
-    JOIN programaEducativo pe ON al.id_carrera = pe.id_programa
+    -- Unimos Alumno con su Plan de Estudio (Aquí estaba el error)
+    JOIN alumno_plan_estudio ape ON al.matricula = ape.matricula
+    JOIN plan_estudio ple ON ape.id_plan_estudio = ple.id_plan_estudio
+    -- Ahora sí llegamos al Programa Educativo (Carrera)
+    JOIN programaEducativo pe ON ple.id_programa = pe.id_programa
+    -- Unimos con las materias
     JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
     JOIN Asignatura asig ON ap.id_asignatura = asig.id_asignatura
     WHERE 1=1
@@ -42,17 +47,14 @@ def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
     
     params = []
     
-    # Filtros dinámicos
     if id_carrera:
-        query += " AND pe.id_programa = %s"  # Se agregó el '='
+        query += " AND pe.id_programa = %s"
         params.append(id_carrera)
         
     if id_periodo:
-        query += " AND aa.id_periodo = %s"   # Corregido: id_periodo en lugar de id_programa
+        query += " AND aa.id_periodo = %s"
         params.append(id_periodo)
         
-    # Ejecución delegada a run_query
-    # Convertimos params a tupla si tiene elementos, sino pasamos None
     return run_query(query, tuple(params) if params else None)
 
 
