@@ -70,3 +70,29 @@ def fetch_carreras_alumno(matricula):
     """
     # Pasamos la matrícula como una tupla (matricula,) para seguridad
     return run_query(query, (matricula,))
+
+def fetch_detalle_por_periodo(matricula, id_carrera):
+    """
+    Obtiene el historial académico detallado de un alumno filtrado por carrera,
+    ordenado cronológicamente por periodo usando run_query.
+    """
+    # La consulta SQL une el historial con el Plan de Estudios y Asignaturas
+    query = """
+    SELECT 
+        aa.id_periodo,
+        asig.nombre AS materia,
+        aa.calificacion,
+        aa.tipo_examen,
+        aa.etapa,
+        asig.creditos  -- Nota: En tu diagrama 'creditos' está en 'Asignatura'
+    FROM alumno_asignatura aa
+    JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
+    JOIN Asignatura asig ON ap.id_asignatura = asig.id_asignatura
+    JOIN plan_estudio ple ON ap.id_plan_estudio = ple.id_plan_estudio
+    WHERE aa.matricula = %s 
+      AND ple.id_programa = %s
+    ORDER BY aa.id_periodo ASC, asig.nombre ASC
+    """
+    
+    # Ejecutamos la consulta pasando los parámetros como una tupla
+    return run_query(query, (matricula, id_carrera))
