@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.express as px
-from src.queries import fetch_analisis_reprobacion
+from src.queries import fetch_analisis_reprobacion, fetch_carreras_alumno, fetch_detalle_por_periodo
 from src.utils import load_css, create_uabc_metric_card, render_header
 
 load_css()

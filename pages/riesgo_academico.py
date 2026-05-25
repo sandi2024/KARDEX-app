@@ -1,5 +1,5 @@
 import streamlit as st
-from src.queries import fetch_analisis_reprobacion # La consulta SQL que hicimos antes
+from src.queries import fetch_analisis_reprobacion, fetch_carreras_alumno   
 from src.analisis import calcular_indice_riesgo
 from src.utils import load_css, render_header, create_uabc_metric_card
 import pandas as pd
