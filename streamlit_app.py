@@ -3,12 +3,11 @@ import pandas as pd
 from src.utils import load_css, render_header, render_footer, create_uabc_metric_card
 from src.queries import fetch_analisis_reprobacion, get_kardex_alumno 
 from src.analisis import calcular_indice_riesgo
-
 import numpy as np
 
 st.set_page_config(page_title="Dashboard Académico - FCQI", layout="wide")
 
-#load_css()
+load_css()    # Cargamos los estilos personalizados
 render_header()   # Renderizamos el header común a todas las páginas
 
 
