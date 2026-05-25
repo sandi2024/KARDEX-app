@@ -26,10 +26,6 @@ with st.sidebar:
     st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") # APARECE DESPUÉS
 
 #    carrera_global = st.selectbox("📚 Carrera", ["Todas", "Ingeniería Química", "..."])
-     # Periodo académico
-    periodo = st.selectbox(
-            "📅 Periodo Académico",
-            ["2024-1", "2024-2", "2025-1", "Todos los periodos"])
         
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
