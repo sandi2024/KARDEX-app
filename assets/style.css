@@ -37,17 +37,10 @@
     --font-primary: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
-
-
 .stApp {
     background-color: var(--gray);
     color: black;
 
-}
-
-/* Aplicar fondo gris claro a la app para que resalten las tarjetas blancas */
-[data-testid="stAppViewContainer"] {
-    background-color: var(--gray);
 }
 
  .stAppHeader {
