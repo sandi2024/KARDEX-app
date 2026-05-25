@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from src.utils import load_css, render_header, render_footer, create_uabc_metric_card
-from src.database import fetch_kardex_alumno, get_connection, fetch_analisis_reprobacion # Tu conexión real a MySQL
+from src.queries import fetch_analisis_reprobacion 
 from src.analisis import calcular_indice_riesgo
 
 import numpy as np
