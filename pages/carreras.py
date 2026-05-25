@@ -5,6 +5,7 @@ from src.utils import load_css, create_uabc_metric_card, render_header, render_f
 
 load_css()
 render_header()
+render_footer()
 
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
@@ -76,4 +77,3 @@ else:
 
 
 
-render_footer()
