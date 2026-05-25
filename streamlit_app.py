@@ -41,7 +41,7 @@ with st.sidebar:
 
 
     # Guardamos en session_state para que otras páginas lo usen
- #   st.session_state['carrera'] = carrera_global
+    st.session_state['carrera'] = carrera_global
     st.session_state['periodo'] = periodo
     st.session_state['umbral_reprobacion'] = umbral_reprobacion
     st.session_state['mostrar_solo_riesgo'] = mostrar_solo_riesgo
