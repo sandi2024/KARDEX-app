@@ -14,16 +14,14 @@ with st.sidebar:
     st.page_link("pages/carreras.py", label="Carreras", icon="📊") # APARECE DESPUÉS
     st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🎓") # APARECE DESPUÉS
     st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") # APARECE DESPUÉS
-
-#    carrera_global = st.selectbox("📚 Carrera", ["Todas", "Ingeniería Química", "..."])
-     # Periodo académico
-    periodo = st.selectbox(
-            "📅 Periodo Académico",
-            ["2024-1", "2024-2", "2025-1", "Todos los periodos"])
         
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
-        
+    carrera_global = st.selectbox("📚 Carrera", ["Todas", "Ingeniería Química", "..."])
+
+    periodo = st.selectbox(
+            "📅 Periodo Académico",
+            ["2024-1", "2024-2", "2025-1", "Todos los periodos"])
     # Filtros adicionales
     umbral_reprobacion = st.slider("Umbral de reprobación", 0, 100, 60)
     mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos en riesgo")
@@ -31,7 +29,7 @@ with st.sidebar:
 
 
     # Guardamos en session_state para que otras páginas lo usen
- #   st.session_state['carrera'] = carrera_global
+    st.session_state['carrera'] = carrera_global
     st.session_state['periodo'] = periodo
     st.session_state['umbral_reprobacion'] = umbral_reprobacion
     st.session_state['mostrar_solo_riesgo'] = mostrar_solo_riesgo

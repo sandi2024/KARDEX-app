@@ -24,8 +24,6 @@ with st.sidebar:
     st.page_link("pages/carreras.py", label="Carreras", icon="📊") # APARECE DESPUÉS
     st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🎓") # APARECE DESPUÉS
     st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") # APARECE DESPUÉS
-
-#    carrera_global = st.selectbox("📚 Carrera", ["Todas", "Ingeniería Química", "..."])
         
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
