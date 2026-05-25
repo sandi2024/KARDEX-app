@@ -8,8 +8,8 @@ import numpy as np
 
 st.set_page_config(page_title="Dashboard Académico - FCQI", layout="wide")
 
-load_css()
-render_header()
+#load_css()
+#render_header()
 
 
 # ============================================
@@ -43,6 +43,7 @@ with st.sidebar:
     st.session_state['umbral_reprobacion'] = umbral_reprobacion
     st.session_state['mostrar_solo_riesgo'] = mostrar_solo_riesgo
     st.session_state['mostrar_detalles'] = mostrar_detalles
+
 
 # --- CUERPO DEL DASHBOARD ---
 st.title("📊 Visión General")
