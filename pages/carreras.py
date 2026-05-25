@@ -1,7 +1,7 @@
 import streamlit as st
 import plotly.express as px
 from src.queries import fetch_analisis_reprobacion, fetch_carreras_alumno, fetch_detalle_por_periodo
-from src.utils import load_css, create_uabc_metric_card, render_header
+from src.utils import load_css, create_uabc_metric_card, render_header, render_footer
 
 load_css()
 render_header()
@@ -13,15 +13,13 @@ with st.sidebar:
     st.page_link("pages/carreras.py", label="Carreras", icon="📊") # APARECE DESPUÉS
     st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🎓") # APARECE DESPUÉS
     st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") # APARECE DESPUÉS
-    
-    carrera_global = st.selectbox("📚 Carrera", ["Ingeniero en Computación", "Ingeniería Química", "..."])
-     # Periodo académico
-    periodo = st.selectbox(
-            "📅 Periodo Académico",
-            ["2024-1", "2024-2", "2025-1", "Todos los periodos"])
         
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
+    carrera_global = st.selectbox("📚 Carrera", ["Ingeniero en Computación", "Ingeniería Química", "..."])
+    periodo = st.selectbox(
+            "📅 Periodo Académico",
+            ["2024-1", "2024-2", "2025-1", "Todos los periodos"])
         
     # Filtros adicionales
     umbral_reprobacion = st.slider("Umbral de reprobación", 0, 100, 60)
@@ -30,7 +28,7 @@ with st.sidebar:
 
 
     # Guardamos en session_state para que otras páginas lo usen
- #   st.session_state['carrera'] = carrera_global
+    st.session_state['carrera'] = carrera_global
     st.session_state['periodo'] = periodo
     st.session_state['umbral_reprobacion'] = umbral_reprobacion
     st.session_state['mostrar_solo_riesgo'] = mostrar_solo_riesgo
@@ -74,3 +72,8 @@ if not df_carrera.empty:
 
 else:
     st.warning("No hay datos disponibles para los filtros seleccionados.")
+
+
+
+
+render_footer()
