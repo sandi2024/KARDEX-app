@@ -38,12 +38,11 @@
 }
 
 
-/*
+
 .stApp {
     background-color: var(--gray);
 }
 
-*/
 /* Aplicar fondo gris claro a la app para que resalten las tarjetas blancas */
 [data-testid="stAppViewContainer"] {
     background-color: var(--gray);
