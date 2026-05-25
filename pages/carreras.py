@@ -34,7 +34,6 @@ with st.sidebar:
     st.session_state['mostrar_solo_riesgo'] = mostrar_solo_riesgo
     st.session_state['mostrar_detalles'] = mostrar_detalles
 
-
 # ============================================CUERPO DEL DASHBOARD ============================================
 st.title("📈 Análisis por Carrera")
 

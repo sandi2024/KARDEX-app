@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from src.utils import load_css, render_header, render_footer, create_uabc_metric_card
+from src.utils import load_css, render_header, render_footer, create_uabc_metric_card, create_uabc_alert
 from src.queries import fetch_analisis_reprobacion, get_kardex_alumno 
 from src.analisis import calcular_indice_riesgo
 import numpy as np
@@ -72,6 +72,20 @@ with col5:
  #   extras = df['examenes_regularizacion'].mean()
    # st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
     st.markdown(create_uabc_metric_card("Extraordinarios", "2", "promedio por alumno", "📝"), unsafe_allow_html=True)
+    
+st.markdown("---")
+
+ # Alertas destacadas
+col_info1, col_info2 = st.columns(2)
+    
+with col_info1:
+    excelentes = len(df[df['promedio_general'] >= 90])
+    st.markdown(create_uabc_alert(f"🎉 {excelentes} alumnos con promedio sobresaliente (≥90)", "success"), unsafe_allow_html=True)
+    
+with col_info2:
+    riesgo_count = len(df[df['estatus'].isin(['RIESGO', 'REZAGADO'])])
+    if riesgo_count > 0:
+        st.markdown(create_uabc_alert(f"⚠️ Se han identificado {riesgo_count} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
     
 st.markdown("---")
 
