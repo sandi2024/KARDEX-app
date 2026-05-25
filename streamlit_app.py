@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from src.utils import load_css, render_header, render_footer, create_uabc_metric_card
-from src.queries import fetch_analisis_reprobacion 
+from src.queries import fetch_analisis_reprobacion, fetch_kardex_alumno 
 from src.analisis import calcular_indice_riesgo
 
 import numpy as np
