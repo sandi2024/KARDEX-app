@@ -20,7 +20,7 @@ df = calcular_indice_riesgo(get_kardex_alumno("001/32146"))
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
     st.markdown("### Panel de Control")
-    st.page_link("streamlit_app.py", label="General") # APARECE DESPUÉS
+    st.page_link("pages/streamlit_app.py", label="General") # APARECE DESPUÉS
     st.page_link("pages/carreras.py", label="Carreras", icon="📊") # APARECE DESPUÉS
     st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🎓") # APARECE DESPUÉS
     st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") # APARECE DESPUÉS
