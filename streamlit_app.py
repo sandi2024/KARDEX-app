@@ -7,7 +7,7 @@ import numpy as np
 
 st.set_page_config(page_title="Dashboard Académico - FCQI", layout="wide")
 
-st.logo("assets/UABC-logo.png") # Esto lo posiciona arriba de 'carreras', etc.
+st.logo("assets/UABC-logo.png", width=150) # Esto lo posiciona arriba de 'carreras', etc.
 load_css()    # Cargamos los estilos personalizados
 render_header()   # Renderizamos el header común a todas las páginas
 
