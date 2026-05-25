@@ -54,7 +54,8 @@ with col1:
     
 with col2:
     promedio = df['promedio_general'].mean()
-    st.markdown(create_uabc_metric_card("Promedio General", f"{promedio:.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
+ #   st.markdown(create_uabc_metric_card("Promedio General", f"{promedio:.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
+    st.markdown(create_uabc_metric_card("Promedio General", "100", "escala 0-100", "📊"), unsafe_allow_html=True)
         
 with col3:
     avance = df['porcentaje_avance'].mean()
