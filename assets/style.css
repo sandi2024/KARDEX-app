@@ -223,15 +223,9 @@
 }
 
 
-.sidebar-title, 
-.sidebar-title * {
-    color: var(--white) !important;
-}
-
-
 .sidebar-title {
     text-align: center;
-    color: var(--blue);
+    color: var(--white) !important;
     font-size: 1.2rem;
     font-weight: bold;
     margin: 1rem 0;
