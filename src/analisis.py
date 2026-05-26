@@ -61,7 +61,7 @@ def procesar_academicos(df, umbral_reprobacion):
         'calificacion': 'mean',
         'creditos_materia': 'sum',
         'creditos_totales_plan': 'first',
-        'tipo_examen': lambda x: (x.str.contains('EXTRAORDINARIO', case=False, na=False)).sum(),
+        'tipo_examen': lambda x: (x.str.contains('Ext', case=False, na=False)).sum(),
         'carrera': 'first',
         'id_plan_estudio': 'first'
     }).rename(columns={

@@ -59,18 +59,18 @@ else:
 df_final = procesar_academicos(df_filtrado, umbral)
 
 # --- MÉTRICAS PRINCIPALES ---
-st.title(f"Dashboard Académico - {periodo_sel}")
-m1, m2, m3, m4, m5 = st.columns(5)
+#st.title(f"Dashboard Académico - {periodo_sel}")
+#m1, m2, m3, m4, m5 = st.columns(5)
 
 total_alumnos = len(df_final)
 sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
 
-m1.metric("Total Alumnos", total_alumnos)
-m2.metric("Promedio General", f"{df_final['promedio_general'].mean():.1f}")
-m3.metric("Avance Créditos (Avg)", f"{df_final['avance_porcentaje'].mean():.1f}%")
-m4.metric("Sobresalientes", sobresalientes)
-m5.metric("En Riesgo", en_riesgo)
+#m1.metric("Total Alumnos", total_alumnos)
+#m2.metric("Promedio General", f"{df_final['promedio_general'].mean():.1f}")
+#m3.metric("Avance Créditos (Avg)", f"{df_final['avance_porcentaje'].mean():.1f}%")
+#m4.metric("Sobresalientes", sobresalientes)
+#m5.metric("En Riesgo", en_riesgo)
 
 
 
