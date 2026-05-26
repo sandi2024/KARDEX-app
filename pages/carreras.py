@@ -128,25 +128,22 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
     
     if top_reprobadas.sum() < 2:
         st.info("ℹ️ Solo se registra 1 alumno reprobado en este periodo/carrera.")
-
-    # --- Gráfica de Barras: Top Materias Reprobadas ---
-    fig_bar = px.bar(
-        x=top_reprobadas.values, 
-        y=top_reprobadas.index,
-        orientation='h',
-        title="Materias con Mayor Número de Reprobados",
-        labels={'x': 'Cantidad de Alumnos', 'y': 'Materia'},
-        color_continuous_scale='Reds'
-    )
-    st.plotly_chart(fig_bar, use_container_width=True)
+    else:
+        # --- Gráfica de Barras: Top Materias Reprobadas ---
+        fig_bar = px.bar(
+            x=top_reprobadas.values, 
+            y=top_reprobadas.index,
+            orientation='h',
+            title="Materias con Mayor Número de Reprobados",
+            labels={'x': 'Cantidad de Alumnos', 'y': 'Materia'},
+            color_continuous_scale='Reds'
+        )
+        st.plotly_chart(fig_bar, use_container_width=True)
 
   
     # --- Heatmap: Periodo vs Carrera ---
-    # Esto responde a tu necesidad de visualizar carreras y periodos juntos
-    st.subheader("Análisis Carrera-Periodo")
-    
+    st.subheader("Análisis Carrera-Periodo")  
     # Pivotamos los datos para el mapa de calor
- #   df_pivot = df_final.groupby(['id_periodo', 'carrera'])['calificacion'].mean().unstack()
     df_pivot = df_carrera.groupby(['periodo', 'carrera'])['calificacion'].mean().unstack()
     fig_heat = px.imshow(
         df_pivot,
