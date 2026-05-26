@@ -1,6 +1,7 @@
 from src.database import run_query
 import pandas as pd
 
+# Aquí definimos las funciones de consulta específicas para cada página, utilizando run_query para ejecutar las consultas SQL.
 def get_kardex_alumno(matricula):
     query = """
     SELECT 
@@ -16,7 +17,7 @@ def get_kardex_alumno(matricula):
     WHERE aa.matricula = %s
     ORDER BY p.anio_periodo ASC;
     """
-    return run_query(query, (matricula,))
+    return run_query(query, (matricula,))  
 
 
 def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
@@ -98,3 +99,28 @@ def fetch_detalle_por_periodo(matricula, id_carrera):
     
     # Ejecutamos la consulta pasando los parámetros como una tupla
     return run_query(query, (matricula, id_carrera))
+
+
+import pandas as pd
+
+def get_data_analisis_completo():
+    # Unimos alumno_asignatura -> Asignatura_Plan -> plan_estudio -> programaEducativo
+    query = """
+    SELECT 
+        aa.matricula,
+        pe.nombre AS carrera,
+        p.anio_periodo AS periodo,
+        a.nombre AS asignatura,
+        a.creditos AS creditos_materia,
+        aa.calificacion,
+        aa.tipo_examen,
+        pl.creditos_obligatorios + pl.creditos_optativos + pl.creditos_PP AS creditos_totales_plan,
+        pl.id_plan_estudio
+    FROM alumno_asignatura aa
+    JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
+    JOIN Asignatura a ON ap.id_asignatura = a.id_asignatura
+    JOIN Periodo p ON aa.id_periodo = p.id_periodo
+    JOIN plan_estudio pl ON ap.id_plan_estudio = pl.id_plan_estudio
+    JOIN programaEducativo pe ON pl.id_programa = pe.id_programa
+    """
+    return run_query(query)
