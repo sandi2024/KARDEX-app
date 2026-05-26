@@ -93,7 +93,7 @@ def calcular_metricas_extraordinarios(df):
     """
     # 1. Identificamos qué registros son exámenes extraordinarios
     # Usamos .str.contains por si el texto varía (ej: 'EXTRAORDINARIO 1', 'EXTRAORDINARIO 2')
-    df['es_extraordinario'] = df['tipo_examen'].str.contains('EXTRAORDINARIO', case=False, na=False).astype(int)
+    df['es_extraordinario'] = df['tipo_examen'].str.contains('Est', case=False, na=False).astype(int)
 
     # 2. Agrupamos por alumno (y carrera) para contar sus extras totales
     # Recordamos usar la llave única 'id_estudiante' (matricula + carrera)
