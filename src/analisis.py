@@ -79,7 +79,7 @@ def calcular_metricas_academicas(df_normalizado, umbral_reprobacion):
         'tipo_examen': 'conteo_extraordinarios'
     })
 
-    # 2. Cálculo de Avance
+    # 2. Cálculo de Avance en porcentaje del plan de estudios, creditos_cursados / creditos_totales_plan
     analisis['avance_porcentaje'] = (analisis['creditos_cursados'] / analisis['creditos_totales_plan']) * 100
 
     # 3. Lógica de Estatus

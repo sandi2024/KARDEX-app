@@ -180,7 +180,7 @@ st.markdown("---")
 columna1, columna2 = st.columns(2)
 st.markdown("### 🏆 Rendimiento por Carrera")   
 with columna1:
-        # Tabla de métricas por carrera
+    # Tabla de métricas por carrera
     metrics_table = df_final.groupby('carrera').agg({
         'promedio_general': 'mean',
         'avance_porcentaje': 'mean',
@@ -189,21 +189,21 @@ with columna1:
     metrics_table.columns = ['📊 Promedio', '📈 Avance %', '📝 Extraordinarios']
     st.dataframe(metrics_table, use_container_width=True)
     
-# Gráfico comparativo
-st.markdown("### 📊 Comparativa de Indicadores")
-carrera_metrics = df_final.groupby('carrera').agg({
-    'promedio_general': 'mean',
-    'avance_porcentaje': 'mean'
-}).reset_index()
+    # Gráfico comparativo 
+    st.markdown("### 📊 Comparativa de Indicadores")
+    carrera_metrics = df_final.groupby('carrera').agg({
+         'promedio_general': 'mean',
+        'avance_porcentaje': 'mean'
+    }).reset_index()
     
-fig6 = go.Figure()
-fig6.add_trace(go.Bar(name='Promedio General', x=carrera_metrics['carrera'], 
+    fig6 = go.Figure()
+    fig6.add_trace(go.Bar(name='Promedio General', x=carrera_metrics['carrera'], 
                           y=carrera_metrics['promedio_general'], marker_color='#003366'))
-fig6.add_trace(go.Bar(name='Avance %', x=carrera_metrics['carrera'], 
+    fig6.add_trace(go.Bar(name='Avance %', x=carrera_metrics['carrera'], 
                           y=carrera_metrics['avance_porcentaje'], marker_color='#C5A35E'))
-fig6.update_layout(title='Comparativa por Carrera', barmode='group', height=400,
+    fig6.update_layout(title='Comparativa por Carrera', barmode='group', height=400,
                       plot_bgcolor='white')
-st.plotly_chart(fig6, use_container_width=True)
+    st.plotly_chart(fig6, use_container_width=True)
 
 
 
