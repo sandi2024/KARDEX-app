@@ -15,7 +15,7 @@ if 'df_raw' in st.session_state:
 else:
     st.warning("Por favor, inicia la aplicación en la página principal para cargar los datos.")
 
-st.write(df_datos.columns)
+
 if 'df_datos' not in st.session_state:
     st.warning("No se han cargado los datos. Por favor, regresa a la página principal para cargar la base de datos.")   
 
