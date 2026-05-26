@@ -53,18 +53,19 @@ with st.sidebar:
 
 
 # ============================================== PROCESAMIENTO ============================================
-if periodo_sel != "Todos los periodos":
-    df_filtrado_periodo = df_datos[df_datos['periodo'] == periodo_sel]
-else:
-    df_filtrado_periodo = df_datos
+#if periodo_sel != "Todos los periodos":
+#    df_filtrado_periodo = df_datos[df_datos['periodo'] == periodo_sel]
+#else:
+#    df_filtrado_periodo = df_datos
 
+df_filtrado_periodo = df_datos
 
 # 3. FILTRADO LÓGICO
-#if carrera_sel == "Todas las carreras":
-#    df_filtrado_carrera = df_filtrado_periodo
-#else:
+if carrera_sel == "Todas las carreras":
+    df_filtrado_carrera = df_filtrado_periodo
+else:
     # Filtramos el DataFrame original en memoria (es instantáneo)
-#    df_filtrado_carrera = df_filtrado_periodo[df_filtrado_periodo['carrera'] == carrera_sel]
+    df_filtrado_carrera = df_filtrado_periodo[df_filtrado_periodo['carrera'] == carrera_sel]
 
 df_final = procesar_academicos(df_filtrado_periodo, umbral)   #Segun perido, carrera y umbral seleccionado
 
