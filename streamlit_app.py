@@ -165,13 +165,8 @@ with col_der:
                   title='📚 Volumen por Plan de Estudios')
     st.plotly_chart(fig4, use_container_width=True)
 
-
-st.markdown("---")
-
-columna1, columna2 = st.columns(2)
-st.markdown("### 🏆 Rendimiento por Carrera")   
-with col1:
-        # Gráfico de promedios por carrera
+    # Gráfico de promedios por carrera
+    st.markdown("### 🏆 Rendimiento por Carrera")   
     carrera_promedio = df_final.groupby('carrera')['promedio_general'].mean().sort_values(ascending=False)
     fig5 = px.bar(x=carrera_promedio.values, y=carrera_promedio.index,
                 orientation='h', title='Promedio General por Carrera',
@@ -179,8 +174,12 @@ with col1:
                     labels={'x': 'Promedio General', 'y': 'Carrera'})
     fig5.update_layout(height=400, plot_bgcolor='white')
     st.plotly_chart(fig5, use_container_width=True)
-    
-with columna2:
+
+st.markdown("---")
+
+columna1, columna2 = st.columns(2)
+st.markdown("### 🏆 Rendimiento por Carrera")   
+with columna1:
         # Tabla de métricas por carrera
     metrics_table = df_final.groupby('carrera').agg({
         'promedio_general': 'mean',
