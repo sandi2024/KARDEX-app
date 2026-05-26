@@ -180,7 +180,7 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
             x="calificacion",
             nbins=20,
             title="Frecuencia de Calificaciones",
-            labels={'calificacion': 'Calificación', 'count': 'Cantidad de Registros'},
+            labels={'calificacion': 'Calificación', 'Cantidad de Registros': 'Cantidad de Registros'},
             color_discrete_sequence=['#636EFA']
         )
         # Añadir una línea vertical en el umbral de aprobación
