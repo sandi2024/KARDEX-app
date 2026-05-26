@@ -64,13 +64,15 @@ with st.sidebar:
 df_limpio = normalizar_datos_academicos(df_datos)
 df_filtrados = filtrar_datos(df_limpio, carrera_sel, periodo_sel)
 df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo y umbral seleccionado
+
+st.write(df_final.columns)
 top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
 
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 
 total_alumnos = len(df_final)
-st.write(f"Total de alumnos df_limpio: {len(df_limpio)}")
+
 st.write(f"Total de alumnos df_filtrados: {len(df_filtrados)}")
 st.write(f"Total de alumnos df_final: {len(df_final)}")
 
