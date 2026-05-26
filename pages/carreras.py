@@ -8,18 +8,16 @@ load_css()
 render_header()
 
 # No necesitas volver a llamar a queries.py
-if 'df_raw' in st.session_state:
+if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
+    st.session_state.df_raw = get_data_analisis_completo()
+    df_datos = st.session_state.df_raw
+    st.warning("VACIO")  
+else:
     df_datos = st.session_state.df_raw
     st.write("Datos recuperados de la sesión con éxito.")
     # Aquí ya puedes usar df para tus gráficas de carrera
-elif st.session_state.df_raw.empty:
-    st.session_state.df_raw = get_data_analisis_completo()
-    df_datos = st.session_state.df_raw
-  #  st.warning("Por favor, inicia la aplicación en la página principal para cargar los datos.")
 
 
-if 'df_datos' not in st.session_state:
-    st.warning("VACIO")   
 
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
