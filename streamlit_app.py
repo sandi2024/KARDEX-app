@@ -166,6 +166,8 @@ with col_der:
     st.plotly_chart(fig4, use_container_width=True)
 
 
+st.markdown("---")
+
 col1, col2 = st.columns(2)
 st.markdown("### 🏆 Rendimiento por Carrera")   
 with col1:
