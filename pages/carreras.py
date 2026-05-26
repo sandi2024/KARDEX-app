@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.express as px
 from src.queries import fetch_analisis_reprobacion, fetch_carreras_alumno, get_data_analisis_completo
 from src.utils import load_css, create_uabc_metric_card, render_header, render_footer, create_uabc_alert
-from src.analisis import procesar_academicos
+from src.analisis import calcular_metricas_reprobacion, normalizar_datos_academicos, calcular_metricas_academicas
 
 load_css()
 render_header()
@@ -66,11 +66,10 @@ else:
     # Filtramos el DataFrame original en memoria (es instantáneo)
     df_filtrado_carrera = df_filtrado_periodo[df_filtrado_periodo['carrera'] == carrera_sel]
 
-df_final = procesar_academicos(df_filtrado_periodo, umbral)   #Segun perido, carrera y umbral seleccionado
-
+df_limpio = normalizar_datos_academicos(df_filtrado_carrera)
+df_final = calcular_metricas_academicas(df_limpio, umbral)   # Según periodo y umbral seleccionado
+top_reprobadas = calcular_metricas_reprobacion(df_limpio, umbral)
 # ============================================== MÉTRICAS PRINCIPALES ============================================
-#st.title(f"Dashboard Académico - {periodo_sel}")
-#m1, m2, m3, m4, m5 = st.columns(5)
 
 total_alumnos = len(df_final)
 sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
@@ -123,7 +122,6 @@ st.markdown("---")
 if not df_final.empty:  # Si hay datos para la carrera seleccionada
     # --- Gráfica de Barras: Top Materias Reprobadas ---
   #  top_reprobadas = df_final[df_final[''] == 1]['materia'].value_counts().head(10)
-    top_reprobadas = df_datos[df_datos['calificacion'] < umbral]['materia'].value_counts().head(10)
     
     fig_bar = px.bar(
         x=top_reprobadas.values, 
@@ -135,6 +133,7 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
     )
     st.plotly_chart(fig_bar, use_container_width=True)
 
+  
     # --- Heatmap: Periodo vs Carrera ---
     # Esto responde a tu necesidad de visualizar carreras y periodos juntos
     st.subheader("Análisis Carrera-Periodo")

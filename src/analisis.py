@@ -95,3 +95,23 @@ def calcular_metricas_academicas(df_normalizado, umbral_reprobacion):
     analisis['estatus'] = analisis.apply(asignar_estatus, axis=1)
     
     return analisis.reset_index()
+
+
+def calcular_metricas_reprobacion(df_normalizado, calificacion_minima):
+    """
+    Filtra las materias reprobadas y cuenta la frecuencia por materia.
+    Retorna una Serie de pandas con el Top 10 para la gráfica.
+    """
+    if df_normalizado.empty:
+        return pd.Series(dtype=int)
+
+    # 1. Identificar registros reprobados
+    # Usamos los datos ya normalizados (donde los NaN ya son 0)
+    reprobados = df_normalizado[df_normalizado['calificacion'] < calificacion_minima]
+
+    # 2. Contar alumnos por materia
+    # 'materia' debe ser el nombre de la columna en tu DF original
+    conteo_reprobadas = reprobados['materia'].value_counts()
+
+    # 3. Retornar el Top 10 (o las que gustes) de forma descendente
+    return conteo_reprobadas.head(10).sort_values(ascending=True)
