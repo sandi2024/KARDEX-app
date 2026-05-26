@@ -124,8 +124,6 @@ def calcular_metricas_reprobacion(df_normalizado, calificacion_minima):
     # 3. Retornar el Top 10 (o las que gustes) de forma descendente
     return conteo_reprobadas.head(10).sort_values(ascending=True)
 
-import pandas as pd
-import plotly.express as px
 
 def calcular_reprobacion_por_periodo(df_limpio, umbral):
     """Calcula el porcentaje de reprobación histórico por periodo."""
@@ -136,7 +134,7 @@ def calcular_reprobacion_por_periodo(df_limpio, umbral):
     
     # Agrupamos por periodo
     periodos = df_limpio.groupby('periodo').agg(
-        total_alumnos=('matricula', 'nunique'),
+        total_alumnos=('id_estudiante', 'nunique'),
         reprobados=('es_reprobado', 'sum')
     ).reset_index()
     
