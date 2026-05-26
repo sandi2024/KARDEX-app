@@ -71,13 +71,13 @@ else:
 df_filtrados = filtrar_datos(df_carrera, periodo_sel)
 df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo y umbral seleccionado
 
-st.write(df_limpio.columns)
 top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
 
 st.write(df_final.columns)
 
 df_reprobacion_hist = calcular_reprobacion_por_periodo(df_carrera, umbral)
 df_distribucion = distribucion_calificaciones(df_carrera)
+st.write(df_reprobacion_hist.columns)
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 total_alumnos = len(df_final)
@@ -158,7 +158,6 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
     st.plotly_chart(fig_heat, use_container_width=True)
 
     # ----------REPROBACION POR PERIODO
-
     st.subheader("📉 Reprobación por Periodo")
     if not df_reprobacion_hist.empty:
         fig_linea = px.line(
