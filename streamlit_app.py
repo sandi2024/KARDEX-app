@@ -73,7 +73,6 @@ df_final = calcular_metricas_academicas(df_norm, umbral)   # Según periodo y um
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 total_alumnos = len(df_final)
-st.write(df_final.columns)
 sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
 extras = df_final['conteo_extraordinarios'].mean()

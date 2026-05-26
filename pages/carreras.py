@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.express as px
 from src.queries import fetch_analisis_reprobacion, fetch_carreras_alumno, get_data_analisis_completo
 from src.utils import load_css, create_uabc_metric_card, render_header, render_footer, create_uabc_alert
-from src.analisis import calcular_metricas_reprobacion, normalizar_datos_academicos, calcular_metricas_academicas
+from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normalizar_datos_academicos, calcular_metricas_academicas
 
 load_css()
 render_header()
@@ -53,21 +53,11 @@ with st.sidebar:
 
 
 # ============================================== PROCESAMIENTO ============================================
-if periodo_sel != "Todos los periodos":
-    df_filtrado_periodo = df_datos[df_datos['periodo'] == periodo_sel]
-else:
-    df_filtrado_periodo = df_datos
 
-
-# 3. FILTRADO LÓGICO
-if carrera_sel != "Todas las carreras":
-    df_filtrado_carrera = df_filtrado_periodo[df_filtrado_periodo['carrera'] == carrera_sel]
-else:
-    df_filtrado_carrera = df_filtrado_periodo
-
-df_limpio = normalizar_datos_academicos(df_filtrado_carrera)
-df_final = calcular_metricas_academicas(df_limpio, umbral)   # Según periodo y umbral seleccionado
-top_reprobadas = calcular_metricas_reprobacion(df_limpio, umbral)
+df_limpio = normalizar_datos_academicos(df_datos)
+df_filtrados = filtrar_datos(df_limpio, carrera_sel, periodo_sel)
+df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo y umbral seleccionado
+top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 total_alumnos = len(df_final)
