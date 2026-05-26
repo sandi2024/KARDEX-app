@@ -17,7 +17,7 @@ else:
 
 
 if 'df_datos' not in st.session_state:
-    st.warning("No se han cargado los datos. Por favor, regresa a la página principal para cargar la base de datos.")   
+    st.warning("VACIO")   
 
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
