@@ -68,7 +68,7 @@ else:
 
 df_norm = normalizar_datos_academicos(df_filtrado)
 df_final = calcular_metricas_academicas(df_norm, umbral)   # Según periodo y umbral seleccionado
-st.write(df_final.columns)
+
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 total_alumnos = len(df_final)
@@ -183,7 +183,7 @@ with col2:
     metrics_table = df_final.groupby('carrera').agg({
         'promedio_general': 'mean',
         'avance_porcentaje': 'mean',
-        'examenes_regularizacion': 'mean'
+        'conteo_extraordinarios': 'mean'
     }).round(2)
     metrics_table.columns = ['📊 Promedio', '📈 Avance %', '📝 Extraordinarios']
     st.dataframe(metrics_table, use_container_width=True)
