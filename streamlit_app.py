@@ -2,9 +2,9 @@ import streamlit as st
 import pandas as pd
 from src.utils import load_css, render_header, render_footer, create_uabc_metric_card, create_uabc_alert
 from src.queries import fetch_analisis_reprobacion, get_kardex_alumno, get_data_analisis_completo
-from src.analisis import calcular_indice_riesgo, procesar_academicos
-import numpy as np
+from src.analisis import normalizar_datos_academicos, calcular_metricas_academicas
 import plotly.express as px
+import numpy as np
 
 
 st.set_page_config(page_title="Dashboard Académico - FCQI", layout="wide")
@@ -67,7 +67,8 @@ if periodo_sel != "Todos los periodos":
 else:
     df_filtrado = df_raw
 
-df_final = procesar_academicos(df_filtrado, umbral)   #Segun perido y umbral seleccionado
+df_norm = normalizar_datos_academicos(df_filtrado)
+df_final = calcular_metricas_academicas(df_norm, umbral)   # Según periodo y umbral seleccionado
 
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 #st.title(f"Dashboard Académico - {periodo_sel}")

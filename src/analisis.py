@@ -44,20 +44,29 @@ def calcular_metricas_alumno(df_kardex):
         "riesgo": nivel_riesgo
     }
 
-
-
-def procesar_academicos(df, umbral_reprobacion):
-    if df.empty: return df
-
-    # 1. Limpieza de calificaciones (null = 0 por falta de derecho, 0 = no presentó)
+def normalizar_datos_academicos(df):
+    """Limpia nulos y genera llaves únicas para el análisis."""
+    if df.empty:
+        return df
+    
+    df = df.copy() # Evitamos modificar el dataframe original (SettingWithCopyWarning)
+    
+    # 1. Limpieza de calificaciones
     df['calificacion'] = df['calificacion'].fillna(0)
-
-    # 2. Creamos llave única: Matricula + Carrera
-    # Esto asegura que el alumno en dos carreras se calcule por separado
+    
+    # 2. Creación de llave única: Matricula + Carrera
     df['id_estudiante'] = df['matricula'].astype(str) + "_" + df['carrera']
+    
+    return df
 
-    # 3. Agrupación por estudiante/carrera
-    analisis = df.groupby('id_estudiante').agg({
+
+def calcular_metricas_academicas(df_normalizado, umbral_reprobacion):
+    """Agrupa por estudiante y calcula indicadores de desempeño."""
+    if df_normalizado.empty:
+        return df_normalizado
+
+    # 1. Agrupación y Agregación
+    analisis = df_normalizado.groupby('id_estudiante').agg({
         'calificacion': 'mean',
         'creditos_materia': 'sum',
         'creditos_totales_plan': 'first',
@@ -70,20 +79,19 @@ def procesar_academicos(df, umbral_reprobacion):
         'tipo_examen': 'conteo_extraordinarios'
     })
 
-    # 4. Cálculo de Avance
+    # 2. Cálculo de Avance
     analisis['avance_porcentaje'] = (analisis['creditos_cursados'] / analisis['creditos_totales_plan']) * 100
 
-    # 5. Lógica de Estatus Dinámica
+    # 3. Lógica de Estatus
     def asignar_estatus(row):
         if row['promedio_general'] < umbral_reprobacion:
             return 'RIESGO'
-        elif row['conteo_extraordinarios'] >= 3: # Ejemplo: más de 3 extras es crítico
+        if row['conteo_extraordinarios'] >= 3:
             return 'REZAGADO'
-        elif row['promedio_general'] >= 90:
-            return 'ACTIVO' # Sobresaliente
-        else:
-            return 'REGULAR'
+        if row['promedio_general'] >= 90:
+            return 'ACTIVO'
+        return 'REGULAR'
 
     analisis['estatus'] = analisis.apply(asignar_estatus, axis=1)
+    
     return analisis.reset_index()
-
