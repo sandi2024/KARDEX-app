@@ -78,21 +78,9 @@ sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
 extras = df_final['conteo_extraordinarios'].mean()
 
-# En tu archivo app.py, después de procesar los datos:
-
-# Añadirlo a las columnas de métricas
-#m5.metric("Prom. Extraordinarios", f"{promedio_ext:.2f}")
-
-#m1.metric("Total Alumnos", total_alumnos)
-#m2.metric("Promedio General", f"{df_final['promedio_general'].mean():.1f}")
-#m3.metric("Avance Créditos (Avg)", f"{df_final['avance_porcentaje'].mean():.1f}%")
-#m4.metric("Sobresalientes", sobresalientes)
-#m5.metric("En Riesgo", en_riesgo)
-
-
 
 # ===================================== CUERPO DEL DASHBOARD ===========================================
-st.title("📊 Visión General")
+st.title(f"📊 Visión General - {periodo_sel}")
 
 # Ejemplo de cómo usar las métricas ahora:
 col1, col2, col3, col4, col5= st.columns(5)
