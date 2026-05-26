@@ -126,7 +126,7 @@ def calcular_metricas_reprobacion(df_normalizado, calificacion_minima):
 
     # 2. Contar alumnos por materia
     # 'materia' debe ser el nombre de la columna en tu DF original
-    conteo_reprobadas = reprobados['materia'].value_counts()
+    conteo_reprobadas = reprobados['asignatura'].value_counts()
 
     # 3. Retornar el Top 10 (o las que gustes) de forma descendente
     return conteo_reprobadas.head(10).sort_values(ascending=True)
