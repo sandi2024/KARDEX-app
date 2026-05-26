@@ -5,14 +5,15 @@ from src.utils import load_css, create_uabc_metric_card, render_header, render_f
 
 load_css()
 render_header()
-# 1. Intentar recuperar datos del "Estado de Sesión"
-if 'df_raw' not in st.session_state:
-    # Solo se ejecuta la primera vez que abre la app
-    with st.spinner("Cargando base de datos por primera vez..."):
-        st.session_state.df_raw = get_data_analisis_completo()
 
-# Ahora usamos los datos de la memoria, no de la base de datos
-df_raw = st.session_state.df_raw
+# No necesitas volver a llamar a queries.py
+if 'df_raw' in st.session_state:
+    df = st.session_state.df_raw
+    st.write("Datos recuperados de la sesión con éxito.")
+    # Aquí ya puedes usar df para tus gráficas de carrera
+else:
+    st.warning("Por favor, inicia la aplicación en la página principal para cargar los datos.")
+
 
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
@@ -24,26 +25,27 @@ with st.sidebar:
         
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
-    carrera_global = st.selectbox("📚 Carrera", ["Ingeniero en Computación", "Ingeniería Química", "..."])
     
+     # Filtro de carrera
+    lista_carreras = ["Todos las carreras"] + sorted(df['carrera'].unique().tolist())
+    carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
     
      # Filtro de Periodo
-    lista_periodos = ["Todos los periodos"] + sorted(df_raw['periodo'].unique().tolist())
+    lista_periodos = ["Todos los periodos"] + sorted(df['periodo'].unique().tolist())
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
     
     # Filtro de Umbral
     umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
         
     # Filtros adicionales
-    umbral_reprobacion = st.slider("Umbral de reprobación", 0, 100, 60)
     mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos en riesgo")
     mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
 
 
     # Guardamos en session_state para que otras páginas lo usen
-    st.session_state['carrera'] = carrera_global
-    st.session_state['periodo'] = periodo
-    st.session_state['umbral_reprobacion'] = umbral_reprobacion
+    st.session_state['carrera'] = carrera_sel   
+    st.session_state['periodo'] = periodo_sel
+    st.session_state['umbral_reprobacion'] = umbral
     st.session_state['mostrar_solo_riesgo'] = mostrar_solo_riesgo
     st.session_state['mostrar_detalles'] = mostrar_detalles
 
