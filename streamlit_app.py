@@ -64,7 +64,7 @@ if periodo_sel != "Todos los periodos":
 else:
     df_filtrado = df_raw
 
-df_final = procesar_academicos(df_filtrado, umbral)
+df_final = procesar_academicos(df_filtrado, umbral)   #Segun perido y umbral seleccionado
 
 # --- MÉTRICAS PRINCIPALES ---
 #st.title(f"Dashboard Académico - {periodo_sel}")
@@ -176,11 +176,6 @@ with col_der:
                                            'RIESGO': '#FF9800', 'REZAGADO': '#F44336'})
     fig2.update_layout(height=400, plot_bgcolor='white')
     st.plotly_chart(fig2, use_container_width=True)
-
-
-
-
-
 
     # 4. Bar Chart: Volumen por Plan de Estudios (Escala continua)
     plan_data = df_final['id_plan_estudio'].value_counts().reset_index()

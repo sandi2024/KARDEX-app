@@ -1,10 +1,18 @@
 import streamlit as st
 import plotly.express as px
-from src.queries import fetch_analisis_reprobacion, fetch_carreras_alumno, fetch_detalle_por_periodo
+from src.queries import fetch_analisis_reprobacion, fetch_carreras_alumno, get_data_analisis_completo
 from src.utils import load_css, create_uabc_metric_card, render_header, render_footer
 
 load_css()
 render_header()
+# 1. Intentar recuperar datos del "Estado de Sesión"
+if 'df_raw' not in st.session_state:
+    # Solo se ejecuta la primera vez que abre la app
+    with st.spinner("Cargando base de datos por primera vez..."):
+        st.session_state.df_raw = get_data_analisis_completo()
+
+# Ahora usamos los datos de la memoria, no de la base de datos
+df_raw = st.session_state.df_raw
 
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
@@ -17,9 +25,14 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
     carrera_global = st.selectbox("📚 Carrera", ["Ingeniero en Computación", "Ingeniería Química", "..."])
-    periodo = st.selectbox(
-            "📅 Periodo Académico",
-            ["2024-1", "2024-2", "2025-1", "Todos los periodos"])
+    
+    
+     # Filtro de Periodo
+    lista_periodos = ["Todos los periodos"] + sorted(df_raw['periodo'].unique().tolist())
+    periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
+    
+    # Filtro de Umbral
+    umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
         
     # Filtros adicionales
     umbral_reprobacion = st.slider("Umbral de reprobación", 0, 100, 60)
