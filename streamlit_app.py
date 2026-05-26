@@ -168,7 +168,7 @@ with col_der:
 
 st.markdown("---")
 
-st.markdown("### 🏆 Rendimiento por Carrera")   
+st.markdown("### Rendimiento por Carrera")   
 columna1, columna2 = st.columns(2)
 
 with columna1:
@@ -193,7 +193,7 @@ with columna2:
     
     
 # Gráfico comparativo 
-st.markdown("### 📊 Comparativa de Indicadores")
+st.markdown("###  Comparativa de Indicadores")
 carrera_metrics = df_final.groupby('carrera').agg({
          'promedio_general': 'mean',
         'avance_porcentaje': 'mean'
