@@ -5,7 +5,7 @@ from src.queries import fetch_analisis_reprobacion, get_kardex_alumno, get_data_
 from src.analisis import normalizar_datos_academicos, calcular_metricas_academicas
 import plotly.express as px
 import numpy as np
-
+import plotly.graph_objects as go
 
 st.set_page_config(page_title="Dashboard Académico - FCQI", layout="wide")
 load_css()    # Cargamos los estilos personalizados
@@ -121,8 +121,7 @@ with col_info2:
     
 st.markdown("---")
 
-# ... Aquí van tus gráficas de Plotly ...
-# --- GRÁFICAS ---
+# ========================== GRÁFICAS ===============================================
 col_izq, col_der = st.columns(2)
 
 with col_izq:
@@ -166,6 +165,44 @@ with col_der:
                   title='📚 Volumen por Plan de Estudios')
     st.plotly_chart(fig4, use_container_width=True)
 
+
+col1, col2 = st.columns(2)
+st.markdown("### 🏆 Rendimiento por Carrera")   
+with col1:
+        # Gráfico de promedios por carrera
+    carrera_promedio = df_final.groupby('carrera')['promedio_general'].mean().sort_values(ascending=False)
+    fig5 = px.bar(x=carrera_promedio.values, y=carrera_promedio.index,
+                orientation='h', title='Promedio General por Carrera',
+                color=carrera_promedio.values, color_continuous_scale='Blues',
+                    labels={'x': 'Promedio General', 'y': 'Carrera'})
+    fig5.update_layout(height=400, plot_bgcolor='white')
+    st.plotly_chart(fig5, use_container_width=True)
+    
+with col2:
+        # Tabla de métricas por carrera
+    metrics_table = df_final.groupby('carrera').agg({
+        'promedio_general': 'mean',
+        'avance_porcentaje': 'mean',
+        'examenes_regularizacion': 'mean'
+    }).round(2)
+    metrics_table.columns = ['📊 Promedio', '📈 Avance %', '📝 Extraordinarios']
+    st.dataframe(metrics_table, use_container_width=True)
+    
+# Gráfico comparativo
+st.markdown("### 📊 Comparativa de Indicadores")
+carrera_metrics = df_final.groupby('carrera').agg({
+    'promedio_general': 'mean',
+    'avance_porcentaje': 'mean'
+}).reset_index()
+    
+fig6 = go.Figure()
+fig6.add_trace(go.Bar(name='Promedio General', x=carrera_metrics['carrera'], 
+                          y=carrera_metrics['promedio_general'], marker_color='#003366'))
+fig6.add_trace(go.Bar(name='Avance %', x=carrera_metrics['carrera'], 
+                          y=carrera_metrics['avance_porcentaje'], marker_color='#C5A35E'))
+fig6.update_layout(title='Comparativa por Carrera', barmode='group', height=400,
+                      plot_bgcolor='white')
+st.plotly_chart(fig6, use_container_width=True)
 
 
 
