@@ -23,6 +23,10 @@ if 'df_raw' not in st.session_state:
 # usamos los datos de la memoria de la sesión para evitar recargas innecesarias
 df_raw = st.session_state.df_raw
 
+if df_raw.empty:
+    print("❌ El DataFrame está vacío. Revisa la ruta o el archivo.")
+else:
+    print("✔ DataFrame cargado con filas:", df_raw.shape[0])
 
 # --- SIDEBAR COMPARTIDO ---
 with st.sidebar:
