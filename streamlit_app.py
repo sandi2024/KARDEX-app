@@ -71,10 +71,9 @@ df_norm = normalizar_datos_academicos(df_filtrado)
 df_final = calcular_metricas_academicas(df_norm, umbral)   # Según periodo y umbral seleccionado
 
 # ============================================== MÉTRICAS PRINCIPALES ============================================
-#st.title(f"Dashboard Académico - {periodo_sel}")
-#m1, m2, m3, m4, m5 = st.columns(5)
 
 total_alumnos = len(df_final)
+st.write(df_final.columns)
 sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
 extras = df_final['conteo_extraordinarios'].mean()

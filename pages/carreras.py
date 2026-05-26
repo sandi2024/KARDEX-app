@@ -72,7 +72,7 @@ top_reprobadas = calcular_metricas_reprobacion(df_limpio, umbral)
 
 total_alumnos = len(df_final)
 
-st.write(df_limpio.columns)
+st.write(df_final.columns)
 
 sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
