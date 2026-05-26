@@ -20,9 +20,8 @@ render_header()   # Renderizamos el header común a todas las páginas
 #    with st.spinner("Cargando base de datos por primera vez..."):
  #       st.session_state.df_raw = get_data_analisis_completo()
 
-
 if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
-    with st.spinner("Cargando base de datos por primera vez..."):
+    with st.spinner("Cargando base de datos"):
         st.session_state.df_raw = get_data_analisis_completo()
 
 
