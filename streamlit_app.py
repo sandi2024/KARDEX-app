@@ -15,18 +15,26 @@ render_header()   # Renderizamos el header común a todas las páginas
 # ============================================
 # CARGA DE DATOS
 # ============================================
-if 'df_raw' not in st.session_state:
+#if 'df_raw' not in st.session_state:
     # Solo se ejecuta la primera vez que abre la app
+#    with st.spinner("Cargando base de datos por primera vez..."):
+ #       st.session_state.df_raw = get_data_analisis_completo()
+
+
+if 'df_raw' not in st.session_state:
     with st.spinner("Cargando base de datos por primera vez..."):
-        st.session_state.df_raw = get_data_analisis_completo()
+        df = get_data_analisis_completo()
+
+        if df is None:
+            st.error("❌ Error: la función no devolvió datos.")
+        elif df.empty:
+            st.error("❌ Error: la consulta SQL no devolvió filas.")
+        else:
+            st.session_state.df_raw = df
+
 
 # usamos los datos de la memoria de la sesión para evitar recargas innecesarias
 df_raw = st.session_state.df_raw
-
-if df_raw.empty:
-      st.write("Datos no recuperados de la sesión con éxito.")
-else:
-    st.write("✔ DataFrame cargado con filas:", df_raw.shape[0])
 
 # --- SIDEBAR COMPARTIDO ---
 with st.sidebar:
