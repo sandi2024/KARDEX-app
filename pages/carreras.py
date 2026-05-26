@@ -76,7 +76,7 @@ top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
 
 
 #-------------------------------VERIFICAR ALUMNO EN PERIODO
-if len(df_filtrados)<1:
+if len(df_filtrados)>=1:
     # ============================================== MÉTRICAS PRINCIPALES ============================================
 
     total_alumnos = len(df_final)
