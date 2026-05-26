@@ -43,3 +43,46 @@ def calcular_metricas_alumno(df_kardex):
         "avance": (aprobadas / total_materias) * 100,
         "riesgo": nivel_riesgo
     }
+
+
+
+def procesar_academicos(df, umbral_reprobacion):
+    if df.empty: return df
+
+    # 1. Limpieza de calificaciones (null = 0 por falta de derecho, 0 = no presentó)
+    df['calificacion'] = df['calificacion'].fillna(0)
+
+    # 2. Creamos llave única: Matricula + Carrera
+    # Esto asegura que el alumno en dos carreras se calcule por separado
+    df['id_estudiante'] = df['matricula'].astype(str) + "_" + df['carrera']
+
+    # 3. Agrupación por estudiante/carrera
+    analisis = df.groupby('id_estudiante').agg({
+        'calificacion': 'mean',
+        'creditos_materia': 'sum',
+        'creditos_totales_plan': 'first',
+        'tipo_examen': lambda x: (x.str.contains('EXTRAORDINARIO', case=False, na=False)).sum(),
+        'carrera': 'first',
+        'id_plan_estudio': 'first'
+    }).rename(columns={
+        'calificacion': 'promedio_general',
+        'creditos_materia': 'creditos_cursados',
+        'tipo_examen': 'conteo_extraordinarios'
+    })
+
+    # 4. Cálculo de Avance
+    analisis['avance_porcentaje'] = (analisis['creditos_cursados'] / analisis['creditos_totales_plan']) * 100
+
+    # 5. Lógica de Estatus Dinámica
+    def asignar_estatus(row):
+        if row['promedio_general'] < umbral_reprobacion:
+            return 'RIESGO'
+        elif row['conteo_extraordinarios'] >= 3: # Ejemplo: más de 3 extras es crítico
+            return 'REZAGADO'
+        elif row['promedio_general'] >= 90:
+            return 'ACTIVO' # Sobresaliente
+        else:
+            return 'REGULAR'
+
+    analisis['estatus'] = analisis.apply(asignar_estatus, axis=1)
+    return analisis.reset_index()
