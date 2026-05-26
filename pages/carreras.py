@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.express as px
 from src.queries import fetch_analisis_reprobacion, fetch_carreras_alumno, get_data_analisis_completo
 from src.utils import load_css, create_uabc_metric_card, render_header, render_footer, create_uabc_alert
-from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normalizar_datos_academicos, calcular_metricas_academicas, calcular_reprobacion_por_periodo, distribucion_calificaciones
+from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normalizar_datos_academicos, calcular_metricas_academicas, distribucion_calificaciones, calcular_evolucion_academica
 
 load_css()
 render_header()
@@ -73,11 +73,8 @@ df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo
 
 top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
 
-st.write(df_final.columns)
-
-df_reprobacion_hist = calcular_reprobacion_por_periodo(df_carrera, umbral)
 df_distribucion = distribucion_calificaciones(df_carrera)
-st.write(df_reprobacion_hist.columns)
+
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 total_alumnos = len(df_final)
@@ -157,24 +154,7 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
     )
     st.plotly_chart(fig_heat, use_container_width=True)
 
-    # ----------REPROBACION POR PERIODO
-    st.subheader("📉 Reprobación por Periodo")
-    if not df_reprobacion_hist.empty:
-        fig_linea = px.line(
-            df_reprobacion_hist,
-            x='periodo',
-            y='porcentaje_reprobacion',
-            title="Evolución del % de Reprobación",
-            markers=True,
-            labels={'porcentaje_reprobacion': '% Reprobado', 'periodo': 'Periodo'},
-            line_shape="spline"
-        )
-        # Añadir línea de referencia o mejorar estilo
-        fig_linea.update_layout(yaxis_range=[0, 100])
-        st.plotly_chart(fig_linea, use_container_width=True)
-    else:
-        st.info("ℹ️ No hay datos históricos suficientes.")
-
+    # ---------- DISTRIBUCION CALIFICACION
     st.subheader("📊 Distribución de Calificaciones")
     if not df_distribucion.empty:
         fig_hist = px.histogram(
@@ -192,6 +172,37 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
         st.plotly_chart(fig_hist, use_container_width=True)
     else:
         st.info("ℹ️ No hay calificaciones para mostrar.")
+
+
+    df_evo = calcular_evolucion_academica(df_limpio, umbral)
+
+    if not df_evo.empty:
+        fig_evolucion = px.line(
+            df_evo,
+            x='periodo',
+            y=['porcentaje_reprobacion', 'promedio_periodo'], # Graficamos ambas columnas
+            title="Evolución: Reprobación vs Promedio General",
+            markers=True,
+            labels={
+                'value': 'Escala 0-100',
+                'periodo': 'Periodo',
+                'variable': 'Métrica'
+            },
+            color_discrete_map={
+                'porcentaje_reprobacion': 'red',
+                'promedio_periodo': 'blue'
+            }
+        )
+
+        # Mejoramos la estética
+        fig_evolucion.update_layout(
+            yaxis_range=[0, 105],
+            legend_title="Indicadores",
+           hovermode="x unified" # Muestra ambos valores al pasar el mouse
+        )
+
+        st.plotly_chart(fig_evolucion, use_container_width=True)
+
 
 else:
     st.warning("ℹ️ No hay datos disponibles para los filtros seleccionados.")

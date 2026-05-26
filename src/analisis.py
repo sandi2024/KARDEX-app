@@ -125,22 +125,29 @@ def calcular_metricas_reprobacion(df_normalizado, calificacion_minima):
     return conteo_reprobadas.head(10).sort_values(ascending=True)
 
 
-def calcular_reprobacion_por_periodo(df_limpio, umbral):
-    """Calcula el porcentaje de reprobación histórico por periodo."""
+
+def calcular_evolucion_academica(df_limpio, umbral):
+    """Calcula reprobación y promedio por periodo."""
     if df_limpio.empty: return pd.DataFrame()
 
-    # Creamos una columna booleana para identificar reprobados
+    df_limpio = df_limpio.copy()
     df_limpio['es_reprobado'] = df_limpio['calificacion'] < umbral
     
-    # Agrupamos por periodo
-    periodos = df_limpio.groupby('periodo').agg(
+    # Agrupamos para obtener ambos datos
+    evolucion = df_limpio.groupby('periodo').agg(
         total_alumnos=('id_estudiante', 'nunique'),
-        reprobados=('es_reprobado', 'sum')
+        reprobados=('es_reprobado', 'sum'),
+        promedio_periodo=('calificacion', 'mean') # Nueva métrica
     ).reset_index()
     
-    # Calculamos el porcentaje
-    periodos['porcentaje_reprobacion'] = (periodos['reprobados'] / periodos['total_alumnos']) * 100
-    return periodos.sort_values('periodo')
+    evolucion['porcentaje_reprobacion'] = (evolucion['reprobados'] / evolucion['total_alumnos']) * 100
+    
+    # IMPORTANTE: Convertimos periodo a string para evitar los "huecos" 
+    # que vimos en tu gráfica anterior (de 1995 a 2020)
+    evolucion['periodo'] = evolucion['periodo'].astype(str)
+    
+    return evolucion.sort_values('periodo')
+
 
 
 def distribucion_calificaciones(df_limpio):
