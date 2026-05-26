@@ -168,8 +168,9 @@ with col_der:
 
 st.markdown("---")
 
-columna1, columna2 = st.columns(2)
 st.markdown("### 🏆 Rendimiento por Carrera")   
+columna1, columna2 = st.columns(2)
+
 with columna1:
      # Gráfico de promedios por carrera 
     carrera_promedio = df_final.groupby('carrera')['promedio_general'].mean().sort_values(ascending=False)
@@ -205,8 +206,6 @@ with columna2:
     fig6.update_layout(title='Comparativa por Carrera', barmode='group', height=400,
                       plot_bgcolor='white')
     st.plotly_chart(fig6, use_container_width=True)
-
-
 
 
 render_footer()
