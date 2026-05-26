@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from src.utils import load_css, render_header, render_footer, create_uabc_metric_card, create_uabc_alert
 from src.queries import fetch_analisis_reprobacion, get_kardex_alumno, get_data_analisis_completo
-from src.analisis import calcular_indice_riesgo, procesar_academicos, calcular_metricas_extraordinarios
+from src.analisis import calcular_indice_riesgo, procesar_academicos
 import numpy as np
 import plotly.express as px
 
@@ -76,9 +76,6 @@ en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
 extras = df_final['conteo_extraordinarios'].mean()
 
 # En tu archivo app.py, después de procesar los datos:
-
-#print(df_final.columns)
-#promedio_ext, tabla_extras = calcular_metricas_extraordinarios(df_final)
 
 # Añadirlo a las columnas de métricas
 #m5.metric("Prom. Extraordinarios", f"{promedio_ext:.2f}")
