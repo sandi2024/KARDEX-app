@@ -126,7 +126,8 @@ st.markdown("---")
 
 if not df_final.empty:  # Si hay datos para la carrera seleccionada
     # --- Gráfica de Barras: Top Materias Reprobadas ---
-    top_reprobadas = df_final[df_final['RIESGO'] == 1]['materia'].value_counts().head(10)
+  #  top_reprobadas = df_final[df_final[''] == 1]['materia'].value_counts().head(10)
+    top_reprobadas = df_datos[df_datos['calificacion'] < umbral]['materia'].value_counts().head(10)
     
     fig_bar = px.bar(
         x=top_reprobadas.values, 
