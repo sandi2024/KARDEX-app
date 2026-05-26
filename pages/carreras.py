@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.express as px
 from src.queries import fetch_analisis_reprobacion, fetch_carreras_alumno, get_data_analisis_completo
 from src.utils import load_css, create_uabc_metric_card, render_header, render_footer, create_uabc_alert
-from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normalizar_datos_academicos, calcular_metricas_academicas
+from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normalizar_datos_academicos, calcular_metricas_academicas, calcular_reprobacion_por_periodo, distribucion_calificaciones
 
 load_css()
 render_header()
@@ -71,9 +71,10 @@ else:
 df_filtrados = filtrar_datos(df_carrera, periodo_sel)
 df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo y umbral seleccionado
 
-st.write(df_final.columns)
-top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
 
+top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
+df_reprobacion_hist = calcular_reprobacion_por_periodo(df_carrera, umbral)
+df_distribucion = distribucion_calificaciones(df_carrera)
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 total_alumnos = len(df_final)
@@ -152,6 +153,49 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
         title="Rendimiento Promedio por Periodo y Carrera"
     )
     st.plotly_chart(fig_heat, use_container_width=True)
+
+    # ----------REPROBACION POR PERIODO
+
+    st.subheader("📉 Reprobación por Periodo")
+    if not df_reprobacion_hist.empty:
+        fig_linea = px.line(
+            df_reprobacion_hist,
+            x='periodo',
+            y='porcentaje_reprobacion',
+            title="Evolución del % de Reprobación",
+            markers=True,
+            labels={'porcentaje_reprobacion': '% Reprobado', 'periodo': 'Periodo'},
+            line_shape="spline"
+        )
+        # Añadir línea de referencia o mejorar estilo
+        fig_linea.update_layout(yaxis_range=[0, 100])
+        st.plotly_chart(fig_linea, use_container_width=True)
+    else:
+        st.info("No hay datos históricos suficientes.")
+
+    st.subheader("📊 Distribución de Calificaciones")
+    if not df_distribucion.empty:
+        fig_hist = px.histogram(
+            df_distribucion,
+            x="calificacion",
+            nbins=20,
+            title="Frecuencia de Calificaciones",
+            labels={'calificacion': 'Calificación', 'count': 'Cantidad de Registros'},
+            color_discrete_sequence=['#636EFA']
+        )
+        # Añadir una línea vertical en el umbral de aprobación
+        fig_hist.add_vline(x=umbral, line_dash="dash", line_color="red", 
+                          annotation_text=f"Umbral: {umbral}")
+        
+        st.plotly_chart(fig_hist, use_container_width=True)
+    else:
+        st.info("No hay calificaciones para mostrar.")
+
+
+
+
+
+    
 
 else:
     st.warning("No hay datos disponibles para los filtros seleccionados.")

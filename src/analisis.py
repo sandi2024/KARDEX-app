@@ -8,7 +8,6 @@ def calcular_indice_riesgo(df_alumno_materias):
     reprobadas = len(df_alumno_materias[df_alumno_materias['calificacion'] < 60])
     
     # 2. Factor Persistencia (Tipos de examen: 'Extraordinario' o 'Regularización')
-    # Según tu diagrama, esto viene de alumno_asignatura.tipo_examen
     extraordinarios = len(df_alumno_materias[df_alumno_materias['tipo_examen'].str.contains('EXT', na=False)])
     
     # 3. Cálculo de Score (Ejemplo)
@@ -117,12 +116,36 @@ def calcular_metricas_reprobacion(df_normalizado, calificacion_minima):
         return pd.Series(dtype=int)
 
     # 1. Identificar registros reprobados
-    # Usamos los datos ya normalizados (donde los NaN ya son 0)
     reprobados = df_normalizado[df_normalizado['calificacion'] < calificacion_minima]
 
     # 2. Contar alumnos por materia
-    # 'materia' debe ser el nombre de la columna en tu DF original
     conteo_reprobadas = reprobados['asignatura'].value_counts()
 
     # 3. Retornar el Top 10 (o las que gustes) de forma descendente
     return conteo_reprobadas.head(10).sort_values(ascending=True)
+
+import pandas as pd
+import plotly.express as px
+
+def calcular_reprobacion_por_periodo(df_limpio, umbral):
+    """Calcula el porcentaje de reprobación histórico por periodo."""
+    if df_limpio.empty: return pd.DataFrame()
+
+    # Creamos una columna booleana para identificar reprobados
+    df_limpio['es_reprobado'] = df_limpio['calificacion'] < umbral
+    
+    # Agrupamos por periodo
+    periodos = df_limpio.groupby('periodo').agg(
+        total_alumnos=('matricula', 'nunique'),
+        reprobados=('es_reprobado', 'sum')
+    ).reset_index()
+    
+    # Calculamos el porcentaje
+    periodos['porcentaje_reprobacion'] = (periodos['reprobados'] / periodos['total_alumnos']) * 100
+    return periodos.sort_values('periodo')
+
+
+def distribucion_calificaciones(df_limpio):
+    """Prepara los datos para un histograma de frecuencias."""
+    if df_limpio.empty: return df_limpio
+    return df_limpio[['calificacion']]
