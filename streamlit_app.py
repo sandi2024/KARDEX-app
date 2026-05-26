@@ -114,14 +114,10 @@ st.markdown("---")
 col_info1, col_info2 = st.columns(2)
     
 with col_info1:
-  #  excelentes = len(df[df['promedio_general'] >= 90])
- #   excelentes = 100
-  #  if excelentes > 0:
+  if sobresalientes > 0:
     st.markdown(create_uabc_alert(f"🎉 {sobresalientes} alumnos con promedio sobresaliente (≥90)", "success"), unsafe_allow_html=True)
     
 with col_info2:
- #   riesgo_count = len(df[df['estatus'].isin(['RIESGO', 'REZAGADO'])])
- #   riesgo_count = 50
     if en_riesgo > 0:
         st.markdown(create_uabc_alert(f"⚠️ Se han identificado {en_riesgo} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
     
