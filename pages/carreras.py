@@ -35,7 +35,7 @@ with st.sidebar:
     st.markdown("### ⚙️ Configuración")
     
      # Filtro de carrera
-    lista_carreras = ["Todos las carreras"] + sorted(df_datos['carrera'].unique().tolist())
+    lista_carreras = ["Todas las carreras"] + sorted(df_datos['carrera'].unique().tolist())
     carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
     
      # Filtro de Periodo
@@ -60,6 +60,11 @@ with st.sidebar:
 
 
 # ============================================== PROCESAMIENTO ============================================
+if periodo_sel != "Todas las carreras":
+    df_carrera = df_datos[df_datos['carrera'] == carrera_sel]
+else:
+    df_carrera = df_datos
+
 
 df_limpio = normalizar_datos_academicos(df_datos)
 df_filtrados = filtrar_datos(df_limpio, carrera_sel, periodo_sel)
@@ -135,7 +140,7 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
     
     # Pivotamos los datos para el mapa de calor
  #   df_pivot = df_final.groupby(['id_periodo', 'carrera'])['calificacion'].mean().unstack()
-    df_pivot = df_filtrados.groupby(['periodo', 'carrera'])['calificacion'].mean().unstack()
+    df_pivot = df_carrera.groupby(['periodo', 'carrera'])['calificacion'].mean().unstack()
     fig_heat = px.imshow(
         df_pivot,
         labels=dict(x="Carrera", y="Periodo", color="Promedio"),
