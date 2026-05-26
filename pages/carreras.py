@@ -65,7 +65,7 @@ df_limpio = normalizar_datos_academicos(df_datos)
 df_filtrados = filtrar_datos(df_limpio, carrera_sel, periodo_sel)
 df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo y umbral seleccionado
 top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
-st.write(df_final.columns)
+
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 total_alumnos = len(df_final)
@@ -134,7 +134,7 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
     st.subheader("Análisis Carrera-Periodo")
     
     # Pivotamos los datos para el mapa de calor
-    df_pivot = df_final.groupby(['id_periodo', 'nombre_carrera'])['calificacion'].mean().unstack()
+    df_pivot = df_final.groupby(['id_periodo', 'carrera'])['calificacion'].mean().unstack()
     
     fig_heat = px.imshow(
         df_pivot,
