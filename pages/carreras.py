@@ -63,7 +63,7 @@ with st.sidebar:
 
 df_limpio = normalizar_datos_academicos(df_datos)
 
-if periodo_sel != "Todas las carreras":
+if carrera_sel != "Todas las carreras":
     df_carrera = df_limpio[df_datos['carrera'] == carrera_sel]
 else:
     df_carrera = df_limpio
