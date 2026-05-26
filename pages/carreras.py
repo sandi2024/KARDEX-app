@@ -99,7 +99,7 @@ with col4:
  #   riesgo = len(df[df['estatus'].isin(['RIESGO', 'REZAGADO'])])
  #   porcentaje_riesgo = (riesgo/len(df))*100 if len(df) > 0 else 0
  #   st.markdown(create_uabc_metric_card("En Riesgo", riesgo, f"{porcentaje_riesgo:.0f}% del total", "⚠️"), unsafe_allow_html=True)
-   st.markdown(create_uabc_metric_card("En Riesgo", en_riesgo, f"{(en_riesgo/total_alumnos)*100:.0f}% del total", "⚠️"), unsafe_allow_html=True)
+   st.markdown(create_uabc_metric_card("En Riesgo", f"{(en_riesgo/total_alumnos)*100:.0f}%", "del total", "⚠️"), unsafe_allow_html=True)
         
 with col5:
  #   extras = df['examenes_regularizacion'].mean()
