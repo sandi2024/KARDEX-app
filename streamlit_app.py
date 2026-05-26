@@ -27,7 +27,7 @@ if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
 
 
 # usamos los datos de la memoria de la sesión para evitar recargas innecesarias
-df_raw = st.session_state.df_raw
+df_datos = st.session_state.df_raw
 
 
 # --- SIDEBAR COMPARTIDO ---
@@ -43,7 +43,7 @@ with st.sidebar:
     st.markdown("### ⚙️ Configuración")
     
     # Filtro de Periodo
-    lista_periodos = ["Todos los periodos"] + sorted(df_raw['periodo'].unique().tolist())
+    lista_periodos = ["Todos los periodos"] + sorted(df_datos['periodo'].unique().tolist())
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
     
     # Filtro de Umbral
@@ -63,9 +63,9 @@ with st.sidebar:
 
 # ============================================== PROCESAMIENTO ============================================
 if periodo_sel != "Todos los periodos":
-    df_filtrado = df_raw[df_raw['periodo'] == periodo_sel]
+    df_filtrado = df_datos[df_datos['periodo'] == periodo_sel]
 else:
-    df_filtrado = df_raw
+    df_filtrado = df_datos
 
 df_norm = normalizar_datos_academicos(df_filtrado)
 df_final = calcular_metricas_academicas(df_norm, umbral)   # Según periodo y umbral seleccionado
