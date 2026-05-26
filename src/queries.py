@@ -1,4 +1,4 @@
-from streamlit import st
+import streamlit as st
 from src.database import run_query
 import pandas as pd
 
