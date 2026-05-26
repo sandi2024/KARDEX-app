@@ -68,9 +68,10 @@ if carrera_sel != "Todas las carreras":
 else:
     df_carrera = df_limpio
 
-st.write(df_carrera.columns)
 df_filtrados = filtrar_datos(df_carrera, periodo_sel)
 df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo y umbral seleccionado
+
+st.write(df_final.columns)
 top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
 
 # ============================================== MÉTRICAS PRINCIPALES ============================================
