@@ -78,7 +78,7 @@ en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
 extras = df_final['conteo_extraordinarios'].mean()
 
 # ============================================CUERPO DEL DASHBOARD ============================================
-st.title("📈 Análisis por Carrera")
+st.title(f"📈 Análisis por Carrera - {carrera_sel}")
 
 # --- CARDS DE METRICAS --
 col1, col2, col3, col4, col5= st.columns(5)
