@@ -58,6 +58,7 @@ df_limpio = normalizar_datos_academicos(df_datos)
 df_filtrados = filtrar_datos(df_limpio, carrera_sel, periodo_sel)
 df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo y umbral seleccionado
 top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
+
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 total_alumnos = len(df_final)
