@@ -159,12 +159,28 @@ with col_izq:
 with col_der:
     # 3. Scatter Plot 4D
     # X: Créditos, Y: Promedio, Color: Estatus, Size: Extraordinarios
-    fig3 = px.scatter(df_final, x='creditos_cursados', y='promedio_general',
-                      color='estatus', size='conteo_extraordinarios',
-                      title='📈 Relación: Créditos vs Promedio (4D)',
-                      color_discrete_map=color_map,
-                      hover_data=['carrera'])
-    st.plotly_chart(fig3, use_container_width=True)
+ #   fig3 = px.scatter(df_final, x='creditos_cursados', y='promedio_general',
+ #                     color='estatus', size='conteo_extraordinarios',
+ #                     title=' Relación: Créditos vs Promedio (4D)',
+ #                     color_discrete_map=color_map,
+ #                     hover_data=['carrera'])
+ #   st.plotly_chart(fig3, use_container_width=True)
+     
+     # Avance crediticio
+    fig2 = px.scatter(df_final, x='creditos_cursados', y='promedio_general',
+                         color='estatus', size='conteo_extraordinarios  ',
+                         title='📈 Relación: Créditos vs Promedio',
+                         labels={'creditos_cursados': 'Créditos Cursados', 
+                                'promedio_general': 'Promedio General'},
+                         color_discrete_map={'ACTIVO': '#4CAF50', 'REGULAR': '#2196F3', 
+                                           'RIESGO': '#FF9800', 'REZAGADO': '#F44336'})
+    fig2.update_layout(height=400, plot_bgcolor='white')
+    st.plotly_chart(fig2, use_container_width=True)
+
+
+
+
+
 
     # 4. Bar Chart: Volumen por Plan de Estudios (Escala continua)
     plan_data = df_final['id_plan_estudio'].value_counts().reset_index()
