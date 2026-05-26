@@ -98,13 +98,9 @@ def calcular_metricas_academicas(df_normalizado, umbral_reprobacion):
 
 
 # Suponiendo que carrera_sel y periodo_sel vienen de un selectbox de Streamlit
-def filtrar_datos(df, carrera_sel, periodo_sel):
+def filtrar_datos(df, periodo_sel):
     df_filtrado = df.copy()
     
-    # Filtro por Carrera
-    if carrera_sel != "Todos las carreras":
-        df_filtrado = df_filtrado[df_filtrado['carrera'] == carrera_sel]
-
     # Filtro por Periodo
     if periodo_sel != "Todos los periodos":
         df_filtrado = df_filtrado[df_filtrado['periodo'] == periodo_sel]
