@@ -134,8 +134,8 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
     st.subheader("Análisis Carrera-Periodo")
     
     # Pivotamos los datos para el mapa de calor
-    df_pivot = df_final.groupby(['id_periodo', 'carrera'])['calificacion'].mean().unstack()
-    
+ #   df_pivot = df_final.groupby(['id_periodo', 'carrera'])['calificacion'].mean().unstack()
+    df_pivot = df_final.groupby(['periodo', 'carrera'])['calificacion'].mean().unstack()
     fig_heat = px.imshow(
         df_pivot,
         labels=dict(x="Carrera", y="Periodo", color="Promedio"),
