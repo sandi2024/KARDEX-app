@@ -17,7 +17,8 @@ else:
     st.write("Datos recuperados de la sesión con éxito.")
     # Aquí ya puedes usar df para tus gráficas de carrera
 
-
+if st.session_state.df_raw.empty:
+    st.warning("No se han encontrado datos para los filtros seleccionados.")
 
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
