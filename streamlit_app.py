@@ -21,13 +21,13 @@ render_header()   # Renderizamos el header común a todas las páginas
  #       st.session_state.df_raw = get_data_analisis_completo()
 
 
-if ('df_raw' not in st.session_state)  or (st.session_state.df_raw.empty):
+if ('df_raw' not in st.session_state):
     with st.spinner("Cargando base de datos por primera vez..."):
         st.session_state.df_raw = get_data_analisis_completo()
 
-#if st.session_state.df_raw.empty:
-#    with st.spinner("Cargando base de datos por segunda vez..."):
-#      st.session_state.df_raw = get_data_analisis_completo()
+if st.session_state.df_raw.empty:
+    with st.spinner("Cargando base de datos por segunda vez..."):
+      st.session_state.df_raw = get_data_analisis_completo()
 
 # usamos los datos de la memoria de la sesión para evitar recargas innecesarias
 df_raw = st.session_state.df_raw
