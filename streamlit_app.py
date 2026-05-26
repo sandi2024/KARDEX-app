@@ -32,6 +32,13 @@ if st.session_state.df_raw.empty:
 # usamos los datos de la memoria de la sesión para evitar recargas innecesarias
 df_raw = st.session_state.df_raw
 
+
+if df_raw.empty:
+    with st.spinner("Cargando base de datos por segunda vez..."):
+      st.session_state.df_raw = get_data_analisis_completo()
+      df_raw = st.session_state.df_raw
+
+
 # --- SIDEBAR COMPARTIDO ---
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
