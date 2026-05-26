@@ -60,11 +60,10 @@ else:
 
 
 # 3. FILTRADO LÓGICO
-if carrera_sel == "Todas las carreras":
-    df_filtrado_carrera = df_filtrado_periodo
-else:
-    # Filtramos el DataFrame original en memoria (es instantáneo)
+if carrera_sel != "Todas las carreras":
     df_filtrado_carrera = df_filtrado_periodo[df_filtrado_periodo['carrera'] == carrera_sel]
+else:
+    df_filtrado_carrera = df_filtrado_periodo
 
 df_limpio = normalizar_datos_academicos(df_filtrado_carrera)
 df_final = calcular_metricas_academicas(df_limpio, umbral)   # Según periodo y umbral seleccionado
