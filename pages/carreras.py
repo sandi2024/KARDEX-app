@@ -73,6 +73,9 @@ df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo
 
 st.write(df_limpio.columns)
 top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
+
+st.write(df_final.columns)
+
 df_reprobacion_hist = calcular_reprobacion_por_periodo(df_carrera, umbral)
 df_distribucion = distribucion_calificaciones(df_carrera)
 # ============================================== MÉTRICAS PRINCIPALES ============================================
@@ -158,23 +161,14 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
 
     st.subheader("📉 Reprobación por Periodo")
     if not df_reprobacion_hist.empty:
-     #   fig_linea = px.line(
-      #      df_reprobacion_hist,
-      #      x='periodo',
-      #      y='porcentaje_reprobacion',
-      #      title="Evolución del % de Reprobación",
-      #      markers=True,
-      #      labels={'porcentaje_reprobacion': '% Reprobado', 'periodo': 'Periodo'},
-      #      line_shape="spline"
-   #     )
         fig_linea = px.line(
             df_reprobacion_hist,
             x='periodo',
             y='porcentaje_reprobacion',
+            title="Evolución del % de Reprobación",
             markers=True,
             labels={'porcentaje_reprobacion': '% Reprobado', 'periodo': 'Periodo'},
-            # Elimina line_shape o cámbialo a "linear"
-            line_shape="linear"
+            line_shape="spline"
         )
         # Añadir línea de referencia o mejorar estilo
         fig_linea.update_layout(yaxis_range=[0, 100])
