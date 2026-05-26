@@ -24,9 +24,9 @@ if 'df_raw' not in st.session_state:
 df_raw = st.session_state.df_raw
 
 if df_raw.empty:
-    print("❌ El DataFrame está vacío. Revisa la ruta o el archivo.")
+      st.write("Datos no recuperados de la sesión con éxito.")
 else:
-    print("✔ DataFrame cargado con filas:", df_raw.shape[0])
+    st.write("✔ DataFrame cargado con filas:", df_raw.shape[0])
 
 # --- SIDEBAR COMPARTIDO ---
 with st.sidebar:
