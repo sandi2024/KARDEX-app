@@ -68,7 +68,7 @@ else:
 
 df_norm = normalizar_datos_academicos(df_filtrado)
 df_final = calcular_metricas_academicas(df_norm, umbral)   # Según periodo y umbral seleccionado
-
+st.write(df_final.columns)
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 total_alumnos = len(df_final)
