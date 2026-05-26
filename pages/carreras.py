@@ -20,6 +20,9 @@ else:
 if st.session_state.df_raw.empty:
     st.warning("No se han encontrado datos para los filtros seleccionados.")
 
+if df_datos.empty:
+    st.warning("No se han encontrado datos df_datos.")
+
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
     st.markdown("### Panel de Control")
