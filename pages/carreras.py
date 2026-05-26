@@ -71,7 +71,7 @@ else:
 df_filtrados = filtrar_datos(df_carrera, periodo_sel)
 df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo y umbral seleccionado
 
-
+st.write(df_limpio.columns)
 top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
 df_reprobacion_hist = calcular_reprobacion_por_periodo(df_carrera, umbral)
 df_distribucion = distribucion_calificaciones(df_carrera)
