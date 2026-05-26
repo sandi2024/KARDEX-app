@@ -15,8 +15,6 @@ render_header()   # Renderizamos el header común a todas las páginas
 # ============================================
 # CARGA DE DATOS
 # ============================================
-# Extracción inicial
-# 1. Intentar recuperar datos del "Estado de Sesión"
 if 'df_raw' not in st.session_state:
     # Solo se ejecuta la primera vez que abre la app
     with st.spinner("Cargando base de datos por primera vez..."):
@@ -39,7 +37,7 @@ with st.sidebar:
     st.markdown("### ⚙️ Configuración")
      # Filtro de Periodo
     lista_periodos = ["Todos los periodos"] + sorted(df_raw['periodo'].unique().tolist())
-    periodo_sel = st.selectbox("Seleccione Periodo Académico", lista_periodos)
+    periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
     
     # Filtro de Umbral
     umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
@@ -58,7 +56,7 @@ with st.sidebar:
 
 
 
-# --- PROCESAMIENTO ---
+# ============================================== PROCESAMIENTO ============================================
 if periodo_sel != "Todos los periodos":
     df_filtrado = df_raw[df_raw['periodo'] == periodo_sel]
 else:
@@ -66,7 +64,7 @@ else:
 
 df_final = procesar_academicos(df_filtrado, umbral)   #Segun perido y umbral seleccionado
 
-# --- MÉTRICAS PRINCIPALES ---
+# ============================================== MÉTRICAS PRINCIPALES ============================================
 #st.title(f"Dashboard Académico - {periodo_sel}")
 #m1, m2, m3, m4, m5 = st.columns(5)
 

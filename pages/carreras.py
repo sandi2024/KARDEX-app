@@ -49,6 +49,25 @@ with st.sidebar:
     st.session_state['mostrar_solo_riesgo'] = mostrar_solo_riesgo
     st.session_state['mostrar_detalles'] = mostrar_detalles
 
+
+
+# ============================================== PROCESAMIENTO ============================================
+if periodo_sel != "Todos los periodos":
+    df_filtrado = df_raw[df_raw['periodo'] == periodo_sel]
+else:
+    df_filtrado = df_raw
+
+df_final = procesar_academicos(df_filtrado, umbral)   #Segun perido y umbral seleccionado
+
+
+# ============================================== MÉTRICAS PRINCIPALES ============================================
+#st.title(f"Dashboard Académico - {periodo_sel}")
+#m1, m2, m3, m4, m5 = st.columns(5)
+
+total_alumnos = len(df_final)
+sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
+en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
+
 # ============================================CUERPO DEL DASHBOARD ============================================
 st.title("📈 Análisis por Carrera")
 
@@ -84,7 +103,7 @@ with col5:
 st.markdown("---")
 
 
-if not df_carrera.empty:
+if not df_carrera.empty:  # Si hay datos para la carrera seleccionada
     # --- Gráfica de Barras: Top Materias Reprobadas ---
     top_reprobadas = df_carrera[df_carrera['es_reprobado'] == 1]['materia'].value_counts().head(10)
     
