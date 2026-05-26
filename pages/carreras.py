@@ -1,14 +1,15 @@
 import streamlit as st
 import plotly.express as px
 from src.queries import fetch_analisis_reprobacion, fetch_carreras_alumno, get_data_analisis_completo
-from src.utils import load_css, create_uabc_metric_card, render_header, render_footer
+from src.utils import load_css, create_uabc_metric_card, render_header, render_footer, create_uabc_alert
+from src.analisis import procesar_academicos
 
 load_css()
 render_header()
 
 # No necesitas volver a llamar a queries.py
 if 'df_raw' in st.session_state:
-    df = st.session_state.df_raw
+    df_datos = st.session_state.df_raw
     st.write("Datos recuperados de la sesión con éxito.")
     # Aquí ya puedes usar df para tus gráficas de carrera
 else:
@@ -27,11 +28,11 @@ with st.sidebar:
     st.markdown("### ⚙️ Configuración")
     
      # Filtro de carrera
-    lista_carreras = ["Todos las carreras"] + sorted(df['carrera'].unique().tolist())
+    lista_carreras = ["Todos las carreras"] + sorted(df_datos['carrera'].unique().tolist())
     carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
     
      # Filtro de Periodo
-    lista_periodos = ["Todos los periodos"] + sorted(df['periodo'].unique().tolist())
+    lista_periodos = ["Todos los periodos"] + sorted(df_datos['periodo'].unique().tolist())
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
     
     # Filtro de Umbral
@@ -53,11 +54,18 @@ with st.sidebar:
 
 # ============================================== PROCESAMIENTO ============================================
 if periodo_sel != "Todos los periodos":
-    df_filtrado = df_raw[df_raw['periodo'] == periodo_sel]
+    df_filtrado_perido = df_datos[df_datos['periodo'] == periodo_sel]
 else:
-    df_filtrado = df_raw
+    df_filtrado_periodo = df_datos
 
-df_final = procesar_academicos(df_filtrado, umbral)   #Segun perido y umbral seleccionado
+# 3. FILTRADO LÓGICO
+if carrera_sel == "Todas las carreras":
+    df_filtrado_carrera = df_filtrado_periodo
+else:
+    # Filtramos el DataFrame original en memoria (es instantáneo)
+    df_filtrado = df_filtrado_periodo[df_filtrado_periodo['carrera'] == carrera_sel]
+
+df_final = procesar_academicos(df_filtrado_carrera, umbral)   #Segun perido y umbral seleccionado
 
 
 # ============================================== MÉTRICAS PRINCIPALES ============================================
@@ -67,45 +75,57 @@ df_final = procesar_academicos(df_filtrado, umbral)   #Segun perido y umbral sel
 total_alumnos = len(df_final)
 sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
-
+extras = df_final['conteo_extraordinarios'].mean()
 # ============================================CUERPO DEL DASHBOARD ============================================
 st.title("📈 Análisis por Carrera")
-
-# Supongamos que traemos los datos de la carrera seleccionada
-df_carrera = fetch_analisis_reprobacion(id_carrera=st.session_state.get('id_carrera_sel'))
 
 # --- CARDS DE METRICAS --
 col1, col2, col3, col4, col5= st.columns(5)
 with col1:
-    st.markdown(create_uabc_metric_card("Total Alumnos", "1,200", icon="🎓"), unsafe_allow_html=True)
+    st.markdown(create_uabc_metric_card("Total Alumnos", total_alumnos, icon="🎓"), unsafe_allow_html=True)
     
 with col2:
  #   promedio = df['promedio_general'].mean()
  #   st.markdown(create_uabc_metric_card("Promedio General", f"{promedio:.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
-    st.markdown(create_uabc_metric_card("Promedio General", "100", "escala 0-100", "📊"), unsafe_allow_html=True)
+    st.markdown(create_uabc_metric_card("Promedio General", f"{df_final['promedio_general'].mean():.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
         
 with col3:
   #  avance = df['porcentaje_avance'].mean()
   #  st.markdown(create_uabc_metric_card("Avance Crediticio", f"{avance:.1f}%", "del plan de estudios", "📈"), unsafe_allow_html=True)
-    st.markdown(create_uabc_metric_card("Avance Crediticio", "30%", "del plan de estudios", "📈"), unsafe_allow_html=True)  
+    st.markdown(create_uabc_metric_card("Avance Crediticio", f"{df_final['avance_porcentaje'].mean():.1f}%", "del plan de estudios", "📈"), unsafe_allow_html=True)  
 
 with col4:
  #   riesgo = len(df[df['estatus'].isin(['RIESGO', 'REZAGADO'])])
  #   porcentaje_riesgo = (riesgo/len(df))*100 if len(df) > 0 else 0
  #   st.markdown(create_uabc_metric_card("En Riesgo", riesgo, f"{porcentaje_riesgo:.0f}% del total", "⚠️"), unsafe_allow_html=True)
-   st.markdown(create_uabc_metric_card("En Riesgo", "50", "50% del total", "⚠️"), unsafe_allow_html=True)
+   st.markdown(create_uabc_metric_card("En Riesgo", en_riesgo, f"{(en_riesgo/total_alumnos)*100:.0f}% del total", "⚠️"), unsafe_allow_html=True)
         
 with col5:
  #   extras = df['examenes_regularizacion'].mean()
    # st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
-    st.markdown(create_uabc_metric_card("Extraordinarios", "2", "promedio por alumno", "📝"), unsafe_allow_html=True)
+    st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
     
 st.markdown("---")
 
+ # Alertas destacadas
+col_info1, col_info2 = st.columns(2) 
+with col_info1:
+  #  excelentes = len(df[df['promedio_general'] >= 90])
+ #   excelentes = 100
+    if sobresalientes > 0:
+        st.markdown(create_uabc_alert(f"🎉 {sobresalientes} alumnos con promedio sobresaliente (≥90)", "success"), unsafe_allow_html=True)
+    
+with col_info2:
+ #   riesgo_count = len(df[df['estatus'].isin(['RIESGO', 'REZAGADO'])])
+ #   riesgo_count = 50
+    if en_riesgo > 0:
+        st.markdown(create_uabc_alert(f"⚠️ Se han identificado {en_riesgo} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
+    
+st.markdown("---")
 
-if not df_carrera.empty:  # Si hay datos para la carrera seleccionada
+if not df_final.empty:  # Si hay datos para la carrera seleccionada
     # --- Gráfica de Barras: Top Materias Reprobadas ---
-    top_reprobadas = df_carrera[df_carrera['es_reprobado'] == 1]['materia'].value_counts().head(10)
+    top_reprobadas = df_final[df_final['es_reprobado'] == 1]['materia'].value_counts().head(10)
     
     fig_bar = px.bar(
         x=top_reprobadas.values, 
@@ -122,7 +142,7 @@ if not df_carrera.empty:  # Si hay datos para la carrera seleccionada
     st.subheader("Análisis Carrera-Periodo")
     
     # Pivotamos los datos para el mapa de calor
-    df_pivot = df_carrera.groupby(['id_periodo', 'nombre_carrera'])['calificacion'].mean().unstack()
+    df_pivot = df_final.groupby(['id_periodo', 'nombre_carrera'])['calificacion'].mean().unstack()
     
     fig_heat = px.imshow(
         df_pivot,
@@ -134,8 +154,5 @@ if not df_carrera.empty:  # Si hay datos para la carrera seleccionada
 
 else:
     st.warning("No hay datos disponibles para los filtros seleccionados.")
-
-
-
 
 render_footer()
