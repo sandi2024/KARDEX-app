@@ -63,7 +63,7 @@ if carrera_sel == "Todas las carreras":
     df_filtrado_carrera = df_filtrado_periodo
 else:
     # Filtramos el DataFrame original en memoria (es instantáneo)
-    df_filtrado = df_filtrado_periodo[df_filtrado_periodo['carrera'] == carrera_sel]
+    df_filtrado_carrera = df_filtrado_periodo[df_filtrado_periodo['carrera'] == carrera_sel]
 
 df_final = procesar_academicos(df_filtrado_carrera, umbral)   #Segun perido y umbral seleccionado
 
