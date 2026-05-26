@@ -180,7 +180,7 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
             x="calificacion",
             nbins=20,
             title="Frecuencia de Calificaciones",
-            labels={'calificacion': 'Calificación', 'Cantidad de Registros': 'Cantidad de Registros'},
+            labels={'calificacion': 'Calificación', 'count': 'Cantidad de Registros'},
             color_discrete_sequence=['#636EFA']
         )
         # Añadir una línea vertical en el umbral de aprobación
@@ -190,12 +190,6 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
         st.plotly_chart(fig_hist, use_container_width=True)
     else:
         st.info("No hay calificaciones para mostrar.")
-
-
-
-
-
-    
 
 else:
     st.warning("No hay datos disponibles para los filtros seleccionados.")

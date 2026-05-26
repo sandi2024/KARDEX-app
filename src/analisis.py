@@ -148,4 +148,4 @@ def calcular_reprobacion_por_periodo(df_limpio, umbral):
 def distribucion_calificaciones(df_limpio):
     """Prepara los datos para un histograma de frecuencias."""
     if df_limpio.empty: return df_limpio
-    return df_limpio[['calificacion']]
+    return df_limpio[['calificacion']]    
