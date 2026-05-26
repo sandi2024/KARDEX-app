@@ -168,7 +168,7 @@ with col_der:
      
      # Avance crediticio
     fig2 = px.scatter(df_final, x='creditos_cursados', y='promedio_general',
-                         color='estatus', size='conteo_extraordinarios  ',
+                         color='estatus', size='conteo_extraordinarios',
                          title='📈 Relación: Créditos vs Promedio',
                          labels={'creditos_cursados': 'Créditos Cursados', 
                                 'promedio_general': 'Promedio General'},
