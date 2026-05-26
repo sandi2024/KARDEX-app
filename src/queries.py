@@ -1,7 +1,9 @@
+from turtle import st
 from src.database import run_query
 import pandas as pd
 
 # Aquí definimos las funciones de consulta específicas para cada página, utilizando run_query para ejecutar las consultas SQL.
+@st.cache_data(ttl=3600) # El caché dura 1 hora (3600 seg)
 def get_kardex_alumno(matricula):
     query = """
     SELECT 
@@ -20,6 +22,7 @@ def get_kardex_alumno(matricula):
     return run_query(query, (matricula,))  
 
 
+@st.cache_data(ttl=3600) # El caché dura 1 hora (3600 seg)
 def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
     """
     Obtiene los datos de reprobación siguiendo la ruta correcta del diagrama.
@@ -74,6 +77,7 @@ def fetch_carreras_alumno(matricula):
     # Pasamos la matrícula como una tupla (matricula,) para seguridad
     return run_query(query, (matricula,))
 
+@st.cache_data(ttl=3600) # El caché dura 1 hora (3600 seg)
 def fetch_detalle_por_periodo(matricula, id_carrera):
     """
     Obtiene el historial académico detallado de un alumno filtrado por carrera,
@@ -101,8 +105,7 @@ def fetch_detalle_por_periodo(matricula, id_carrera):
     return run_query(query, (matricula, id_carrera))
 
 
-import pandas as pd
-
+@st.cache_data(ttl=3600) # El caché dura 1 hora (3600 seg)
 def get_data_analisis_completo():
     # Unimos alumno_asignatura -> Asignatura_Plan -> plan_estudio -> programaEducativo
     query = """

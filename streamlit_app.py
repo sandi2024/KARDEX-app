@@ -16,7 +16,15 @@ render_header()   # Renderizamos el header común a todas las páginas
 # CARGA DE DATOS
 # ============================================
 # Extracción inicial
-df_raw = get_data_analisis_completo()
+# 1. Intentar recuperar datos del "Estado de Sesión"
+if 'df_raw' not in st.session_state:
+    # Solo se ejecuta la primera vez que abre la app
+    with st.spinner("Cargando base de datos por primera vez..."):
+        st.session_state.df_raw = get_data_analisis_completo()
+
+# Ahora usamos los datos de la memoria, no de la base de datos
+df_raw = st.session_state.df_raw
+
 
 # --- SIDEBAR COMPARTIDO ---
 with st.sidebar:
