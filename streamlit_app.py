@@ -75,6 +75,8 @@ sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
 
 # En tu archivo app.py, después de procesar los datos:
+
+print(df_final.columns)
 promedio_ext, tabla_extras = calcular_metricas_extraordinarios(df_final)
 
 # Añadirlo a las columnas de métricas
