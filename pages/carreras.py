@@ -64,9 +64,9 @@ with st.sidebar:
 df_limpio = normalizar_datos_academicos(df_datos)
 
 if periodo_sel != "Todas las carreras":
-    df_carrera = df_datos[df_datos['carrera'] == carrera_sel]
+    df_carrera = df_limpio[df_datos['carrera'] == carrera_sel]
 else:
-    df_carrera = df_datos
+    df_carrera = df_limpio
 
 df_filtrados = filtrar_datos(df_limpio, carrera_sel, periodo_sel)
 df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo y umbral seleccionado
