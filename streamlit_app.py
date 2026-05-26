@@ -80,7 +80,7 @@ extras = df_final['conteo_extraordinarios'].mean()
 
 
 # ===================================== CUERPO DEL DASHBOARD ===========================================
-st.title(f"📊 Visión General - {periodo_sel}")
+st.title(f"📊 Visión General {periodo_sel}")
 
 # Ejemplo de cómo usar las métricas ahora:
 col1, col2, col3, col4, col5= st.columns(5)
