@@ -125,6 +125,10 @@ with col_info2:
 st.markdown("---")
 
 if not df_final.empty:  # Si hay datos para la carrera seleccionada
+    
+    if top_reprobadas.sum() < 2:
+        st.info("ℹ️ Solo se registra 1 alumno reprobado en este periodo/carrera.")
+
     # --- Gráfica de Barras: Top Materias Reprobadas ---
     fig_bar = px.bar(
         x=top_reprobadas.values, 
