@@ -77,7 +77,8 @@ def fetch_carreras_alumno(matricula):
     # Pasamos la matrícula como una tupla (matricula,) para seguridad
     return run_query(query, (matricula,))
 
-@st.cache_data(ttl=3600) # El caché dura 1 hora (3600 seg)
+#@st.cache_data(ttl=3600) # El caché dura 1 hora (3600 seg)
+@st.cache_data(persist="disk") # <--- ESTO ES LA CLAVE
 def fetch_detalle_por_periodo(matricula, id_carrera):
     """
     Obtiene el historial académico detallado de un alumno filtrado por carrera,
