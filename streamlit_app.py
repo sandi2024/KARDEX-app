@@ -73,11 +73,12 @@ df_final = procesar_academicos(df_filtrado, umbral)
 total_alumnos = len(df_final)
 sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
+extras = df_final['conteo_extraordinarios'].mean()
 
 # En tu archivo app.py, después de procesar los datos:
 
-print(df_final.columns)
-promedio_ext, tabla_extras = calcular_metricas_extraordinarios(df_final)
+#print(df_final.columns)
+#promedio_ext, tabla_extras = calcular_metricas_extraordinarios(df_final)
 
 # Añadirlo a las columnas de métricas
 #m5.metric("Prom. Extraordinarios", f"{promedio_ext:.2f}")
@@ -117,7 +118,7 @@ with col4:
 with col5:
  #   extras = df['examenes_regularizacion'].mean()
    # st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
-    st.markdown(create_uabc_metric_card("Extraordinarios", f"{promedio_ext:.2f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
+    st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.2f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
     
 st.markdown("---")
 
