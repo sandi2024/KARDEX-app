@@ -113,7 +113,7 @@ def get_data_analisis_completo():
     SELECT 
         aa.matricula,
         pe.nombre AS carrera,
-        p.anio_periodo AS periodo,
+        p.id_periodo AS periodo,    # Esto es para poder filtrar por periodo en el análisis de riesgo, anio_periodo
         a.nombre AS asignatura,
         a.creditos AS creditos_materia,
         aa.calificacion,
