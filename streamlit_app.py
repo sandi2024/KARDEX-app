@@ -21,16 +21,10 @@ render_header()   # Renderizamos el header común a todas las páginas
  #       st.session_state.df_raw = get_data_analisis_completo()
 
 
-if 'df_raw' not in st.session_state:
+if 'df_raw' not in st.session_state  or st.session_state.df_raw.empty:
     with st.spinner("Cargando base de datos por primera vez..."):
-        df = get_data_analisis_completo()
+        st.session_state.df_raw = get_data_analisis_completo()
 
-        if df is None:
-            st.error("❌ Error: la función no devolvió datos.")
-        elif df.empty:
-            st.error("❌ Error: la consulta SQL no devolvió filas.")
-        else:
-            st.session_state.df_raw = df
 
 
 # usamos los datos de la memoria de la sesión para evitar recargas innecesarias
