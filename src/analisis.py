@@ -91,6 +91,8 @@ def calcular_metricas_extraordinarios(df):
     """
     df: DataFrame que viene de la base de datos (una fila por materia)
     """
+    print(df.columns)
+
     # 1. Identificamos qué registros son exámenes extraordinarios
     # Usamos .str.contains por si el texto varía (ej: 'EXTRAORDINARIO 1', 'EXTRAORDINARIO 2')
     df['es_extraordinario'] = df['tipo_examen'].str.contains('Ext', case=False, na=False).astype(int)
