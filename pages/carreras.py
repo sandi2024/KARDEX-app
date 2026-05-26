@@ -174,6 +174,7 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
             markers=True,
             labels={'porcentaje_reprobacion': '% Reprobado', 'periodo': 'Periodo'},
             # Elimina line_shape o cámbialo a "linear"
+            line_shape="linear"
         )
         # Añadir línea de referencia o mejorar estilo
         fig_linea.update_layout(yaxis_range=[0, 100])
