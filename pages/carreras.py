@@ -158,20 +158,28 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
 
     st.subheader("📉 Reprobación por Periodo")
     if not df_reprobacion_hist.empty:
+     #   fig_linea = px.line(
+      #      df_reprobacion_hist,
+      #      x='periodo',
+      #      y='porcentaje_reprobacion',
+      #      title="Evolución del % de Reprobación",
+      #      markers=True,
+      #      labels={'porcentaje_reprobacion': '% Reprobado', 'periodo': 'Periodo'},
+      #      line_shape="spline"
+   #     )
         fig_linea = px.line(
             df_reprobacion_hist,
             x='periodo',
             y='porcentaje_reprobacion',
-            title="Evolución del % de Reprobación",
             markers=True,
             labels={'porcentaje_reprobacion': '% Reprobado', 'periodo': 'Periodo'},
-            line_shape="spline"
+            # Elimina line_shape o cámbialo a "linear"
         )
         # Añadir línea de referencia o mejorar estilo
         fig_linea.update_layout(yaxis_range=[0, 100])
         st.plotly_chart(fig_linea, use_container_width=True)
     else:
-        st.info("No hay datos históricos suficientes.")
+        st.info("ℹ️ No hay datos históricos suficientes.")
 
     st.subheader("📊 Distribución de Calificaciones")
     if not df_distribucion.empty:
@@ -189,9 +197,9 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
         
         st.plotly_chart(fig_hist, use_container_width=True)
     else:
-        st.info("No hay calificaciones para mostrar.")
+        st.info("ℹ️ No hay calificaciones para mostrar.")
 
 else:
-    st.warning("No hay datos disponibles para los filtros seleccionados.")
+    st.warning("ℹ️ No hay datos disponibles para los filtros seleccionados.")
 
 render_footer()
