@@ -58,6 +58,7 @@ if periodo_sel != "Todos los periodos":
 else:
     df_filtrado_periodo = df_datos
 
+
 # 3. FILTRADO LÓGICO
 if carrera_sel == "Todas las carreras":
     df_filtrado_carrera = df_filtrado_periodo
@@ -65,8 +66,7 @@ else:
     # Filtramos el DataFrame original en memoria (es instantáneo)
     df_filtrado_carrera = df_filtrado_periodo[df_filtrado_periodo['carrera'] == carrera_sel]
 
-df_final = procesar_academicos(df_filtrado_carrera, umbral)   #Segun perido y umbral seleccionado
-
+df_final = procesar_academicos(df_filtrado_carrera, umbral)   #Segun perido, carrera y umbral seleccionado
 
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 #st.title(f"Dashboard Académico - {periodo_sel}")

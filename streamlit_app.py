@@ -42,7 +42,6 @@ with st.sidebar:
     # Filtro de Umbral
     umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
 
-    mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos en riesgo")
     mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
 
 
@@ -50,7 +49,6 @@ with st.sidebar:
  #   st.session_state['carrera'] = carrera_global
     st.session_state['periodo'] = periodo_sel
     st.session_state['umbral_reprobacion'] = umbral
-    st.session_state['mostrar_solo_riesgo'] = mostrar_solo_riesgo
     st.session_state['mostrar_detalles'] = mostrar_detalles
 
 
@@ -86,7 +84,7 @@ extras = df_final['conteo_extraordinarios'].mean()
 
 
 
-# --- CUERPO DEL DASHBOARD ---
+# ===================================== CUERPO DEL DASHBOARD ===========================================
 st.title("📊 Visión General")
 
 # Ejemplo de cómo usar las métricas ahora:
