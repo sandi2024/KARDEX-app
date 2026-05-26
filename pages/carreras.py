@@ -74,84 +74,79 @@ df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo
 st.write(df_final.columns)
 top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
 
-# ============================================== MÉTRICAS PRINCIPALES ============================================
 
-total_alumnos = len(df_final)
-sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
-en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
-extras = df_final['conteo_extraordinarios'].mean()
+#-------------------------------VERIFICAR ALUMNO EN PERIODO
+if len(df_filtrados)<1:
+    # ============================================== MÉTRICAS PRINCIPALES ============================================
 
-# ============================================CUERPO DEL DASHBOARD ============================================
-st.title(f"📈 Análisis por Carrera - {carrera_sel}")
+    total_alumnos = len(df_final)
+    sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
+    en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
+    extras = df_final['conteo_extraordinarios'].mean()
 
-# --- CARDS DE METRICAS --
-col1, col2, col3, col4, col5= st.columns(5)
-with col1:
-    st.markdown(create_uabc_metric_card("Total Alumnos", total_alumnos, icon="🎓"), unsafe_allow_html=True)
+    # ============================================CUERPO DEL DASHBOARD ============================================
+    st.title(f"📈 Análisis por Carrera - {carrera_sel}")
+
+    # =============================== CARDS DE METRICAS ==================
+    col1, col2, col3, col4, col5= st.columns(5)
+    with col1:
+        st.markdown(create_uabc_metric_card("Total Alumnos", total_alumnos, icon="🎓"), unsafe_allow_html=True)
     
-with col2:
- #   promedio = df['promedio_general'].mean()
- #   st.markdown(create_uabc_metric_card("Promedio General", f"{promedio:.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
-    st.markdown(create_uabc_metric_card("Promedio General", f"{df_final['promedio_general'].mean():.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
+    with col2:
+        st.markdown(create_uabc_metric_card("Promedio General", f"{df_final['promedio_general'].mean():.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
         
-with col3:
-  #  avance = df['porcentaje_avance'].mean()
-  #  st.markdown(create_uabc_metric_card("Avance Crediticio", f"{avance:.1f}%", "del plan de estudios", "📈"), unsafe_allow_html=True)
-    st.markdown(create_uabc_metric_card("Avance Crediticio", f"{df_final['avance_porcentaje'].mean():.1f}%", "del plan de estudios", "📈"), unsafe_allow_html=True)  
+    with col3:
+        st.markdown(create_uabc_metric_card("Avance Crediticio", f"{df_final['avance_porcentaje'].mean():.1f}%", "del plan de estudios", "📈"), unsafe_allow_html=True)  
 
-with col4:
- #   riesgo = len(df[df['estatus'].isin(['RIESGO', 'REZAGADO'])])
- #   porcentaje_riesgo = (riesgo/len(df))*100 if len(df) > 0 else 0
- #   st.markdown(create_uabc_metric_card("En Riesgo", riesgo, f"{porcentaje_riesgo:.0f}% del total", "⚠️"), unsafe_allow_html=True)
-   st.markdown(create_uabc_metric_card("En Riesgo", f"{(en_riesgo/total_alumnos)*100:.0f}%", "del total", "⚠️"), unsafe_allow_html=True)
+    with col4:
+       st.markdown(create_uabc_metric_card("En Riesgo", f"{(en_riesgo/total_alumnos)*100:.0f}%", "del total", "⚠️"), unsafe_allow_html=True)
         
-with col5:
- #   extras = df['examenes_regularizacion'].mean()
-   # st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
-    st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
+    with col5:
+        st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
     
-st.markdown("---")
+    st.markdown("---")
 
- # Alertas destacadas
-col_info1, col_info2 = st.columns(2) 
-with col_info1:
-    if sobresalientes > 0:
-        st.markdown(create_uabc_alert(f"🎉 {sobresalientes} alumnos con promedio sobresaliente (≥90)", "success"), unsafe_allow_html=True)
+     # Alertas destacadas
+    col_info1, col_info2 = st.columns(2) 
+    with col_info1:
+        if sobresalientes > 0:
+            st.markdown(create_uabc_alert(f"🎉 {sobresalientes} alumnos con promedio sobresaliente (≥90)", "success"), unsafe_allow_html=True)
     
-with col_info2:
-    if en_riesgo > 0:
-        st.markdown(create_uabc_alert(f"⚠️ Se han identificado {en_riesgo} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
+    with col_info2:
+        if en_riesgo > 0:
+            st.markdown(create_uabc_alert(f"⚠️ Se han identificado {en_riesgo} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
     
-st.markdown("---")
+    st.markdown("---")
 
-if not df_final.empty:  # Si hay datos para la carrera seleccionada
-    # --- Gráfica de Barras: Top Materias Reprobadas ---
-    fig_bar = px.bar(
-        x=top_reprobadas.values, 
-        y=top_reprobadas.index,
-        orientation='h',
-        title="Materias con Mayor Número de Reprobados",
-        labels={'x': 'Cantidad de Alumnos', 'y': 'Materia'},
-        color_continuous_scale='Reds'
-    )
-    st.plotly_chart(fig_bar, use_container_width=True)
+    if not df_final.empty:  # Si hay datos para la carrera seleccionada
+        # --- Gráfica de Barras: Top Materias Reprobadas ---
+        fig_bar = px.bar(
+            x=top_reprobadas.values, 
+            y=top_reprobadas.index,
+            orientation='h',
+            title="Materias con Mayor Número de Reprobados",
+            labels={'x': 'Cantidad de Alumnos', 'y': 'Materia'},
+            color_continuous_scale='Reds'
+        )
+        st.plotly_chart(fig_bar, use_container_width=True)
 
   
-    # --- Heatmap: Periodo vs Carrera ---
-    # Esto responde a tu necesidad de visualizar carreras y periodos juntos
-    st.subheader("Análisis Carrera-Periodo")
+        #  --- Heatmap: Periodo vs Carrera ---
+        st.subheader("Análisis Carrera-Periodo")
     
-    # Pivotamos los datos para el mapa de calor
+        # Pivotamos los datos para el mapa de calor
  #   df_pivot = df_final.groupby(['id_periodo', 'carrera'])['calificacion'].mean().unstack()
-    df_pivot = df_carrera.groupby(['periodo', 'carrera'])['calificacion'].mean().unstack()
-    fig_heat = px.imshow(
-        df_pivot,
-        labels=dict(x="Carrera", y="Periodo", color="Promedio"),
-        color_continuous_scale='RdYlGn', # Rojo a Verde
-        title="Rendimiento Promedio por Periodo y Carrera"
-    )
-    st.plotly_chart(fig_heat, use_container_width=True)
+        df_pivot = df_carrera.groupby(['periodo', 'carrera'])['calificacion'].mean().unstack()
+        fig_heat = px.imshow(
+            df_pivot,
+            labels=dict(x="Carrera", y="Periodo", color="Promedio"),
+            color_continuous_scale='RdYlGn', # Rojo a Verde
+            title="Rendimiento Promedio por Periodo y Carrera"
+        )
+        st.plotly_chart(fig_heat, use_container_width=True)
 
+    else:
+        st.warning("No hay datos disponibles para los filtros seleccionados.")
 else:
     st.warning("No hay datos disponibles para los filtros seleccionados.")
 
