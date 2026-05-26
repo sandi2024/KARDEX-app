@@ -1,4 +1,4 @@
-from turtle import st
+from streamlit import st
 from src.database import run_query
 import pandas as pd
 
