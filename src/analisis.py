@@ -86,3 +86,21 @@ def procesar_academicos(df, umbral_reprobacion):
 
     analisis['estatus'] = analisis.apply(asignar_estatus, axis=1)
     return analisis.reset_index()
+
+def calcular_metricas_extraordinarios(df):
+    """
+    df: DataFrame que viene de la base de datos (una fila por materia)
+    """
+    # 1. Identificamos qué registros son exámenes extraordinarios
+    # Usamos .str.contains por si el texto varía (ej: 'EXTRAORDINARIO 1', 'EXTRAORDINARIO 2')
+    df['es_extraordinario'] = df['tipo_examen'].str.contains('EXTRAORDINARIO', case=False, na=False).astype(int)
+
+    # 2. Agrupamos por alumno (y carrera) para contar sus extras totales
+    # Recordamos usar la llave única 'id_estudiante' (matricula + carrera)
+    extras_por_alumno = df.groupby('id_estudiante')['es_extraordinario'].sum().reset_index()
+
+    # 3. Calculamos el promedio global de esos conteos
+    # Esto responde: "¿En promedio, cuántos extras presenta un alumno de esta carrera?"
+    promedio_extras = extras_por_alumno['es_extraordinario'].mean()
+
+    return promedio_extras, extras_por_alumno

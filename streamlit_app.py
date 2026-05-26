@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from src.utils import load_css, render_header, render_footer, create_uabc_metric_card, create_uabc_alert
 from src.queries import fetch_analisis_reprobacion, get_kardex_alumno, get_data_analisis_completo
-from src.analisis import calcular_indice_riesgo, procesar_academicos
+from src.analisis import calcular_indice_riesgo, procesar_academicos, calcular_metricas_extraordinarios
 import numpy as np
 import plotly.express as px
 
@@ -74,6 +74,12 @@ total_alumnos = len(df_final)
 sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
 
+# En tu archivo app.py, después de procesar los datos:
+promedio_ext, tabla_extras = calcular_metricas_extraordinarios(df_final)
+
+# Añadirlo a las columnas de métricas
+#m5.metric("Prom. Extraordinarios", f"{promedio_ext:.2f}")
+
 #m1.metric("Total Alumnos", total_alumnos)
 #m2.metric("Promedio General", f"{df_final['promedio_general'].mean():.1f}")
 #m3.metric("Avance Créditos (Avg)", f"{df_final['avance_porcentaje'].mean():.1f}%")
@@ -109,7 +115,7 @@ with col4:
 with col5:
  #   extras = df['examenes_regularizacion'].mean()
    # st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
-    st.markdown(create_uabc_metric_card("Extraordinarios", f"{df_final['examenes_regularizacion'].mean():.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
+    st.markdown(create_uabc_metric_card("Extraordinarios", f"{promedio_ext:.2f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
     
 st.markdown("---")
 
