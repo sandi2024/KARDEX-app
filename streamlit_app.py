@@ -135,7 +135,7 @@ with col_izq:
     st.plotly_chart(fig1, use_container_width=True)
 
     # 2. Pie Chart: Proporción de Estatus
-    color_map = {'ACTIVO': '#4CAF50', 'REGULAR': '#2196F3', 'RIESGO': '#FF9800', 'REZAGADO': '#F44336'}
+    color_map = {'SOBRESALIENTE': '#4CAF50', 'REGULAR': '#2196F3', 'RIESGO': '#FF9800', 'REZAGADO': '#F44336'}
     fig2 = px.pie(df_final, names='estatus', title='🎯 Distribución por Estatus Académico',
                   color='estatus', color_discrete_map=color_map)
     st.plotly_chart(fig2, use_container_width=True)
@@ -156,7 +156,7 @@ with col_der:
                          title='📈 Relación: Créditos vs Promedio',
                          labels={'creditos_cursados': 'Créditos Cursados', 
                                 'promedio_general': 'Promedio General'},
-                         color_discrete_map={'ACTIVO': '#4CAF50', 'REGULAR': '#2196F3', 
+                         color_discrete_map={'SOBRESALIENTE': '#4CAF50', 'REGULAR': '#2196F3', 
                                            'RIESGO': '#FF9800', 'REZAGADO': '#F44336'})
     fig2.update_layout(height=400, plot_bgcolor='white')
     st.plotly_chart(fig2, use_container_width=True)
