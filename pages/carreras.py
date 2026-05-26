@@ -53,12 +53,11 @@ with st.sidebar:
 
 
 # ============================================== PROCESAMIENTO ============================================
-#if periodo_sel != "Todos los periodos":
-#    df_filtrado_periodo = df_datos[df_datos['periodo'] == periodo_sel]
-#else:
-#    df_filtrado_periodo = df_datos
+if periodo_sel != "Todos los periodos":
+    df_filtrado_periodo = df_datos[df_datos['periodo'] == periodo_sel]
+else:
+    df_filtrado_periodo = df_datos
 
-df_filtrado_periodo = df_datos
 
 # 3. FILTRADO LÓGICO
 if carrera_sel == "Todas las carreras":
