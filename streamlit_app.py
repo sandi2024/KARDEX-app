@@ -20,7 +20,7 @@ if 'df_raw' not in st.session_state:
     with st.spinner("Cargando base de datos por primera vez..."):
         st.session_state.df_raw = get_data_analisis_completo()
 
-# Ahora usamos los datos de la memoria, no de la base de datos
+# usamos los datos de la memoria de la sesión para evitar recargas innecesarias
 df_raw = st.session_state.df_raw
 
 
@@ -35,7 +35,8 @@ with st.sidebar:
         
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
-     # Filtro de Periodo
+    
+    # Filtro de Periodo
     lista_periodos = ["Todos los periodos"] + sorted(df_raw['periodo'].unique().tolist())
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
     
