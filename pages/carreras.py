@@ -76,6 +76,7 @@ total_alumnos = len(df_final)
 sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
 extras = df_final['conteo_extraordinarios'].mean()
+
 # ============================================CUERPO DEL DASHBOARD ============================================
 st.title("📈 Análisis por Carrera")
 
