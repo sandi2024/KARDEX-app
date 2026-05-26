@@ -72,6 +72,7 @@ st.write(df_filtrados.columns)
 total_alumnos = len(df_final)
 
 st.write(df_final.columns)
+st.write(top_reprobadas.head())
 
 sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
