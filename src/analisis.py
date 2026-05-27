@@ -125,7 +125,6 @@ def calcular_metricas_reprobacion(df_normalizado, calificacion_minima):
     return conteo_reprobadas.head(10).sort_values(ascending=True)
 
 
-
 def calcular_evolucion_academica(df_limpio, umbral):
     """Calcula reprobación y promedio por periodo."""
     if df_limpio.empty: return pd.DataFrame()
@@ -151,6 +150,7 @@ def distribucion_calificaciones(df_limpio):
     """Prepara los datos para un histograma de frecuencias."""
     if df_limpio.empty: return df_limpio
     return df_limpio[['calificacion']]    
+
 
 def predecir_riesgo(df_alumno, umbral_aprobacion=70):
     if df_alumno.empty:
