@@ -151,3 +151,36 @@ def distribucion_calificaciones(df_limpio):
     """Prepara los datos para un histograma de frecuencias."""
     if df_limpio.empty: return df_limpio
     return df_limpio[['calificacion']]    
+
+def predecir_riesgo(df_alumno, umbral_aprobacion=70):
+    if df_alumno.empty:
+        return 0, "SIN DATOS"
+
+    # --- INDICADOR 1: PROMEDIO ---
+    promedio = df_alumno['calificacion'].mean()
+    
+    # --- INDICADOR 2: TASA DE REPROBACIÓN ---
+    total_materias = len(df_alumno)
+    reprobadas = len(df_alumno[df_alumno['calificacion'] < umbral_aprobacion])
+    tasa_reprobacion = (reprobadas / total_materias) * 100
+
+    # --- INDICADOR 3: EXÁMENES EXTRAORDINARIOS ---
+    # Asumiendo que tienes una columna 'tipo_examen' o similar
+    extraordinarios = 0
+    if 'tipo_examen' in df_alumno.columns:
+        extraordinarios = len(df_alumno[df_alumno['tipo_examen'] == 'EXTRAORDINARIO'])
+
+    # --- CÁLCULO DEL SCORE (0 a 100) ---
+    # Lógica: Más puntos = Más riesgo
+    score = 0
+    if promedio < umbral_aprobacion + 5: score += 30  # Cerca del límite
+    if promedio < umbral_aprobacion: score += 20      # Ya está reprobado
+    if tasa_reprobacion > 20: score += 20             # Ha reprobado 1 de cada 5
+    if extraordinarios > 2: score += 30               # Muchos intentos extra
+
+    # Determinar Estatus
+    if score >= 70: estatus = "RIESGO CRÍTICO"
+    elif score >= 40: estatus = "RIESGO MODERADO"
+    else: estatus = "ESTABLE"
+
+    return min(score, 100), estatus
