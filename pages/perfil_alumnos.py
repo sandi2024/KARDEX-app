@@ -58,9 +58,9 @@ matricula = st.text_input("Matrícula")
 if matricula:
     df_alumno =  df_limpio[df_limpio['matricula'] == matricula].sort_values('periodo')
     num_carreras = df_alumno['carrera'].nunique()
-    num_planes = df_alumno['id_plan_estudio'].nunique() # Suponiendo que así se llama
+    num_planes = df_alumno['id_plan_estudio'].nunique() 
     
-    if len(num_carreras) > 1:
+    if num_carreras > 1:
         st.warning("⚠️ Este alumno tiene registros en múltiples carreras.")
         seleccion = st.selectbox("Selecciona la carrera para el análisis:", 
                                  num_carreras['nombre_carrera'])
