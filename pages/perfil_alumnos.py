@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.express as px
 from src.utils import load_css, render_header, create_uabc_metric_card, render_footer
 from src.queries import fetch_carreras_alumno, fetch_detalle_por_periodo, get_data_analisis_completo        
-from analisis import normalizar_datos_academicos
+from analisis import normalizar_datos_academicos, predecir_riesgo
 load_css()
 render_header()
 
@@ -55,7 +55,7 @@ st.title("📈 Consulta Alumnos")
 matricula = st.text_input("Matrícula")
 
 if matricula:
-    df_alumno =  df_limpio[df_limpio['matricula'] == matricula]
+    df_alumno =  df_limpio[df_limpio['matricula'] == matricula].sort_values('periodo')
     num_carreras = df_alumno['carrera'].nunique()
     num_planes = df_alumno['plan_estudio'].nunique() # Suponiendo que así se llama
     
@@ -81,67 +81,65 @@ if matricula:
     
     ####################### INFORMACION GENERAL ############################################333
 
-     # Suponiendo que ya tienes la 'matricula' seleccionada
-df_alumno = df_limpio[df_limpio['matricula'] == matricula].sort_values('periodo')
 
     if not df_alumno.empty:
-        # 1. INFORMACIÓN GENERAL (Encabezado)
-         nombre_alumno = df_alumno['nombre'].iloc[0] if 'nombre' in df_alumno.columns else "Estudiante"
-      carrera_alumno = df_alumno['carrera'].iloc[0]
+         # 1. INFORMACIÓN GENERAL (Encabezado)
+        nombre_alumno = df_alumno['nombre'].iloc[0] if 'nombre' in df_alumno.columns else "Estudiante"
+        carrera_alumno = df_alumno['carrera'].iloc[0]
     
-    st.title(f"📂 Expediente: {nombre_alumno}")
-    st.info(f"**Matrícula:** {matricula} | **Carrera:** {carrera_alumno}")
+        st.title(f"📂 Expediente: {nombre_alumno}")
+        st.info(f"**Matrícula:** {matricula} | **Carrera:** {carrera_alumno}")
 
-    # 2. MÉTRICAS RESUMIDAS (KPIs)
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Promedio General", f"{df_alumno['calificacion'].mean():.2f}")
-    with col2:
-        st.metric("Materias Cursadas", len(df_alumno))
-    with col3:
+        # 2. MÉTRICAS RESUMIDAS (KPIs)
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Promedio General", f"{df_alumno['calificacion'].mean():.2f}")
+        with col2:
+            st.metric("Materias Cursadas", len(df_alumno))
+        with col3:
         # Ejemplo si tienes columna de créditos
-        total_creditos = df_alumno['creditos'].sum() if 'creditos' in df_alumno.columns else 0
-        st.metric("Créditos Totales", total_creditos)
+            total_creditos = df_alumno['creditos'].sum() if 'creditos' in df_alumno.columns else 0
+            st.metric("Créditos Totales", total_creditos)
 
-    # 3. LISTA COMPLETA DE ASIGNATURAS (El Kardex)
-    st.subheader("📚 Historial Académico Completo")
+        # 3. LISTA COMPLETA DE ASIGNATURAS (El Kardex)
+        st.subheader("📚 Historial Académico Completo")
     
-    # Seleccionamos solo las columnas que queremos mostrar al usuario
-    columnas_mostrar = ['periodo', 'asignatura', 'calificacion', 'estatus_materia']
-    # Verificamos que existan en el DF para evitar errores
-    columnas_reales = [c for c in columnas_mostrar if c in df_alumno.columns]
+        # Seleccionamos solo las columnas que queremos mostrar al usuario
+        columnas_mostrar = ['periodo', 'asignatura', 'calificacion', 'estatus_materia']
+        # Verificamos que existan en el DF para evitar errores
+        columnas_reales = [c for c in columnas_mostrar if c in df_alumno.columns]
     
-    # Mostramos la tabla interactiva
-    st.dataframe(
-        df_alumno[columnas_reales],
-        use_container_width=True,
-        hide_index=True # Para que se vea más limpio
-    )
+        # Mostramos la tabla interactiva
+        st.dataframe(
+            df_alumno[columnas_reales],
+            use_container_width=True,
+            hide_index=True # Para que se vea más limpio
+        )
 
-################################ riesgo academico 
-   score_riesgo, nivel = predecir_riesgo(df_alumno)
+    ################################ riesgo academico 
+    score_riesgo, nivel = predecir_riesgo(df_alumno)
 
-# Mostrar con un indicador visual
-st.subheader("🔮 Predicción de Riesgo Académico")
+    # Mostrar con un indicador visual
+    st.subheader("🔮 Predicción de Riesgo Académico")
 
-col1, col2 = st.columns(2)
-with col1:
-    color = "red" if score_riesgo >= 70 else "orange" if score_riesgo >= 40 else "green"
-    st.markdown(f"### Nivel: :{color}[{nivel}]")
+    col1, col2 = st.columns(2)
+    with col1:
+        color = "red" if score_riesgo >= 70 else "orange" if score_riesgo >= 40 else "green"
+        st.markdown(f"### Nivel: :{color}[{nivel}]")
 
-with col2:
-    st.metric("Índice de Riesgo", f"{score_riesgo}%", delta_color="inverse")
+    with col2:
+        st.metric("Índice de Riesgo", f"{score_riesgo}%", delta_color="inverse")
 
-# Explicación del riesgo
-if score_riesgo >= 40:
-    st.warning("🚨 **Factores detectados:**")
-    if df_alumno['calificacion'].mean() < 75:
-        st.write("- El promedio general es muy bajo.")
-    if (df_alumno['calificacion'] < 70).sum() > 0:
-        st.write("- Existen materias reprobadas en el historial.")
+    # Explicación del riesgo
+    if score_riesgo >= 40:
+        st.warning("🚨 **Factores detectados:**")
+        if df_alumno['calificacion'].mean() < 75:
+            st.write("- El promedio general es muy bajo.")
+        if (df_alumno['calificacion'] < 70).sum() > 0:
+            st.write("- Existen materias reprobadas en el historial.")
 
 
- ###############################  GRAFICA
+    ###############################  GRAFICA
     # Gráfica de evolución
     fig = px.line(df_stats_periodo, x='id_periodo', y='calificacion', 
                   title="Evolución del Promedio Académico",
