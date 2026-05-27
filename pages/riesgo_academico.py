@@ -36,6 +36,8 @@ with st.sidebar:
     periodo = st.selectbox(
             "📅 Periodo Académico",
             ["2024-1", "2024-2", "2025-1", "Todos los periodos"])
+    
+
     umbral_reprobacion = st.slider("Umbral de reprobación", 0, 100, 60)
     mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos en riesgo")
     mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
@@ -81,6 +83,5 @@ with col1:
 with col2:
     st.write("### Alumnos que requieren intervención")
     st.dataframe(df_final.sort_values("Score", ascending=False), use_container_width=True)
-
 
 render_footer()
