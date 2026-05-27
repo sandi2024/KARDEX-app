@@ -37,14 +37,18 @@ with st.sidebar:
      # Filtro de Periodo
     lista_periodos = ["Todos los periodos"] + sorted(df_datos['periodo'].unique().tolist())
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
-    
+      # Filtro de Umbral
+    umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
+
     # Filtros adicionales
     mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
 
     # Guardamos en session_state para que otras páginas lo usen
     st.session_state['carrera'] = carrera_sel
     st.session_state['periodo'] = periodo_sel
+    st.session_state['umbral_reprobacion'] = umbral
     st.session_state['mostrar_detalles'] = mostrar_detalles
+
 
 #============================ PROCESAR DATOS ================================
 
@@ -69,7 +73,8 @@ if matricula:
         id_carrera = num_carreras['id_carrera'].iloc[0]
 
     # 2. Obtener materias filtradas por matrícula Y carrera
- #   df_periodos = fetch_detalle_por_periodo(matricula, id_carrera)
+    st.write("id_carrera", id_carrera)
+    df_alumno_carrera = df_alumno[df_alumno['carrera'] == id_carrera]
 
     # 3. Código del Análisis por Periodo
   #  st.subheader(f"Análisis de Rendimiento por Periodo")
@@ -83,10 +88,10 @@ if matricula:
     ####################### INFORMACION GENERAL ############################################333
 
 
-    if not df_alumno.empty:
+    if not df_alumno_carrera.empty:
          # 1. INFORMACIÓN GENERAL (Encabezado)
-        nombre_alumno = df_alumno['nombre'].iloc[0] if 'nombre' in df_alumno.columns else "Estudiante"
-        carrera_alumno = df_alumno['carrera'].iloc[0]
+        nombre_alumno = df_alumno_carrera['nombre'].iloc[0] if 'nombre' in df_alumno_carrera.columns else "Estudiante"
+        carrera_alumno = df_alumno_carrera['carrera'].iloc[0]
     
         st.title(f"📂 Expediente: {nombre_alumno}")
         st.info(f"**Matrícula:** {matricula} | **Carrera:** {carrera_alumno}")
@@ -94,12 +99,12 @@ if matricula:
         # 2. MÉTRICAS RESUMIDAS (KPIs)
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.metric("Promedio General", f"{df_alumno['calificacion'].mean():.2f}")
+            st.metric("Promedio General", f"{df_alumno_carrera['calificacion'].mean():.2f}")
         with col2:
-            st.metric("Materias Cursadas", len(df_alumno))
+            st.metric("Materias Cursadas", len(df_alumno_carrera))
         with col3:
         # Ejemplo si tienes columna de créditos
-            total_creditos = df_alumno['creditos'].sum() if 'creditos' in df_alumno.columns else 0
+            total_creditos = df_alumno_carrera['creditos'].sum() if 'creditos' in df_alumno_carrera.columns else 0
             st.metric("Créditos Totales", total_creditos)
 
         # 3. LISTA COMPLETA DE ASIGNATURAS (El Kardex)
@@ -108,11 +113,11 @@ if matricula:
         # Seleccionamos solo las columnas que queremos mostrar al usuario
         columnas_mostrar = ['periodo', 'asignatura', 'calificacion', 'estatus_materia']
         # Verificamos que existan en el DF para evitar errores
-        columnas_reales = [c for c in columnas_mostrar if c in df_alumno.columns]
+        columnas_reales = [c for c in columnas_mostrar if c in df_alumno_carrera.columns]
     
         # Mostramos la tabla interactiva
         st.dataframe(
-            df_alumno[columnas_reales],
+            df_alumno_carrera[columnas_reales],
             use_container_width=True,
             hide_index=True # Para que se vea más limpio
         )
