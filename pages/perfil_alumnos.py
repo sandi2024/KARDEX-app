@@ -97,7 +97,7 @@ if matricula:
         nombre_alumno = df_alumno_carrera['nombre'].iloc[0] if 'nombre' in df_alumno_carrera.columns else "Estudiante"
         carrera_alumno = df_alumno_carrera['carrera'].iloc[0]
         df_materias_aprobadas = df_alumno_carrera[df_alumno_carrera['calificacion'] > umbral]
-
+        st.write(df_materias_aprobadas.columns)
         st.title(f"📂 Expediente: {nombre_alumno}")
         st.info(f"**Matrícula:** {matricula} | **Carrera:** {carrera_alumno}")
 
@@ -109,7 +109,9 @@ if matricula:
             st.metric("Materias Cursadas", len(df_materias_aprobadas))
         with col3:
         # Ejemplo si tienes columna de créditos
-            total_creditos = df_materias_aprobadas['creditos'].sum() if 'creditos' in df_materias_aprobadas.columns else 0
+            total_creditos = df_materias_aprobadas['creditos'].sum()
+            
+            #if 'creditos' in df_materias_aprobadas.columns else 0
             st.metric("Créditos Totales", total_creditos)
 
         # 3. LISTA COMPLETA DE ASIGNATURAS (El Kardex)
