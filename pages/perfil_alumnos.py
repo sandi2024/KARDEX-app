@@ -30,13 +30,6 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
     
-    # Filtro de carrera
-    lista_carreras = ["Todas las carreras"] + sorted(df_datos['carrera'].unique().tolist())
-    carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
-    
-     # Filtro de Periodo
-    lista_periodos = ["Todos los periodos"] + sorted(df_datos['periodo'].unique().tolist())
-    periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
       # Filtro de Umbral
     umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
 
@@ -44,8 +37,6 @@ with st.sidebar:
     mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
 
     # Guardamos en session_state para que otras páginas lo usen
-    st.session_state['carrera'] = carrera_sel
-    st.session_state['periodo'] = periodo_sel
     st.session_state['umbral_reprobacion'] = umbral
     st.session_state['mostrar_detalles'] = mostrar_detalles
 
