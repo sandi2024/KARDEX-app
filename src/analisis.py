@@ -141,9 +141,6 @@ def calcular_evolucion_academica(df_limpio, umbral):
     ).reset_index()
     
     evolucion['porcentaje_reprobacion'] = (evolucion['reprobados'] / evolucion['total_alumnos']) * 100
-    
-    # IMPORTANTE: Convertimos periodo a string para evitar los "huecos" 
-    # que vimos en tu gráfica anterior (de 1995 a 2020)
     evolucion['periodo'] = evolucion['periodo'].astype(str)
     
     return evolucion.sort_values('periodo')

@@ -54,10 +54,6 @@ with st.sidebar:
     st.session_state['carrera'] = carrera_sel   
     st.session_state['periodo'] = periodo_sel
     st.session_state['umbral_reprobacion'] = umbral
-    st.session_state['mostrar_solo_riesgo'] = mostrar_solo_riesgo
-    st.session_state['mostrar_detalles'] = mostrar_detalles
-
-
 
 # ============================================== PROCESAMIENTO ============================================
 
@@ -91,24 +87,15 @@ with col1:
     st.markdown(create_uabc_metric_card("Total Alumnos", total_alumnos, icon="🎓"), unsafe_allow_html=True)
     
 with col2:
- #   promedio = df['promedio_general'].mean()
- #   st.markdown(create_uabc_metric_card("Promedio General", f"{promedio:.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
     st.markdown(create_uabc_metric_card("Promedio General", f"{df_final['promedio_general'].mean():.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
         
 with col3:
-  #  avance = df['porcentaje_avance'].mean()
-  #  st.markdown(create_uabc_metric_card("Avance Crediticio", f"{avance:.1f}%", "del plan de estudios", "📈"), unsafe_allow_html=True)
     st.markdown(create_uabc_metric_card("Avance Crediticio", f"{df_final['avance_porcentaje'].mean():.1f}%", "del plan de estudios", "📈"), unsafe_allow_html=True)  
 
 with col4:
- #   riesgo = len(df[df['estatus'].isin(['RIESGO', 'REZAGADO'])])
- #   porcentaje_riesgo = (riesgo/len(df))*100 if len(df) > 0 else 0
- #   st.markdown(create_uabc_metric_card("En Riesgo", riesgo, f"{porcentaje_riesgo:.0f}% del total", "⚠️"), unsafe_allow_html=True)
    st.markdown(create_uabc_metric_card("En Riesgo", f"{(en_riesgo/total_alumnos)*100:.0f}%", "del total", "⚠️"), unsafe_allow_html=True)
         
 with col5:
- #   extras = df['examenes_regularizacion'].mean()
-   # st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
     st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
     
 st.markdown("---")
