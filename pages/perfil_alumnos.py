@@ -73,11 +73,11 @@ if matricula:
         carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
         df_alumno_carrera = df_alumno[df_alumno['carrera'] == carrera_sel]
     else:
-        id_carrera = num_carreras['id_carrera'].iloc[0]
+  #      id_carrera = num_carreras['id_carrera'].iloc[0]
         df_alumno_carrera = df_alumno
 
     # 2. Obtener materias filtradas por matrícula Y carrera
-    st.write("id_carrera", id_carrera)
+  #  st.write("id_carrera", id_carrera)
  #   df_alumno_carrera = df_alumno[df_alumno['carrera'] == id_carrera]
 
     # 3. Código del Análisis por Periodo
