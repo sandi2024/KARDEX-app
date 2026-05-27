@@ -1,5 +1,5 @@
 import streamlit as st
-from src.queries import fetch_analisis_reprobacion, fetch_carreras_alumno   
+from src.queries import fetch_analisis_reprobacion, get_data_analisis_completo  
 from src.analisis import calcular_indice_riesgo
 from src.utils import load_css, render_header, create_uabc_metric_card, render_footer
 import pandas as pd
@@ -8,7 +8,19 @@ import pandas as pd
 load_css()
 render_header()
 
-# --- SIDEBAR COMPARTIDO ---
+############################# CARGAR DATOS ##############################
+# No necesitas volver a llamar a queries.py
+if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
+    st.session_state.df_raw = get_data_analisis_completo()
+    df_datos = st.session_state.df_raw
+    st.warning("VACIO")  
+else:
+    df_datos = st.session_state.df_raw
+    st.write("Datos recuperados de la sesión con éxito.")
+    # Aquí ya puedes usar df para tus gráficas de carrera
+
+
+# ======================== SIDEBAR COMPARTIDO ==================================
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
     st.markdown("### Panel de Control")
