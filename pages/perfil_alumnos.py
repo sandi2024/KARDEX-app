@@ -109,7 +109,7 @@ if matricula:
             st.metric("Materias Cursadas", len(df_materias_aprobadas))
         with col3:
         # Ejemplo si tienes columna de créditos
-            total_creditos = df_materias_aprobadas['creditos'].sum()
+            total_creditos = df_materias_aprobadas['creditos_materia'].sum()
             
             #if 'creditos' in df_materias_aprobadas.columns else 0
             st.metric("Créditos Totales", total_creditos)
