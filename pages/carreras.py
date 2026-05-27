@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.express as px
-from src.queries import fetch_analisis_reprobacion, fetch_carreras_alumno, get_data_analisis_completo
+from src.queries import fetch_analisis_reprobacion, get_data_analisis_completo
 from src.utils import load_css, create_uabc_metric_card, render_header, render_footer, create_uabc_alert
 from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normalizar_datos_academicos, calcular_metricas_academicas, distribucion_calificaciones, calcular_evolucion_academica
 
