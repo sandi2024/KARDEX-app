@@ -58,7 +58,7 @@ matricula = st.text_input("Matrícula")
 if matricula:
     df_alumno =  df_limpio[df_limpio['matricula'] == matricula].sort_values('periodo')
     num_carreras = df_alumno['carrera'].nunique()
-    num_planes = df_alumno['plan_estudio'].nunique() # Suponiendo que así se llama
+    num_planes = df_alumno['id_plan_estudio'].nunique() # Suponiendo que así se llama
     
     if len(num_carreras) > 1:
         st.warning("⚠️ Este alumno tiene registros en múltiples carreras.")
