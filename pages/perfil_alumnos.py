@@ -2,7 +2,8 @@ import streamlit as st
 import plotly.express as px
 from src.utils import load_css, render_header, create_uabc_metric_card, render_footer
 from src.queries import get_data_analisis_completo        
-from analisis import normalizar_datos_academicos, predecir_riesgo
+from src.analisis import normalizar_datos_academicos, predecir_riesgo
+
 load_css()
 render_header()
 
