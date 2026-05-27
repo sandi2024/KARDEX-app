@@ -63,8 +63,8 @@ if matricula:
     if num_carreras > 1:
         st.warning("⚠️ Este alumno tiene registros en múltiples carreras.")
         seleccion = st.selectbox("Selecciona la carrera para el análisis:", 
-                                 num_carreras['nombre_carrera'])
-        id_carrera = num_carreras[num_carreras['nombre_carrera'] == seleccion]['id_carrera'].iloc[0]
+                                 df_alumno['carrera'])
+        id_carrera = df_alumno[df_alumno['carrera'] == seleccion]['id_carrera'].iloc[0]
     else:
         id_carrera = num_carreras['id_carrera'].iloc[0]
 
