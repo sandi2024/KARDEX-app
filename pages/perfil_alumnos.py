@@ -1,50 +1,62 @@
 import streamlit as st
 import plotly.express as px
 from src.utils import load_css, render_header, create_uabc_metric_card, render_footer
-from src.queries import fetch_carreras_alumno, fetch_detalle_por_periodo       
-
+from src.queries import fetch_carreras_alumno, fetch_detalle_por_periodo, get_data_analisis_completo        
+from analisis import normalizar_datos_academicos
 load_css()
 render_header()
+
+############################# CARGAR DATOS ##############################
+# No necesitas volver a llamar a queries.py
+if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
+    st.session_state.df_raw = get_data_analisis_completo()
+    df_datos = st.session_state.df_raw
+    st.warning("VACIO")  
+else:
+    df_datos = st.session_state.df_raw
+    st.write("Datos recuperados de la sesión con éxito.")
+    # Aquí ya puedes usar df para tus gráficas de carrera
 
 # --- SIDEBAR COMPARTIDO ---
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
     st.markdown("### Panel de Control")
     st.sidebar.page_link("streamlit_app.py", label="Inicio", icon="🏠")
-    st.page_link("pages/carreras.py", label="Carreras", icon="📊") # APARECE DESPUÉS
-    st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🎓") # APARECE DESPUÉS
-    st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") # APARECE DESPUÉS
+    st.page_link("pages/carreras.py", label="Carreras", icon="📊") 
+    st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🎓") 
+    st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") 
         
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
-    carrera_global = st.selectbox("📚 Carrera", ["Todas", "Ingeniería Química", "..."])
-
-    periodo = st.selectbox(
-            "📅 Periodo Académico",
-            ["2024-1", "2024-2", "2025-1", "Todos los periodos"])
+    
+    # Filtro de carrera
+    lista_carreras = ["Todas las carreras"] + sorted(df_datos['carrera'].unique().tolist())
+    carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
+    
+     # Filtro de Periodo
+    lista_periodos = ["Todos los periodos"] + sorted(df_datos['periodo'].unique().tolist())
+    periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
+    
     # Filtros adicionales
-    umbral_reprobacion = st.slider("Umbral de reprobación", 0, 100, 60)
-    mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos en riesgo")
     mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
 
-
     # Guardamos en session_state para que otras páginas lo usen
-    st.session_state['carrera'] = carrera_global
-    st.session_state['periodo'] = periodo
-    st.session_state['umbral_reprobacion'] = umbral_reprobacion
-    st.session_state['mostrar_solo_riesgo'] = mostrar_solo_riesgo
+    st.session_state['carrera'] = carrera_sel
+    st.session_state['periodo'] = periodo_sel
     st.session_state['mostrar_detalles'] = mostrar_detalles
 
+#============================ PROCESAR DATOS ================================
 
+df_limpio = normalizar_datos_academicos(df_datos)
 
 # ============================================CUERPO DEL DASHBOARD ============================================
 st.title("📈 Consulta Alumnos")
 
-# 1. Búsqueda de matrícula
 matricula = st.text_input("Matrícula")
 
 if matricula:
-    carreras = fetch_carreras_alumno(matricula)
+    df_alumno =  df_limpio[df_limpio['matricula'] == matricula]
+    carreras = df_alumno[]
     
     if len(carreras) > 1:
         st.warning("⚠️ Este alumno tiene registros en múltiples carreras.")

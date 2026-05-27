@@ -62,20 +62,6 @@ def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
     return run_query(query, tuple(params) if params else None)
 
 
-def fetch_carreras_alumno(matricula):
-    """
-    Identifica qué carreras ha cursado una matrícula.
-    Delegación directa a run_query.
-    """
-    query = """
-        SELECT DISTINCT pe.id_programa, pe.nombre AS nombre_carrera
-        FROM alumno_asignatura aa
-        JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
-        JOIN programaEducativo pe ON ap.id_carrera = pe.id_programa
-        WHERE aa.matricula = %s
-    """
-    # Pasamos la matrícula como una tupla (matricula,) para seguridad
-    return run_query(query, (matricula,))
 
 #@st.cache_data(ttl=3600) # El caché dura 1 hora (3600 seg)
 @st.cache_data(persist="disk") # <--- ESTO ES LA CLAVE

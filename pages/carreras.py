@@ -7,7 +7,6 @@ from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normaliza
 load_css()
 render_header()
 
-# No necesitas volver a llamar a queries.py
 if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
     st.session_state.df_raw = get_data_analisis_completo()
     df_datos = st.session_state.df_raw
@@ -17,11 +16,6 @@ else:
     st.write("Datos recuperados de la sesión con éxito.")
     # Aquí ya puedes usar df para tus gráficas de carrera
 
-if st.session_state.df_raw.empty:
-    st.warning("No se han encontrado datos para los filtros seleccionados.")
-
-if df_datos.empty:
-    st.warning("No se han encontrado datos df_datos.")
 
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
@@ -34,7 +28,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
     
-     # Filtro de carrera
+    # Filtro de carrera
     lista_carreras = ["Todas las carreras"] + sorted(df_datos['carrera'].unique().tolist())
     carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
     
@@ -60,7 +54,7 @@ with st.sidebar:
 df_limpio = normalizar_datos_academicos(df_datos)
 
 if carrera_sel != "Todas las carreras":
-    df_carrera = df_limpio[df_datos['carrera'] == carrera_sel]
+    df_carrera = df_limpio[df_limpio['carrera'] == carrera_sel]
 else:
     df_carrera = df_limpio
 
