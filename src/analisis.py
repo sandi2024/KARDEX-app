@@ -1,4 +1,115 @@
 import pandas as pd
+import numpy as np
+
+def procesar_kardex(df, umbral_reprobacion):
+    # --- 1. PRE-PROCESAMIENTO DE CALIFICACIONES ---
+    # Creamos una copia para no alterar el DataFrame original
+    df_proc = df.copy()
+
+    # Agrupamos por el ID único del alumno
+    grupos = df_proc.groupby('id_estudiante')
+
+    # --- 2. CÁLCULO DE MÉTRICAS ---
+    resumen_alumnos = pd.DataFrame()
+
+    # Promedio Final: mean() de pandas ignora los NaN (NP) por defecto, 
+    # pero sí promedia los 0 (SD). Es el comportamiento académico estándar.
+    resumen_alumnos['promedio_final'] = grupos['calificacion'].mean()
+
+    # Créditos Logrados: Solo sumamos créditos si aprobó (calif >= umbral)
+    # NP (NaN) y SD (0) fallarán la condición >= 70, por lo que no sumarán créditos.
+    resumen_alumnos['total_creditos_logrados'] = grupos.apply(
+        lambda x: x[x['calificacion'] >= umbral_reprobacion]['creditos_materia'].sum()
+    )
+
+    # Tasa de Extraordinarios
+    resumen_alumnos['tasa_extraordinarios'] = grupos.apply(
+        lambda x: (x['tipo_examen'] == 'Ext').mean()
+    )
+
+    # Conteo de Casos Especiales (NP y SD)
+    # Usamos la columna original o la procesada para identificar los nulos
+    resumen_alumnos['conteo_SD'] = grupos.apply(lambda x: (x['calificacion'] == 0).sum())
+    resumen_alumnos['conteo_NP'] = grupos.apply(lambda x: x['calificacion'].isna().sum())
+
+    # --- 3. MÉTRICAS DE TRAYECTORIA ---
+    resumen_alumnos['periodos_cursados'] = grupos['periodo'].nunique()
+    
+    resumen_alumnos['eficiencia_creditos'] = (
+        resumen_alumnos['total_creditos_logrados'] / resumen_alumnos['periodos_cursados']
+    )
+
+    return resumen_alumnos
+
+def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
+    # --- 1. PRE-PROCESAMIENTO DE CALIFICACIONES ---
+    # Creamos una copia para no alterar el DataFrame original
+    df_proc = df.copy()
+
+    # Agrupamos por el ID único del alumno
+    grupos = df_proc.groupby('id_estudiante')
+
+    # --- 2. CÁLCULO DE MÉTRICAS ---
+    resumen_alumnos = pd.DataFrame()
+
+    # Promedio Final: mean() de pandas ignora los NaN (NP) por defecto, 
+    # pero sí promedia los 0 (SD). Es el comportamiento académico estándar.
+    resumen_alumnos['promedio_final'] = grupos['calificacion'].mean()
+
+    # Créditos Logrados: Solo sumamos créditos si aprobó (calif >= umbral)
+    # NP (NaN) y SD (0) fallarán la condición >= 70, por lo que no sumarán créditos.
+    resumen_alumnos['total_creditos_logrados'] = grupos.apply(
+        lambda x: x[x['calificacion'] >= umbral_reprobacion]['creditos_materia'].sum()
+    )
+    
+    resumen_alumnos['conteo_extraordinarios'] = grupos.apply(
+        lambda x: (x['tipo_examen'] == 'Ext').sum()
+    )
+
+    # Tasa de Extraordinarios
+    resumen_alumnos['tasa_extraordinarios'] = grupos.apply(
+        lambda x: (x['tipo_examen'] == 'Ext').mean()
+    )
+
+    # Conteo de Casos Especiales (NP y SD)
+    # Usamos la columna original o la procesada para identificar los nulos
+    resumen_alumnos['conteo_SD'] = grupos.apply(lambda x: (x['calificacion'] == 0).sum())
+    resumen_alumnos['conteo_NP'] = grupos.apply(lambda x: x['calificacion'].isna().sum())
+
+    def asignar_estatus(row):
+        if row['promedio_final'] < umbral_reprobacion:
+            return 'RIESGO'
+        if row['conteo_extraordinarios'] >= max_extraordinario:
+            return 'REZAGADO'
+        if row['promedio_general'] >= 90:
+            return 'EXCELENTE'
+        return 'REGULAR'
+
+    resumen_alumnos['estatus'] = resumen_alumnos.apply(asignar_estatus, axis=1)
+
+    return resumen_alumnos
+
+
+def calcular_metricas_generales(df_kardex):
+    total_alumnos = len(df_kardex)
+    promedio_general = df_kardex['calificacion'].mean()
+    promedio_ext = df_kardex['conteo_extraordinarios'].mean()
+    sobresalientes = len(df_kardex[df_kardex['promedio_final'] >= 90])
+    en_riesgo = len(df_kardex[df_kardex['estatus'] == 'RIESGO'])
+    porcetaje_en_riesgo = (en_riesgo/total_alumnos)*100
+    promedio_avance = df_kardex['total_creditos_logrados'].mean()
+   
+
+    return {
+        "total_alumno": total_alumnos,
+        "promedio_general": promedio_general,
+        "promedio_avance": promedio_avance,
+        "porcentaje_riesgo": porcetaje_en_riesgo,
+        "promedio_ext": promedio_ext,
+        "sobresalientes": sobresalientes,
+        "en_riesgo": en_riesgo
+    }
+
 
 def calcular_indice_riesgo(df_alumno_materias):
     """
@@ -51,7 +162,8 @@ def normalizar_datos_academicos(df):
     df = df.copy() # Evitamos modificar el dataframe original (SettingWithCopyWarning)
     
     # 1. Limpieza de calificaciones
-    df['calificacion'] = df['calificacion'].fillna(0)
+  #  df['calificacion'] = df['calificacion'].fillna(0)   # esto 
+    df['calificacion'] = pd.to_numeric(df['calificacion'], errors='coerce')
     
     # 2. Creación de llave única: Matricula + Carrera
     df['id_estudiante'] = df['matricula'].astype(str) + "_" + df['carrera']
@@ -59,19 +171,23 @@ def normalizar_datos_academicos(df):
     return df
 
 
+
 def calcular_metricas_academicas(df_normalizado, umbral_reprobacion):
     """Agrupa por estudiante y calcula indicadores de desempeño."""
     if df_normalizado.empty:
         return df_normalizado
-
+    
+    df_ordenado = df_normalizado.sort_values(['id_estudiante', 'orden_prioritario'], ascending=True)
+    
     # 1. Agrupación y Agregación
-    analisis = df_normalizado.groupby('id_estudiante').agg({
+    analisis = df_ordenado.groupby('id_estudiante').agg({
         'calificacion': 'mean',
         'creditos_materia': 'sum',
         'creditos_totales_plan': 'first',
         'tipo_examen': lambda x: (x.str.contains('Ext', case=False, na=False)).sum(),
         'carrera': 'first',
-        'id_plan_estudio': 'first'
+        'id_plan_estudio': 'first',
+        'nombre_plan': 'first'
     }).rename(columns={
         'calificacion': 'promedio_general',
         'creditos_materia': 'creditos_cursados',
@@ -88,7 +204,7 @@ def calcular_metricas_academicas(df_normalizado, umbral_reprobacion):
         if row['conteo_extraordinarios'] >= 3:
             return 'REZAGADO'
         if row['promedio_general'] >= 90:
-            return 'ACTIVO'
+            return 'EXCELENTE'
         return 'REGULAR'
 
     analisis['estatus'] = analisis.apply(asignar_estatus, axis=1)
