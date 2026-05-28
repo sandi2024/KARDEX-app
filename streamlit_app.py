@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from src.utils import load_css, render_header, render_footer, create_uabc_metric_card, create_uabc_alert
-from src.queries import get_kardex_alumno, get_data_analisis_completo
+from src.queries import get_kardex_alumno, get_data_completo
 from src.analisis import normalizar_datos_academicos, calcular_metricas_generales, procesar_kardex_general
 import plotly.express as px
 import numpy as np
@@ -22,7 +22,7 @@ render_header()   # Renderizamos el header común a todas las páginas
 
 if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
     with st.spinner("Cargando base de datos"):
-        st.session_state.df_raw = get_data_analisis_completo()
+        st.session_state.df_raw = get_data_completo()
 
 
 # usamos los datos de la memoria de la sesión para evitar recargas innecesarias
