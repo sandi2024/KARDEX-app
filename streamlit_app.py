@@ -67,8 +67,9 @@ if periodo_sel != "Todos los periodos":
     df_filtrado = df_datos[df_datos['periodo'] == periodo_sel]
 else:
     df_filtrado = df_datos
-
+st.write(df_datos.columns)
 df_norm = normalizar_datos_academicos(df_filtrado)
+st.write(df_norm.columns)
 df_final = procesar_kardex_general(df_norm, umbral, max_extraordinarios)
 #df_final = calcular_metricas_academicas(df_norm, umbral)   # Según periodo y umbral seleccionado
 
