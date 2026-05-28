@@ -90,24 +90,15 @@ with col1:
     st.markdown(create_uabc_metric_card("Total Alumnos", metricas["total_alumno"], " ",icon="🎓"), unsafe_allow_html=True)
     
 with col2:
- #   promedio = df['promedio_general'].mean()
- #   st.markdown(create_uabc_metric_card("Promedio General", f"{promedio:.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
     st.markdown(create_uabc_metric_card("Promedio General", f"{metricas["promedio_general"]:.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
         
 with col3:
-  #  avance = df['porcentaje_avance'].mean()
-  #  st.markdown(create_uabc_metric_card("Avance Crediticio", f"{avance:.1f}%", "del plan de estudios", "📈"), unsafe_allow_html=True)
     st.markdown(create_uabc_metric_card("Avance Crediticio", f"{metricas["promedio_avance"]:.1f}", "promedio de avance", "📈"), unsafe_allow_html=True)  
 
 with col4:
- #   riesgo = len(df[df['estatus'].isin(['RIESGO', 'REZAGADO'])])
- #   porcentaje_riesgo = (riesgo/len(df))*100 if len(df) > 0 else 0
- #   st.markdown(create_uabc_metric_card("En Riesgo", riesgo, f"{porcentaje_riesgo:.0f}% del total", "⚠️"), unsafe_allow_html=True)
    st.markdown(create_uabc_metric_card("En Riesgo",f"{metricas["porcentaje_riesgo"]:.0f}%", "del total", "⚠️"), unsafe_allow_html=True)
         
 with col5:
- #   extras = df['examenes_regularizacion'].mean()
-   # st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
     st.markdown(create_uabc_metric_card("Extraordinarios", f"{metricas["promedio_ext"]:.2f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
     
 st.markdown("---")
@@ -130,13 +121,13 @@ col_izq, col_der = st.columns(2)
 
 with col_izq:
     # 1. Histograma interactivo
-    fig1 = px.histogram(df_final, x="promedio_general", nbins=30,
+    fig1 = px.histogram(df_final, x="promedio_final", nbins=30,
                         title='📊 Distribución de Calificaciones',
                         color_discrete_sequence=['#003366'])
     st.plotly_chart(fig1, use_container_width=True)
 
     # 2. Pie Chart: Proporción de Estatus
-    color_map = {'SOBRESALIENTE': '#4CAF50', 'REGULAR': '#2196F3', 'RIESGO': '#FF9800', 'REZAGADO': '#F44336'}
+    color_map = {'EXCELENTE': '#4CAF50', 'REGULAR': '#2196F3', 'RIESGO': '#FF9800', 'REZAGADO': '#F44336'}
     fig2 = px.pie(df_final, names='estatus', title='🎯 Distribución por Estatus Académico',
                   color='estatus', color_discrete_map=color_map)
     st.plotly_chart(fig2, use_container_width=True)
@@ -152,11 +143,11 @@ with col_der:
  #   st.plotly_chart(fig3, use_container_width=True)
      
      # Avance crediticio
-    fig2 = px.scatter(df_final, x='creditos_cursados', y='promedio_general',
+    fig2 = px.scatter(df_final, x='total_creditos_logrados', y='promedio_final',
                          color='estatus', size='conteo_extraordinarios',
                          title='📈 Relación: Créditos vs Promedio',
                          labels={'creditos_cursados': 'Créditos Cursados', 
-                                'promedio_general': 'Promedio General'},
+                                'promedio_final': 'Promedio General'},
                          color_discrete_map={'SOBRESALIENTE': '#4CAF50', 'REGULAR': '#2196F3', 
                                            'RIESGO': '#FF9800', 'REZAGADO': '#F44336'})
     fig2.update_layout(height=400, plot_bgcolor='white')
