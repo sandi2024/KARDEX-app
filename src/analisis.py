@@ -81,7 +81,7 @@ def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
             return 'RIESGO'
         if row['conteo_extraordinarios'] >= max_extraordinario:
             return 'REZAGADO'
-        if row['promedio_general'] >= 90:
+        if row['promedio_final'] >= 90:
             return 'EXCELENTE'
         return 'REGULAR'
 
