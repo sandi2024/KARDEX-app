@@ -34,7 +34,7 @@ with st.sidebar:
         
     # Filtros adicionales
     periodo = st.selectbox(
-            "📅 Periodo Académico",
+            "📅 Seleccionar Carrera",
             ["2024-1", "2024-2", "2025-1", "Todos los periodos"])
     
 

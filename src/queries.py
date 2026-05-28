@@ -114,3 +114,33 @@ def get_data_analisis_completo():
     JOIN programaEducativo pe ON pl.id_programa = pe.id_programa
     """
     return run_query(query)
+
+
+@st.cache_data(ttl=3600) # El caché dura 1 hora (3600 seg)
+def get_data_completo():
+    # Unimos alumno_asignatura -> Asignatura_Plan -> plan_estudio -> programaEducativo
+    # Y agregamos alumno_plan_estudio para obtener el orden_prioritario
+    query = """
+    SELECT 
+        aa.matricula,
+        pe.nombre AS carrera,
+        p.id_periodo AS periodo,
+        a.nombre AS asignatura,
+        a.creditos AS creditos_materia,
+        aa.calificacion,
+        aa.tipo_examen,
+        pl.creditos_obligatorios + pl.creditos_optativos + pl.creditos_PP AS creditos_totales_plan,
+        pl.id_plan_estudio,
+        pl.descripcion AS nombre_plan
+        ape.orden_prioritario
+    FROM alumno_asignatura aa
+    JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
+    JOIN Asignatura a ON ap.id_asignatura = a.id_asignatura
+    JOIN Periodo p ON aa.id_periodo = p.id_periodo
+    JOIN plan_estudio pl ON ap.id_plan_estudio = pl.id_plan_estudio
+    JOIN programaEducativo pe ON pl.id_programa = pe.id_programa
+    -- Unión para obtener la prioridad del plan para ese alumno específico
+    LEFT JOIN alumno_plan_estudio ape ON aa.matricula = ape.matricula 
+                                     AND pl.id_plan_estudio = ape.id_plan_estudio
+    """
+    return run_query(query)
