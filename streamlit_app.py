@@ -73,7 +73,8 @@ df_final = procesar_kardex_general(df_norm, umbral, max_extraordinarios)
 #df_final = calcular_metricas_academicas(df_norm, umbral)   # Según periodo y umbral seleccionado
 
 # ============================================== MÉTRICAS PRINCIPALES ============================================
-m1, m2, m3, m4, m5, m6, m7 = calcular_metricas_generales(df_final)
+
+metricas = calcular_metricas_generales(df_final)
 #total_alumnos = len(df_final)
 #sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 #en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
@@ -86,28 +87,28 @@ st.title(f"📊 Visión General {periodo_sel}")
 # Ejemplo de cómo usar las métricas ahora:
 col1, col2, col3, col4, col5= st.columns(5)
 with col1:
-    st.markdown(create_uabc_metric_card("Total Alumnos", m1, " ",icon="🎓"), unsafe_allow_html=True)
+    st.markdown(create_uabc_metric_card("Total Alumnos", metricas["total_alumno"], " ",icon="🎓"), unsafe_allow_html=True)
     
 with col2:
  #   promedio = df['promedio_general'].mean()
  #   st.markdown(create_uabc_metric_card("Promedio General", f"{promedio:.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
-    st.markdown(create_uabc_metric_card("Promedio General", f"{m2:.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
+    st.markdown(create_uabc_metric_card("Promedio General", f"{metricas["promedio_general"]:.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
         
 with col3:
   #  avance = df['porcentaje_avance'].mean()
   #  st.markdown(create_uabc_metric_card("Avance Crediticio", f"{avance:.1f}%", "del plan de estudios", "📈"), unsafe_allow_html=True)
-    st.markdown(create_uabc_metric_card("Avance Crediticio", f"{m3:.1f}", "promedio de avance", "📈"), unsafe_allow_html=True)  
+    st.markdown(create_uabc_metric_card("Avance Crediticio", f"{metricas["promedio_avance"]:.1f}", "promedio de avance", "📈"), unsafe_allow_html=True)  
 
 with col4:
  #   riesgo = len(df[df['estatus'].isin(['RIESGO', 'REZAGADO'])])
  #   porcentaje_riesgo = (riesgo/len(df))*100 if len(df) > 0 else 0
  #   st.markdown(create_uabc_metric_card("En Riesgo", riesgo, f"{porcentaje_riesgo:.0f}% del total", "⚠️"), unsafe_allow_html=True)
-   st.markdown(create_uabc_metric_card("En Riesgo",f"{m4:.0f}%", "del total", "⚠️"), unsafe_allow_html=True)
+   st.markdown(create_uabc_metric_card("En Riesgo",f"{metricas["porcentaje_riesgo"]:.0f}%", "del total", "⚠️"), unsafe_allow_html=True)
         
 with col5:
  #   extras = df['examenes_regularizacion'].mean()
    # st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
-    st.markdown(create_uabc_metric_card("Extraordinarios", f"{m5:.2f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
+    st.markdown(create_uabc_metric_card("Extraordinarios", f"{metricas["promedio_ext"]:.2f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
     
 st.markdown("---")
 
@@ -115,12 +116,12 @@ st.markdown("---")
 col_info1, col_info2 = st.columns(2)
     
 with col_info1:
-  if m6 > 0:
-    st.markdown(create_uabc_alert(f"🎉 {m6} alumnos con promedio sobresaliente (≥90)", "success"), unsafe_allow_html=True)
+  if metricas["sobresalientes"] > 0:
+    st.markdown(create_uabc_alert(f"🎉 {metricas["sobresalientes"]} alumnos con promedio sobresaliente (≥90)", "success"), unsafe_allow_html=True)
     
 with col_info2:
-    if m7 > 0:
-        st.markdown(create_uabc_alert(f"⚠️ Se han identificado {m7} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
+    if metricas["en_riesgo"] > 0:
+        st.markdown(create_uabc_alert(f"⚠️ Se han identificado {metricas["en_riesgo"]} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
     
 st.markdown("---")
 
