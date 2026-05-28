@@ -131,7 +131,7 @@ def get_data_completo():
         aa.tipo_examen,
         pl.creditos_obligatorios + pl.creditos_optativos + pl.creditos_PP AS creditos_totales_plan,
         pl.id_plan_estudio,
-        pl.descripcion AS nombre_plan
+        pl.descripcion AS nombre_plan,
         ape.orden_prioritario
     FROM alumno_asignatura aa
     JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
