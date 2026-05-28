@@ -71,7 +71,7 @@ else:
 df_norm = normalizar_datos_academicos(df_filtrado)
 df_final = procesar_kardex_general(df_norm, umbral, max_extraordinarios)
 #df_final = calcular_metricas_academicas(df_norm, umbral)   # Según periodo y umbral seleccionado
-st.write(df_final.columns)
+
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 m1, m2, m3, m4, m5, m6, m7 = calcular_metricas_generales(df_final)
 #total_alumnos = len(df_final)

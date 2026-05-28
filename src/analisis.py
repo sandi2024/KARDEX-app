@@ -92,7 +92,7 @@ def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
 
 def calcular_metricas_generales(df_kardex):
     total_alumnos = len(df_kardex)
-    promedio_general = df_kardex['calificacion'].mean()
+    promedio_general = df_kardex['promedio_final'].mean()
     promedio_ext = df_kardex['conteo_extraordinarios'].mean()
     sobresalientes = len(df_kardex[df_kardex['promedio_final'] >= 90])
     en_riesgo = len(df_kardex[df_kardex['estatus'] == 'RIESGO'])
