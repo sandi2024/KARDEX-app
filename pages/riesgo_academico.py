@@ -43,17 +43,17 @@ with st.sidebar:
     tasa = st.slider("Tasa (%) extraordinarios", min_value=0, max_value=100, value=10, step=1)
 
 
-    mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos criticos")
-    mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
-
+    mostrar_solo_criticos = st.checkbox("⚠️ Mostrar solo alumnos criticos")
+    mostrar_solo_moderados = st.checkbox("⚠️ Mostrar solo alumnos moderados")
+    ocultar_bajos = st.checkbox(" Ocultar solo alumnos de riesgo bajo")
 
     # Guardamos en session_state para que otras páginas lo usen
     st.session_state['carrera'] = carrera_sel
     st.session_state['umbral_reprobacion'] = umbral_reprobacion
     st.session_state['umbral_eficiencia'] = umbral_eficiencia
     st.session_state['umbral_np_sp'] = umbral_np_sp
-    st.session_state['mostrar_solo_riesgo'] = mostrar_solo_riesgo
-    st.session_state['mostrar_detalles'] = mostrar_detalles
+    st.session_state['mostrar_solo_criticos'] = mostrar_solo_criticos
+    st.session_state['mostrar_solo_moderados'] = mostrar_solo_moderados
 
 
 
@@ -97,8 +97,20 @@ st.write(total)
 #    df_con_riesgo[df_con_riesgo['nivel_riesgo'] != 'Bajo'],
 #    use_container_width=True
 #)
+df_mostrar = df_con_riesgo.copy()
+
+if  mostrar_solo_criticos:
+    df_mostrar = df_mostrar[df_mostrar['nivel_riesgo'] == 'Crítico']
+
+if  mostrar_solo_moderados:
+    df_mostrar = df_mostrar[df_mostrar['nivel_riesgo'] == 'Moderado']
+
+if ocultar_bajos:
+    df_mostrar = df_mostrar[df_mostrar['nivel_riesgo'] != 'Bajo']
+
+# 3. Imprimir el resultado
 st.dataframe(
-    df_con_riesgo[df_con_riesgo['nivel_riesgo'] != 'Bajo'],
+    df_mostrar,
     column_order=("id_estudiante", "nivel_riesgo", "alerta_score"),
     use_container_width=True
 )
