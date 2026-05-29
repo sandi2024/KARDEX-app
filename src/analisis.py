@@ -72,7 +72,7 @@ def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
     )
 
     # Conteo de Casos Especiales (NP y SD)
-    # Usamos la columna original o la procesada para identificar los nulos
+    # la columna original o la procesada para identificar los nulos
     resumen_alumnos['conteo_SD'] = grupos.apply(lambda x: (x['calificacion'] == 0).sum())
     resumen_alumnos['conteo_NP'] = grupos.apply(lambda x: x['calificacion'].isna().sum())
 
@@ -141,11 +141,11 @@ def normalizar_datos_academicos(df):
     
     df = df.copy() # Evitamos modificar el dataframe original (SettingWithCopyWarning)
     
-    # 1. Limpieza de calificaciones
+    # Limpieza de calificaciones
   #  df['calificacion'] = df['calificacion'].fillna(0)   # esto 
     df['calificacion'] = pd.to_numeric(df['calificacion'], errors='coerce')
     
-    # 2. Creación de llave única: Matricula + Carrera
+    # Creación de llave única: Matricula + Carrera
     df['id_estudiante'] = df['matricula'].astype(str) + "_" + df['carrera']
     df = df.sort_values(['id_estudiante', 'orden_prioritario'], ascending=True)
 
@@ -164,20 +164,17 @@ def filtrar_datos(df, periodo_sel):
 
 
 def calcular_metricas_reprobacion(df_normalizado, calificacion_minima):
-    """
-    Filtra las materias reprobadas y cuenta la frecuencia por materia.
-    Retorna una Serie de pandas con el Top 10 para la gráfica.
-    """
+ 
     if df_normalizado.empty:
         return pd.Series(dtype=int)
 
-    # 1. Identificar registros reprobados
+    # Identificar registros reprobados
     reprobados = df_normalizado[df_normalizado['calificacion'] < calificacion_minima]
 
-    # 2. Contar alumnos por materia
+    # Contar alumnos por materia
     conteo_reprobadas = reprobados['asignatura'].value_counts()
 
-    # 3. Retornar el Top 10 (o las que gustes) de forma descendente
+    # Retornar el Top 10 (o las que gustes) de forma descendente
     return conteo_reprobadas.head(10).sort_values(ascending=True)
 
 
@@ -204,8 +201,7 @@ def calcular_evolucion_academica(df_limpio, umbral):
 
 def distribucion_calificaciones(df_limpio):
     """Prepara los datos para un histograma de frecuencias."""
-    # 1. Supongamos que tienes un buscador o selectbox en el sidebar
-  #  materia_seleccionada = st.sidebar.selectbox("Selecciona Materia", df['materia'].unique())
+
 
     # Filtrar solo las columnas necesarias y eliminar valores nulos
     df_distribucion = df_limpio[['calificacion']].dropna()
@@ -227,10 +223,9 @@ def identificar_riesgo_academico2(df_resumen, promedio_min, eficiencia_min, extr
     if df_resumen.empty:
         return df_resumen
 
-    # Copia para evitar advertencias de SettingWithCopy
     df_riesgo = df_resumen.copy()
 
-    # --- 2. LÓGICA DE MOTIVOS (Para saber QUÉ pasa con el alumno) ---
+    # LÓGICA DE MOTIVOS
     def determinar_motivo(row):
         motivos = []
         if row['promedio_final'] < promedio_min: motivos.append("Bajo Promedio")
@@ -242,7 +237,6 @@ def identificar_riesgo_academico2(df_resumen, promedio_min, eficiencia_min, extr
 
     df_riesgo['motivo_riesgo'] = df_riesgo.apply(determinar_motivo, axis=1)
 
-    # --- 3. CLASIFICACIÓN DE NIVELES ---
     # Condiciones para Riesgo CRÍTICO
     cond_critico = (
         (df_riesgo['promedio_final'] < promedio_min) | 
@@ -262,7 +256,7 @@ def identificar_riesgo_academico2(df_resumen, promedio_min, eficiencia_min, extr
         default='Bajo'
     )
 
-    # --- 4. SCORE DE ALERTA (Priorización de 0 a 100) ---
+    
     # Damos peso: 40% al promedio, 30% a NP/SD y 30% a extraordinarios
     df_riesgo['alerta_score'] = (
         (100 - df_riesgo['promedio_final'].fillna(0)) * 0.4 +

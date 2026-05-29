@@ -103,7 +103,7 @@ if  mostrar_solo_moderados:
 if ocultar_bajos:
     df_mostrar = df_mostrar[df_mostrar['nivel_riesgo'] != 'Bajo']
 
-# 3. Imprimir el resultado
+#  Imprimir el resultado
 st.dataframe(
     df_mostrar,
     column_order=("id_estudiante", "nivel_riesgo", "alerta_score", "tasa_extraordinarios", "eficiencia_creditos"),
