@@ -49,7 +49,7 @@ with st.sidebar:
 #============================ PROCESAR DATOS ================================
 
 df_limpio = normalizar_datos_academicos(df_datos)
-df_resumen = procesar_kardex(df_limpio, umbral_reprobacion)
+
 # ============================================CUERPO DEL DASHBOARD ============================================
 st.title("📈 Consulta Alumnos")
 
@@ -57,23 +57,29 @@ matricula = st.text_input("Matrícula")
 
 if matricula:
     df_alumno =  df_limpio[df_limpio['matricula'] == matricula].sort_values('periodo')
+    df_alumno_resumen = procesar_kardex(df_alumno, umbral_reprobacion)   # metricas de un solo alumno con 1 0 2 carreras para prediccion de riesgo
+  
     num_carreras = df_alumno['carrera'].nunique()
     num_planes = df_alumno['id_plan_estudio'].nunique() 
     
     if num_carreras > 1:
         st.warning("⚠️ Este alumno tiene registros en múltiples carreras.")
-  #      seleccion = st.selectbox("Selecciona la carrera para el análisis:", 
-   #                              df_alumno['carrera'].unique())
-   #     id_carrera = df_alumno[df_alumno['carrera'] == seleccion]['id_carrera'].iloc[0]
+ 
         lista_carreras = ["Todas las carreras"] + sorted(df_alumno['carrera'].unique().tolist())
         carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
-        id_estudiante = df_alumno.loc[carrera_sel, 'id_estudiante']
-        df_alumno_carrera = df_alumno[df_alumno['carrera'] == carrera_sel]
+
+        if carrera_sel != "Todas las carreras":
+            df_alumno_carrera = df_alumno[df_alumno['carrera'] == carrera_sel]
+            df_alumno_metricas = df_alumno_resumen[df_alumno_resumen['carrera'] == carrera_sel]
+        else:
+            df_alumno_carrera = df_alumno
+    
     else:
   #      id_carrera = num_carreras['id_carrera'].iloc[0]
         df_alumno_carrera = df_alumno
+        df_alumno_metricas = df_alumno_resumen
 
-    # 2. Obtener materias filtradas por matrícula Y carrera
+    # materias filtradas por matrícula Y carrera
   #  st.write("id_carrera", id_carrera)
  #   df_alumno_carrera = df_alumno[df_alumno['carrera'] == id_carrera]
 
@@ -93,7 +99,7 @@ if matricula:
          # 1. INFORMACIÓN GENERAL (Encabezado)
         nombre_alumno = df_alumno_carrera['nombre'].iloc[0] if 'nombre' in df_alumno_carrera.columns else "Estudiante"
         carrera_alumno = df_alumno_carrera['carrera'].iloc[0]
-        df_materias_aprobadas = df_alumno_carrera[df_alumno_carrera['calificacion'] > umbral]
+        df_materias_aprobadas = df_alumno_carrera[df_alumno_carrera['calificacion'] > umbral_reprobacion]
         
         st.title(f"📂 Expediente: {nombre_alumno}")
         st.info(f"**Matrícula:** {matricula} | **Carrera:** {carrera_alumno}")
@@ -129,8 +135,7 @@ if matricula:
     ################################ riesgo academico 
  #   score_riesgo, nivel = predecir_riesgo(df_alumno)
 
-    df_alumno_resumen =  df_resumen[df_resumen['id_estudiante'] == id_estudiante]
-    resultado_individual = identificar_riesgo_academico2(df_alumno_resumen)
+    resultado_individual = identificar_riesgo_academico2(df_alumno_metricas)
 
     # 3. Muestras la "Ficha de Riesgo" en Streamlit
     if not resultado_individual.empty:

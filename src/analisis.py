@@ -178,47 +178,6 @@ def normalizar_datos_academicos(df):
     return df
 
 
-
-def calcular_metricas_academicas(df_normalizado, umbral_reprobacion):
-    """Agrupa por estudiante y calcula indicadores de desempeño."""
-    if df_normalizado.empty:
-        return df_normalizado
-    
-    df_ordenado = df_normalizado.sort_values(['id_estudiante', 'orden_prioritario'], ascending=True)
-    
-    # 1. Agrupación y Agregación
-    analisis = df_ordenado.groupby('id_estudiante').agg({
-        'calificacion': 'mean',
-        'creditos_materia': 'sum',
-        'creditos_totales_plan': 'first',
-        'tipo_examen': lambda x: (x.str.contains('Ext', case=False, na=False)).sum(),
-        'carrera': 'first',
-        'id_plan_estudio': 'first',
-        'nombre_plan': 'first'
-    }).rename(columns={
-        'calificacion': 'promedio_general',
-        'creditos_materia': 'creditos_cursados',
-        'tipo_examen': 'conteo_extraordinarios'
-    })
-
-    # 2. Cálculo de Avance en porcentaje del plan de estudios, creditos_cursados / creditos_totales_plan
-    analisis['avance_porcentaje'] = (analisis['creditos_cursados'] / analisis['creditos_totales_plan']) * 100
-
-    # 3. Lógica de Estatus
-    def asignar_estatus(row):
-        if row['promedio_general'] < umbral_reprobacion:
-            return 'RIESGO'
-        if row['conteo_extraordinarios'] >= 3:
-            return 'REZAGADO'
-        if row['promedio_general'] >= 90:
-            return 'EXCELENTE'
-        return 'REGULAR'
-
-    analisis['estatus'] = analisis.apply(asignar_estatus, axis=1)
-    
-    return analisis.reset_index()
-
-
 # Suponiendo que carrera_sel y periodo_sel vienen de un selectbox de Streamlit
 def filtrar_datos(df, periodo_sel):
     df_filtrado = df.copy()
@@ -319,47 +278,6 @@ def predecir_riesgo(df_alumno, umbral_aprobacion=70):
 
     return min(score, 100), estatus
 
-
-
-def identificar_riesgo_academico(df_resumen, umbral_promedio_critico, umbral_eficiencia_baja, umbral_NP_SP):
-    """
-    Recibe el DataFrame generado por procesar_kardex y añade 
-    columnas de clasificación de riesgo.
-    """
-    if df_resumen.empty:
-        return df_resumen
-
-    # 1. Definición de umbrales (Ajustables según normativa)
-    UMBRAL_PROMEDIO_CRITICO = 70
-    UMBRAL_EFICIENCIA_BAJA = 15  # Créditos promedio por periodo
-    UMBRAL_NP_SD_ALTO = 3        # Más de 3 ausencias o faltas de derecho
-    
-    # 2. Creación de Reglas de Riesgo
-    condiciones = [
-        # RIESGO CRÍTICO (Rojo)
-        (df_resumen['promedio_final'] < umbral_promedio_critico) | 
-        ((df_resumen['conteo_SD'] + df_resumen['conteo_NP']) >= umbral_NP_SP),
-        
-        # RIESGO MODERADO (Amarillo)
-        (df_resumen['promedio_final'] < 80) | 
-        (df_resumen['tasa_extraordinarios'] > 0.25) |
-        (df_resumen['eficiencia_creditos'] < umbral_eficiencia_baja)
-    ]
-    
-    opciones = ['Crítico', 'Moderado']
-    
-    # 3. Aplicación de etiquetas
-    df_resumen['nivel_riesgo'] = np.select(condiciones, opciones, default='Bajo')
-    
-    # 4. Cálculo de un "Score de Alerta" (0 a 100)
-    # Entre más alto, más atención requiere el alumno
-    df_resumen['alerta_score'] = (
-        (100 - df_resumen['promedio_final'].fillna(0)) * 0.4 +
-        (df_resumen['tasa_extraordinarios'] * 100) * 0.3 +
-        (df_resumen['conteo_NP'] * 10) * 0.3
-    ).clip(0, 100)
-
-    return df_resumen.sort_values(by='alerta_score', ascending=False)
 
 def identificar_riesgo_academico2(df_resumen, promedio_min, eficiencia_min, extras_max, umbral_np_sp):
     """
