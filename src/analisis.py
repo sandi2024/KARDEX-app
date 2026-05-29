@@ -39,24 +39,22 @@ def procesar_kardex(df, umbral_reprobacion):
     return resumen_alumnos
 
 def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
-    # --- 1. PRE-PROCESAMIENTO DE CALIFICACIONES ---
-    # Creamos una copia para no alterar el DataFrame original
+ 
     df_proc = df.copy()
 
     # Agrupamos por el ID único del alumno
     grupos = df_proc.groupby('id_estudiante')
 
-    # --- 2. CÁLCULO DE MÉTRICAS ---
+    # CÁLCULO DE MÉTRICAS 
     resumen_alumnos = pd.DataFrame()
 
-    # Promedio Final: mean() de pandas ignora los NaN (NP) por defecto, 
-    # pero sí promedia los 0 (SD). Es el comportamiento académico estándar.
+
     resumen_alumnos['carrera'] = grupos['carrera'].first()
     resumen_alumnos['id_plan_estudio'] = grupos['id_plan_estudio'].first()
     resumen_alumnos['plan_estudio'] = grupos['nombre_plan'].first()
     resumen_alumnos['promedio_final'] = grupos['calificacion'].mean()
     # Créditos Logrados: Solo sumamos créditos si aprobó (calif >= umbral)
-    # NP (NaN) y SD (0) fallarán la condición >= 70, por lo que no sumarán créditos.
+    # NP (NaN) y SD (0) 
     
     resumen_alumnos['total_creditos_logrados'] = grupos.apply(
         lambda x: x[x['calificacion'] >= umbral_reprobacion]['creditos_materia'].sum()
