@@ -58,7 +58,7 @@ with st.sidebar:
 # ============================================== PROCESAMIENTO ============================================
 
 if carrera_sel != "Todos las carreras":
-    df_filtrado = df_datos[df_datos['carrera'] == carrera__sel]
+    df_filtrado = df_datos[df_datos['carrera'] == carrera_sel]
 else:
     df_filtrado = df_datos
 
