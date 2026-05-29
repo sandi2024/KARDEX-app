@@ -47,7 +47,7 @@ with st.sidebar:
     
     # Filtro de Umbral
     umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
-    max_extraordinarios = st.slider("No. max extroordinario", 0, 10, 3)
+    max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
 
  #   mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
 
@@ -63,6 +63,7 @@ with st.sidebar:
 
 
 # ============================================== PROCESAMIENTO ============================================
+
 if periodo_sel != "Todos los periodos":
     df_filtrado = df_datos[df_datos['periodo'] == periodo_sel]
 else:
