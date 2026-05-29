@@ -64,7 +64,7 @@ def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
         lambda x: x[x['calificacion'] >= umbral_reprobacion]['creditos_materia'].sum()
     )
    
-    resumen_alumnos['avance_porcentaje'] = (resumen_alumnos['total_creditos_logrados'] / grupos['creditos_totales_plan']) * 100
+    resumen_alumnos['creditos_total'] = grupos['creditos_totales_plan']
    
     resumen_alumnos['conteo_extraordinarios'] = grupos.apply(
         lambda x: (x['tipo_examen'] == 'Ext').sum()
@@ -88,8 +88,12 @@ def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
         if row['promedio_final'] >= 90:
             return 'EXCELENTE'
         return 'REGULAR'
+    
+    def avance_credito(row):
+        return row['total_creditos_logrados']/row['creditos_totales']*100
 
     resumen_alumnos['estatus'] = resumen_alumnos.apply(asignar_estatus, axis=1)
+    resumen_alumnos['avance_porcentaje'] = resumen_alumnos.apply(avance_credito, axis=1)
 
     return resumen_alumnos
 
