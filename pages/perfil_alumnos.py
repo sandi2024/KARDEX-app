@@ -137,7 +137,7 @@ if matricula:
 
     # RIESGO
     if carrera_sel != "Todas las carreras":
-        resultado_individual = identificar_riesgo_academico2(df_alumno_resumen)
+        resultado_individual = identificar_riesgo_academico2(df_alumno_resumen, umbral_reprobacion, umbral_eficiencia, tasa, umbral_np_sp)
         if not resultado_individual.empty:
             status = resultado_individual.iloc[0] # Extraemos la única fila
     
