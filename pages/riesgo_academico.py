@@ -1,6 +1,6 @@
 import streamlit as st
 from src.queries import fetch_analisis_reprobacion, get_data_completo
-from src.analisis import calcular_indice_riesgo, normalizar_datos_academicos, procesar_kardex, identificar_riesgo_academico
+from src.analisis import calcular_indice_riesgo, normalizar_datos_academicos, procesar_kardex, identificar_riesgo_academico2
 from src.utils import load_css, render_header, create_uabc_metric_card, render_footer, create_uabc_alert, create_progress_bar
 import pandas as pd
 
@@ -40,6 +40,8 @@ with st.sidebar:
     umbral_reprobacion = st.slider("Umbral de promedio critico", 0, 100, 60)
     umbral_eficiencia = st.slider("Creditos promedio por periodo", 0, 100, 60)
     umbral_np_sp = st.slider("Limite de examenes NP ySD", 0, 100, 60)
+    tasa = st.slider("Tasa (%) extrorodinarios", min_value=0, max_value=100, value=10, step=1)
+
 
     mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos criticos")
     mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
@@ -65,7 +67,7 @@ else:
 
 df_norm = normalizar_datos_academicos(df_filtrado)
 df_resumen = procesar_kardex(df_norm, umbral_reprobacion)
-df_con_riesgo = identificar_riesgo_academico(df_resumen, umbral_reprobacion, umbral_eficiencia, umbral_np_sp)
+df_con_riesgo = identificar_riesgo_academico2(df_resumen, umbral_reprobacion, umbral_eficiencia, umbral_np_sp)
 
 #============================================CUERPO DEL DASHBOARD ============================================
 
