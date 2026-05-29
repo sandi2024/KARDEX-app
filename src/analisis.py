@@ -57,13 +57,14 @@ def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
     resumen_alumnos['carrera'] = grupos['carrera'].first()
     resumen_alumnos['plan_estudio'] = grupos['nombre_plan'].first()
     resumen_alumnos['promedio_final'] = grupos['calificacion'].mean()
-
     # Créditos Logrados: Solo sumamos créditos si aprobó (calif >= umbral)
     # NP (NaN) y SD (0) fallarán la condición >= 70, por lo que no sumarán créditos.
     resumen_alumnos['total_creditos_logrados'] = grupos.apply(
         lambda x: x[x['calificacion'] >= umbral_reprobacion]['creditos_materia'].sum()
     )
-    
+   
+    resumen_alumnos['avance_porcentaje'] = (grupos['total_creditos_logrados'] / grupos['creditos_totales_plan']) * 100
+   
     resumen_alumnos['conteo_extraordinarios'] = grupos.apply(
         lambda x: (x['tipo_examen'] == 'Ext').sum()
     )
@@ -99,13 +100,13 @@ def calcular_metricas_generales(df_kardex):
     sobresalientes = len(df_kardex[df_kardex['promedio_final'] >= 90])
     en_riesgo = len(df_kardex[df_kardex['estatus'] == 'RIESGO'])
     porcetaje_en_riesgo = (en_riesgo/total_alumnos)*100
-    promedio_avance = df_kardex['total_creditos_logrados'].mean()
+    avance_porcentaje = df_kardex['avance_porcentaje'].mean()
    
 
     return {
         "total_alumno": total_alumnos,
         "promedio_general": promedio_general,
-        "promedio_avance": promedio_avance,
+        "avance_porcentaje": avance_porcentaje,
         "porcentaje_riesgo": porcetaje_en_riesgo,
         "promedio_ext": promedio_ext,
         "sobresalientes": sobresalientes,

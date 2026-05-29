@@ -155,7 +155,7 @@ with col_der:
 
     # 4. Bar Chart: Volumen por Plan de Estudios (Escala continua)
     plan_data = df_final['plan_estudio'].value_counts().reset_index()
-    fig4 = px.bar(plan_data, x='plan_estudio', y='alumnos',
+    fig4 = px.bar(plan_data, x='plan_estudio', y='count',
                   color='count', color_continuous_scale='Blues',
                   title='📚 Volumen por Plan de Estudios')
     st.plotly_chart(fig4, use_container_width=True)
@@ -180,7 +180,7 @@ with columna2:
     # Tabla de métricas por carrera
     metrics_table = df_final.groupby('carrera').agg({
         'promedio_final': 'mean',
-        'total_creditos_logrados': 'mean',
+        'avance_porcentaje': 'mean',
         'conteo_extraordinarios': 'mean'
     }).round(2)
     metrics_table.columns = ['📊 Promedio', '📈 Avance Promedio', '📝 Extraordinarios']
@@ -191,14 +191,14 @@ with columna2:
 st.markdown("###  Comparativa de Indicadores")
 carrera_metrics = df_final.groupby('carrera').agg({
         'promedio_final': 'mean',
-        'total_creditos_logrados': 'mean'
+        'avance_porcentaje': 'mean'
     }).reset_index()
     
 fig6 = go.Figure()
 fig6.add_trace(go.Bar(name='Promedio General', x=carrera_metrics['carrera'], 
                           y=carrera_metrics['promedio_final'], marker_color='#003366'))
 fig6.add_trace(go.Bar(name='Avance %', x=carrera_metrics['carrera'], 
-                          y=carrera_metrics['total_creditos_logrados'], marker_color='#C5A35E'))
+                          y=carrera_metrics['avance_porcentaje'], marker_color='#C5A35E'))
 fig6.update_layout(title='Comparativa por Carrera', barmode='group', height=400,
                       plot_bgcolor='white')
 st.plotly_chart(fig6, use_container_width=True)
