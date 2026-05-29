@@ -75,11 +75,6 @@ df_final = procesar_kardex_general(df_norm, umbral, max_extraordinarios)
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 metricas = calcular_metricas_generales(df_final)
-#total_alumnos = len(df_final)
-#sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
-#en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
-#extras = df_final['conteo_extraordinarios'].mean()
-
 
 # ===================================== CUERPO DEL DASHBOARD ===========================================
 st.title(f"📊 Visión General {periodo_sel}")

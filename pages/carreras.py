@@ -38,6 +38,8 @@ with st.sidebar:
     
     # Filtro de Umbral
     umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
+    max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
+
         
     # Filtros adicionales
     mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos en riesgo")
@@ -48,6 +50,7 @@ with st.sidebar:
     st.session_state['carrera'] = carrera_sel   
     st.session_state['periodo'] = periodo_sel
     st.session_state['umbral_reprobacion'] = umbral
+    st.session_state['max_extraordinarios'] = max_extraordinarios
 
 # ============================================== PROCESAMIENTO ============================================
 
@@ -182,7 +185,7 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
             legend_title="Indicadores",
            hovermode="x unified" # Muestra ambos valores al pasar el mouse
         )
-
+        fig_bar.update_layout(xaxis=dict(type='category'))
         st.plotly_chart(fig_evolucion, use_container_width=True)
 
 
