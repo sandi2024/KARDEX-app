@@ -153,29 +153,30 @@ with col_der:
     fig2.update_layout(height=400, plot_bgcolor='white')
     st.plotly_chart(fig2, use_container_width=True)
     
-    st.write(df_final['plan_estudio'].unique())
+   # st.write(df_final['plan_estudio'].unique())
     # 4. Bar Chart: Volumen por Plan de Estudios (Escala continua)
-    df_planes = df_final[['id_plan_estudio', 'plan_estudio']].drop_duplicates()
-    plan_data = df_final['id_plan_estudio'].value_counts().reset_index()
-    plan_data.columns = ['id_plan_estudio', 'count']
-    plan_data = plan_data.merge(df_planes, on='id_plan_estudio', how='left')
-    fig4 = px.bar(
-        plan_data,
-        x='plan_estudio',   # ← ahora usa el nombre del plan
-        y='count',
-        color='count',
-        color_continuous_scale='Blues',
-        title='📚 Volumen por Plan de Estudios'
-    )
+  #  df_planes = df_final[['id_plan_estudio', 'plan_estudio']].drop_duplicates()
+   # plan_data = df_final['id_plan_estudio'].value_counts().reset_index()
+   # plan_data.columns = ['id_plan_estudio', 'count']
+   # plan_data = plan_data.merge(df_planes, on='id_plan_estudio', how='left')
+   # fig4 = px.bar(
+   #     plan_data,
+   #     x='plan_estudio',   # ← ahora usa el nombre del plan
+   #     y='count',
+   #     color='count',
+   #     color_continuous_scale='Blues',
+   #     title='📚 Volumen por Plan de Estudios'
+   # )
+   # fig4.update_layout(xaxis=dict(type='category'))
+    #st.plotly_chart(fig4, use_container_width=True)
+
+
+    plan_data = df_final['plan_estudio'].value_counts().reset_index()
+    fig4 = px.bar(plan_data, x='plan_estudio', y='count',
+                  color='count', color_continuous_scale='Blues',
+                  title='📚 Volumen por Plan de Estudios')
     fig4.update_layout(xaxis=dict(type='category'))
     st.plotly_chart(fig4, use_container_width=True)
-
-
- #   plan_data = df_final['id_plan_estudio'].value_counts().reset_index()
-  #  fig4 = px.bar(plan_data, x='id_plan_estudio', y='count',
-  #                color='count', color_continuous_scale='Blues',
- #                 title='📚 Volumen por Plan de Estudios')
- #   st.plotly_chart(fig4, use_container_width=True)
 
 
 st.markdown("---")
