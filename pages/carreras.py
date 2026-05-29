@@ -74,10 +74,10 @@ df_distribucion = distribucion_calificaciones(df_carrera)
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 metricas = calcular_metricas_generales(df_filtrados)
-total_alumnos = len(df_final)
-sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
-en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
-extras = df_final['conteo_extraordinarios'].mean()
+#total_alumnos = len(df_final)
+#sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
+#en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
+#extras = df_final['conteo_extraordinarios'].mean()
 
 # ============================================CUERPO DEL DASHBOARD ============================================
 st.title(f"📈 Análisis por Carrera - {carrera_sel}")
