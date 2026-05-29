@@ -116,6 +116,12 @@ if matricula:
             #if 'creditos' in df_materias_aprobadas.columns else 0
             st.metric("Créditos Totales", total_creditos)
 
+   
+   
+   
+   
+   
+   
         # 3. LISTA COMPLETA DE ASIGNATURAS (El Kardex)
         st.subheader("📚 Historial Académico Completo")
     
@@ -142,8 +148,8 @@ if matricula:
             status = resultado_individual.iloc[0] # Extraemos la única fila
     
             st.subheader(f"Análisis de Riesgo: {matricula} ")
-            st.metric("Nivel de Riesgo", status['nivel_riesgo'])
-            st.warning(f"Motivos detectados: {status['motivo_riesgo']}")
+            st.info("Nivel de Riesgo", status['nivel_riesgo'])
+            st.info(f"Motivos detectados: {status['motivo_riesgo']}")
             st.info(f"Puntaje de Alerta: {status['alerta_score']}/100")
 
      
