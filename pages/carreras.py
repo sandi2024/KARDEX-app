@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.express as px
 from src.queries import get_data_analisis_completo
 from src.utils import load_css, create_uabc_metric_card, render_header, render_footer, create_uabc_alert
-from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normalizar_datos_academicos, distribucion_calificaciones, calcular_evolucion_academica, procesar_kardex_general
+from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normalizar_datos_academicos, distribucion_calificaciones, calcular_evolucion_academica, procesar_kardex_general, calcular_metricas_generales
 
 load_css()
 render_header()
@@ -73,7 +73,7 @@ df_distribucion = distribucion_calificaciones(df_carrera)
 
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
-metricas = calcular_metricas_academicas(df_filtrados, umbral)
+metricas = calcular_metricas_generales(df_filtrados, umbral)
 total_alumnos = len(df_final)
 sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
