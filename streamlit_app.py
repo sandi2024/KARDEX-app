@@ -154,8 +154,8 @@ with col_der:
     st.plotly_chart(fig2, use_container_width=True)
 
     # 4. Bar Chart: Volumen por Plan de Estudios (Escala continua)
-    plan_data = df_final['nombre_plan'].value_counts().reset_index()
-    fig4 = px.bar(plan_data, x='nombre_plan', y='count',
+    plan_data = df_final['plan_estudio'].value_counts().reset_index()
+    fig4 = px.bar(plan_data, x='plan_estudio', y='count',
                   color='count', color_continuous_scale='Blues',
                   title='📚 Volumen por Plan de Estudios')
     st.plotly_chart(fig4, use_container_width=True)
@@ -168,7 +168,7 @@ columna1, columna2 = st.columns(2)
 
 with columna1:
      # Gráfico de promedios por carrera 
-    carrera_promedio = df_final.groupby('carrera')['promedio_fina'].mean().sort_values(ascending=False)
+    carrera_promedio = df_final.groupby('carrera')['promedio_final'].mean().sort_values(ascending=False)
     fig5 = px.bar(x=carrera_promedio.values, y=carrera_promedio.index,
                 orientation='h', title='Promedio General por Carrera',
                 color=carrera_promedio.values, color_continuous_scale='Blues',
@@ -180,23 +180,23 @@ with columna2:
     # Tabla de métricas por carrera
     metrics_table = df_final.groupby('carrera').agg({
         'promedio_general': 'mean',
-        'avance_porcentaje': 'mean',
+        'total_creditos_logrados': 'mean',
         'conteo_extraordinarios': 'mean'
     }).round(2)
-    metrics_table.columns = ['📊 Promedio', '📈 Avance %', '📝 Extraordinarios']
+    metrics_table.columns = ['📊 Promedio', '📈 Avance Promedio', '📝 Extraordinarios']
     st.dataframe(metrics_table, use_container_width=True)
     
     
 # Gráfico comparativo 
 st.markdown("###  Comparativa de Indicadores")
 carrera_metrics = df_final.groupby('carrera').agg({
-         'promedio_final': 'mean',
-        'avance_porcentaje': 'mean'
+        'promedio_final': 'mean',
+        'total_creditos_logrados': 'mean'
     }).reset_index()
     
 fig6 = go.Figure()
 fig6.add_trace(go.Bar(name='Promedio General', x=carrera_metrics['carrera'], 
-                          y=carrera_metrics['promedio_general'], marker_color='#003366'))
+                          y=carrera_metrics['promedio_final'], marker_color='#003366'))
 fig6.add_trace(go.Bar(name='Avance %', x=carrera_metrics['carrera'], 
                           y=carrera_metrics['avance_porcentaje'], marker_color='#C5A35E'))
 fig6.update_layout(title='Comparativa por Carrera', barmode='group', height=400,
