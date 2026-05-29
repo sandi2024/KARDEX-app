@@ -93,7 +93,7 @@ with col2:
     st.markdown(create_uabc_metric_card("Promedio General", f"{metricas["promedio_general"]:.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
         
 with col3:
-    st.markdown(create_uabc_metric_card("Avance Crediticio", f"{metricas["promedio_avance"]:.1f}", "promedio de avance", "📈"), unsafe_allow_html=True)  
+    st.markdown(create_uabc_metric_card("Avance Crediticio", f"{metricas["avance_porcentaje"]:.1f}", "promedio de avance", "📈"), unsafe_allow_html=True)  
 
 with col4:
    st.markdown(create_uabc_metric_card("En Riesgo",f"{metricas["porcentaje_riesgo"]:.0f}%", "del total", "⚠️"), unsafe_allow_html=True)
