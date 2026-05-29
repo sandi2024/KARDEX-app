@@ -66,10 +66,6 @@ df_norm = normalizar_datos_academicos(df_filtrado)
 df_resumen = procesar_kardex(df_norm, umbral_reprobacion)
 df_con_riesgo = identificar_riesgo_academico(df_resumen, umbral_reprobacion, umbral_eficiencia, umbral_np_sp)
 
-# ============================================== MÉTRICAS PRINCIPALES ============================================
-
-metricas = calcular_metricas_generales(df_final)
-
 #============================================CUERPO DEL DASHBOARD ============================================
 
 st.title("🚨 Sistema de Alerta Temprana")
