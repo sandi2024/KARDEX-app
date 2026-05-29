@@ -64,7 +64,7 @@ def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
         lambda x: x[x['calificacion'] >= umbral_reprobacion]['creditos_materia'].sum()
     )
    
-    resumen_alumnos['creditos_total'] = grupos['creditos_totales_plan']
+    resumen_alumnos['creditos_total'] = grupos['creditos_totales_plan'].firs()
    
     resumen_alumnos['conteo_extraordinarios'] = grupos.apply(
         lambda x: (x['tipo_examen'] == 'Ext').sum()
