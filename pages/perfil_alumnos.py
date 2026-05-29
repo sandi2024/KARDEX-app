@@ -138,13 +138,14 @@ if matricula:
     resultado_individual = identificar_riesgo_academico2(df_alumno_metricas)
 
     # 3. Muestras la "Ficha de Riesgo" en Streamlit
-    if not resultado_individual.empty:
-        status = resultado_individual.iloc[0] # Extraemos la única fila
+    if carrera_sel != "Todas las carreras":
+        if not resultado_individual.empty:
+            status = resultado_individual.iloc[0] # Extraemos la única fila
     
-        st.subheader(f"Análisis de Riesgo: {matricula} ")
-        st.metric("Nivel de Riesgo", status['nivel_riesgo'])
-        st.warning(f"Motivos detectados: {status['motivo_riesgo']}")
-        st.info(f"Puntaje de Alerta: {status['alerta_score']}/100")
+            st.subheader(f"Análisis de Riesgo: {matricula} ")
+            st.metric("Nivel de Riesgo", status['nivel_riesgo'])
+            st.warning(f"Motivos detectados: {status['motivo_riesgo']}")
+            st.info(f"Puntaje de Alerta: {status['alerta_score']}/100")
 
      
      
