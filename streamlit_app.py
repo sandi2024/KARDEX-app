@@ -179,7 +179,7 @@ with columna1:
 with columna2:
     # Tabla de métricas por carrera
     metrics_table = df_final.groupby('carrera').agg({
-        'promedio_general': 'mean',
+        'promedio_final': 'mean',
         'total_creditos_logrados': 'mean',
         'conteo_extraordinarios': 'mean'
     }).round(2)
