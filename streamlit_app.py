@@ -198,7 +198,7 @@ fig6 = go.Figure()
 fig6.add_trace(go.Bar(name='Promedio General', x=carrera_metrics['carrera'], 
                           y=carrera_metrics['promedio_final'], marker_color='#003366'))
 fig6.add_trace(go.Bar(name='Avance %', x=carrera_metrics['carrera'], 
-                          y=carrera_metrics['avance_porcentaje'], marker_color='#C5A35E'))
+                          y=carrera_metrics['total_creditos_logrados'], marker_color='#C5A35E'))
 fig6.update_layout(title='Comparativa por Carrera', barmode='group', height=400,
                       plot_bgcolor='white')
 st.plotly_chart(fig6, use_container_width=True)
