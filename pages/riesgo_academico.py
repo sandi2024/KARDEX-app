@@ -92,10 +92,6 @@ with col_info2:
 st.markdown("---")
 
 # Mostrar tabla filtrada (Solo Críticos y Moderados)
-#st.dataframe(
-#    df_con_riesgo[df_con_riesgo['nivel_riesgo'] != 'Bajo'],
-#    use_container_width=True
-#)
 df_mostrar = df_con_riesgo.copy()
 
 if  mostrar_solo_criticos:

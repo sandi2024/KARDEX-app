@@ -168,38 +168,5 @@ if matricula:
             st.info(f"Puntaje de Alerta: {status['alerta_score']}/100")
 
      
-     
-        # Mostrar con un indicador visual
-#       st.subheader("🔮 Predicción de Riesgo Académico")
-#    col1, col2 = st.columns(2)
-#    with col1:
-#        color = "red" if score_riesgo >= 70 else "orange" if score_riesgo >= 40 else "green"
-#        st.markdown(f"### Nivel: :{color}[{nivel}]")
-
-#    with col2:
-#        st.metric("Índice de Riesgo", f"{score_riesgo}%", delta_color="inverse")
-
-    # Explicación del riesgo
-#    if score_riesgo >= 40:
-#        st.warning("🚨 **Factores detectados:**")
-#        if df_alumno['calificacion'].mean() < 75:
-#            st.write("- El promedio general es muy bajo.")
-#        if (df_alumno['calificacion'] < 70).sum() > 0:
-#            st.write("- Existen materias reprobadas en el historial.")
-
-
-    ###############################  GRAFICA
-    # Gráfica de evolución
-#    fig = px.line(df_stats_periodo, x='id_periodo', y='calificacion', 
- #                 title="Evolución del Promedio Académico",
- #                 markers=True, text="calificacion")
- #   fig.update_traces(textposition="top center", line_color="#00723F") # Verde UABC
- #   st.plotly_chart(fig, use_container_width=True)
-    
-    # Mostrar materias cursadas en ese periodo específico
- #   st.write("### Detalle Cronológico")
- #   st.table(df_periodos[['id_periodo', 'materia', 'calificacion']])
-
-
 
 render_footer()
