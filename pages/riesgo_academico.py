@@ -62,9 +62,8 @@ if carrera_sel != "Todas las carreras":
 else:
     df_filtrado = df_datos
 
-st.write(df_filtrado.columns)
+
 df_norm = normalizar_datos_academicos(df_filtrado)
-st.write(df_norm.columns)
 df_resumen = procesar_kardex(df_norm, umbral_reprobacion)
 df_con_riesgo = identificar_riesgo_academico(df_resumen, umbral_reprobacion, umbral_eficiencia, umbral_np_sp)
 
