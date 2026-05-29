@@ -1,8 +1,8 @@
 import streamlit as st
 import plotly.express as px
-from src.queries import fetch_analisis_reprobacion, get_data_analisis_completo
+from src.queries import get_data_analisis_completo
 from src.utils import load_css, create_uabc_metric_card, render_header, render_footer, create_uabc_alert
-from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normalizar_datos_academicos, calcular_metricas_academicas, distribucion_calificaciones, calcular_evolucion_academica
+from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normalizar_datos_academicos, calcular_metricas_academicas, distribucion_calificaciones, calcular_evolucion_academica, procesar_kardex_general
 
 load_css()
 render_header()
@@ -42,8 +42,8 @@ with st.sidebar:
 
         
     # Filtros adicionales
-    mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos en riesgo")
-    mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
+ #   mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos en riesgo")
+ #   mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
 
 
     # Guardamos en session_state para que otras páginas lo usen
@@ -62,7 +62,10 @@ else:
     df_carrera = df_limpio
 
 df_filtrados = filtrar_datos(df_carrera, periodo_sel)
-df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo y umbral seleccionado
+
+df_final = procesar_kardex_general(df_filtrados, umbral, max_extraordinarios)
+
+#df_final = calcular_metricas_academicas(df_filtrados, umbral)   # Según periodo y umbral seleccionado
 
 top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
 
@@ -70,6 +73,7 @@ df_distribucion = distribucion_calificaciones(df_carrera)
 
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
+metricas = calcular_metricas_academicas(df_filtrados, umbral)
 total_alumnos = len(df_final)
 sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
 en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
@@ -81,31 +85,31 @@ st.title(f"📈 Análisis por Carrera - {carrera_sel}")
 # --- CARDS DE METRICAS --
 col1, col2, col3, col4, col5= st.columns(5)
 with col1:
-    st.markdown(create_uabc_metric_card("Total Alumnos", total_alumnos, icon="🎓"), unsafe_allow_html=True)
+    st.markdown(create_uabc_metric_card("Total Alumnos", metricas["total_alumno"], icon="🎓"), unsafe_allow_html=True)
     
 with col2:
-    st.markdown(create_uabc_metric_card("Promedio General", f"{df_final['promedio_general'].mean():.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
+    st.markdown(create_uabc_metric_card("Promedio General", f"{metricas["promedio_general"]:.1f}", "escala 0-100", "📊"), unsafe_allow_html=True)
         
 with col3:
-    st.markdown(create_uabc_metric_card("Avance Crediticio", f"{df_final['avance_porcentaje'].mean():.1f}%", "del plan de estudios", "📈"), unsafe_allow_html=True)  
+    st.markdown(create_uabc_metric_card("Avance Crediticio", f"{metricas["avance_porcentaje"]:.1f}%", "del plan de estudios", "📈"), unsafe_allow_html=True)  
 
 with col4:
-   st.markdown(create_uabc_metric_card("En Riesgo", f"{(en_riesgo/total_alumnos)*100:.0f}%", "del total", "⚠️"), unsafe_allow_html=True)
+   st.markdown(create_uabc_metric_card("En Riesgo", f"{metricas["porcentaje_riesgo"]:.0f}%", "del total", "⚠️"), unsafe_allow_html=True)
         
 with col5:
-    st.markdown(create_uabc_metric_card("Extraordinarios", f"{extras:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
+    st.markdown(create_uabc_metric_card("Extraordinarios", f"{metricas["promedio_ext"]:.1f}", "promedio por alumno", "📝"), unsafe_allow_html=True)
     
 st.markdown("---")
 
  # Alertas destacadas
 col_info1, col_info2 = st.columns(2) 
 with col_info1:
-    if sobresalientes > 0:
-        st.markdown(create_uabc_alert(f"🎉 {sobresalientes} alumnos con promedio sobresaliente (≥90)", "success"), unsafe_allow_html=True)
+    if metricas["sobresalientes"] > 0:
+        st.markdown(create_uabc_alert(f"🎉 {metricas["sobresalientes"]} alumnos con promedio sobresaliente (≥90)", "success"), unsafe_allow_html=True)
     
 with col_info2:
-    if en_riesgo > 0:
-        st.markdown(create_uabc_alert(f"⚠️ Se han identificado {en_riesgo} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
+    if metricas["en_riesgo"] > 0:
+        st.markdown(create_uabc_alert(f"⚠️ Se han identificado {metricas["en_riesgo"]} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
     
 st.markdown("---")
 
