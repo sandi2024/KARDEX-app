@@ -38,8 +38,8 @@ with st.sidebar:
     
 
     umbral_reprobacion = st.slider("Umbral de promedio critico", 0, 100, 60)
-    umbral_eficiencia = st.slider("Creditos promedio por periodo", 0, 100, 60)
-    umbral_np_sp = st.slider("Limite de examenes NP ySD", 0, 10, 60)
+    umbral_eficiencia = st.slider("Creditos promedio por periodo", 0, 100, 40)
+    umbral_np_sp = st.slider("Limite de examenes NP ySD", 0, 10, 5)
     tasa = st.slider("Tasa (%) extraordinarios", min_value=0, max_value=100, value=10, step=1)
 
 
