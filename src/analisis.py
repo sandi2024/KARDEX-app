@@ -370,7 +370,7 @@ def identificar_riesgo_academico(df_resumen, umbral_promedio_critico, umbral_efi
 
     return df_resumen.sort_values(by='alerta_score', ascending=False)
 
-def identificar_riesgo_academico2(df_resumen):
+def identificar_riesgo_academico2(df_resumen, promedio_min, eficiencia_min, extras_max, umbral_np_sp):
     """
     Analiza las métricas de desempeño y clasifica a los alumnos por nivel de riesgo,
     detallando la razón principal de la alerta.
@@ -390,10 +390,10 @@ def identificar_riesgo_academico2(df_resumen):
     # --- 2. LÓGICA DE MOTIVOS (Para saber QUÉ pasa con el alumno) ---
     def determinar_motivo(row):
         motivos = []
-        if row['promedio_final'] < PROMEDIO_MIN: motivos.append("Bajo Promedio")
-        if (row['conteo_SD'] + row['conteo_NP']) > NP_SD_MAX: motivos.append("Abandono/Inasistencia (NP/SD)")
-        if row['tasa_extraordinarios'] > EXTRAS_MAX: motivos.append("Alta Recurrencia (Extras)")
-        if row['eficiencia_creditos'] < EFICIENCIA_MIN: motivos.append("Rezago en Créditos")
+        if row['promedio_final'] < promedio_min: motivos.append("Bajo Promedio")
+        if (row['conteo_SD'] + row['conteo_NP']) > umbral_np_sp: motivos.append("Abandono/Inasistencia (NP/SD)")
+        if row['tasa_extraordinarios'] > extras_max: motivos.append("Alta Recurrencia (Extras)")
+        if row['eficiencia_creditos'] < eficiencia_min: motivos.append("Rezago en Créditos")
         
         return ", ".join(motivos) if motivos else "Ninguno"
 
@@ -402,13 +402,13 @@ def identificar_riesgo_academico2(df_resumen):
     # --- 3. CLASIFICACIÓN DE NIVELES ---
     # Condiciones para Riesgo CRÍTICO
     cond_critico = (
-        (df_riesgo['promedio_final'] < PROMEDIO_MIN) | 
-        ((df_riesgo['conteo_SD'] + df_riesgo['conteo_NP']) > NP_SD_MAX)
+        (df_riesgo['promedio_final'] < promedio_min) | 
+        ((df_riesgo['conteo_SD'] + df_riesgo['conteo_NP']) > umbral_np_sp)
     )
     
     # Condiciones para Riesgo MODERADO
     cond_moderado = (
-        (df_riesgo['promedio_final'] < 80) | 
+        (df_riesgo['promedio_final'] < 80) |  
         (df_riesgo['tasa_extraordinarios'] > 0.20) |
         (df_riesgo['eficiencia_creditos'] < 15)
     )

@@ -40,7 +40,7 @@ with st.sidebar:
     umbral_reprobacion = st.slider("Umbral de promedio critico", 0, 100, 60)
     umbral_eficiencia = st.slider("Creditos promedio por periodo", 0, 100, 60)
     umbral_np_sp = st.slider("Limite de examenes NP ySD", 0, 100, 60)
-    tasa = st.slider("Tasa (%) extrorodinarios", min_value=0, max_value=100, value=10, step=1)
+    tasa = st.slider("Tasa (%) extraordinarios", min_value=0, max_value=100, value=10, step=1)
 
 
     mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos criticos")
@@ -67,46 +67,15 @@ else:
 
 df_norm = normalizar_datos_academicos(df_filtrado)
 df_resumen = procesar_kardex(df_norm, umbral_reprobacion)
-df_con_riesgo = identificar_riesgo_academico2(df_resumen, umbral_reprobacion, umbral_eficiencia, umbral_np_sp)
+df_con_riesgo = identificar_riesgo_academico2(df_resumen, umbral_reprobacion, umbral_eficiencia, tasa, umbral_np_sp)
 
 #============================================CUERPO DEL DASHBOARD ============================================
 
 st.title("🚨 Sistema de Alerta Temprana")
 
-# Traemos todos los datos de la facultad (o por carrera)
-#df_riesgo = fetch_analisis_reprobacion()
-
-# Aplicamos el análisis a cada alumno único
-#resumen_riesgo = []
-#for matricula in df_riesgo['matricula'].unique():
-#    historial = df_riesgo[df_riesgo['matricula'] == matricula]
-#    analisis = calcular_indice_riesgo(historial)
-#    resumen_riesgo.append({
-#        "Matrícula": matricula,
-#        "Nivel de Riesgo": analisis['nivel'],
-#        "Score": analisis['score']
-#    })
-
-#df_final = pd.DataFrame(resumen_riesgo)
-
-# Visualización
-#col1, col2 = st.columns([1, 2])
-
-#with col1:
-#    st.write("### Distribución de Riesgo")
-#    conteo = df_final['Nivel de Riesgo'].value_counts()
-#    st.bar_chart(conteo)
-
-#with col2:
-#    st.write("### Alumnos que requieren intervención")
-#    st.dataframe(df_final.sort_values("Score", ascending=False), use_container_width=True)
-
 # Mostrar métricas de resumen
-col1, col2 = st.columns(2)
 critico = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Crítico'])
 moderado = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Moderado'])
-
-# Alertas destacadas
 col_info1, col_info2 = st.columns(2)
     
 with col_info1:
