@@ -114,9 +114,9 @@ with col_info1:
 with col_info2:
     if critico > 0:
         st.markdown(create_uabc_alert(f"⚠️ Se han identificado {critico} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
+        st.markdown(create_progress_bar(critico), unsafe_allow_html=True)
 
-        st.markdown(create_progress_bar(f"⚠️ Se han identificado {critico} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
-    
+
 st.markdown("---")
 
 # Mostrar tabla filtrada (Solo Críticos y Moderados)
