@@ -41,9 +41,9 @@ with st.sidebar:
 
     # Guardamos en session_state para que otras páginas lo usen
     st.session_state['umbral_reprobacion'] = umbral_reprobacion
-    st.session_state['umbral_reprobacion'] = umbral_reprobacion
     st.session_state['umbral_eficiencia'] = umbral_eficiencia
     st.session_state['umbral_np_sp'] = umbral_np_sp
+    st.session_state['tasa'] = tasa
 
 
 #============================ PROCESAR DATOS ================================
@@ -67,6 +67,7 @@ if matricula:
    #     id_carrera = df_alumno[df_alumno['carrera'] == seleccion]['id_carrera'].iloc[0]
         lista_carreras = ["Todas las carreras"] + sorted(df_alumno['carrera'].unique().tolist())
         carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
+        id_estudiante = df_alumno.loc[carrera_sel, 'id_estudiante']
         df_alumno_carrera = df_alumno[df_alumno['carrera'] == carrera_sel]
     else:
   #      id_carrera = num_carreras['id_carrera'].iloc[0]
@@ -128,7 +129,7 @@ if matricula:
     ################################ riesgo academico 
  #   score_riesgo, nivel = predecir_riesgo(df_alumno)
 
-    df_alumno_resumen =  df_resumen[df_resumen['matricula'] == matricula]
+    df_alumno_resumen =  df_resumen[df_resumen['id_estudiante'] == id_estudiante]
     resultado_individual = identificar_riesgo_academico2(df_alumno_resumen)
 
     # 3. Muestras la "Ficha de Riesgo" en Streamlit
