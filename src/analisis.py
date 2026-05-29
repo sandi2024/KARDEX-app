@@ -274,7 +274,27 @@ def calcular_evolucion_academica(df_limpio, umbral):
 
 def distribucion_calificaciones(df_limpio):
     """Prepara los datos para un histograma de frecuencias."""
-    if df_limpio.empty: return df_limpio
+    # 1. Supongamos que tienes un buscador o selectbox en el sidebar
+    materia_seleccionada = st.sidebar.selectbox("Selecciona Materia", df['materia'].unique())
+
+
+
+# Supongamos que tu fuente de datos es df_original
+# Paso 1: Filtrar solo las columnas necesarias y eliminar valores nulos
+df_distribucion = df_original[['calificacion']].dropna()
+
+# Paso 2: Asegurar que la columna sea numérica (float o int)
+df_distribucion['calificacion'] = pd.to_numeric(df_distribucion['calificacion'], errors='coerce')
+
+# Paso 3: Eliminar posibles errores tras la conversión
+df_distribucion = df_distribucion.dropna(subset=['calificacion'])
+
+  
+
+
+
+
+
     return df_limpio[['calificacion']]    
 
 
