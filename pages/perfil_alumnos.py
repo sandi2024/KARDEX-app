@@ -57,8 +57,7 @@ matricula = st.text_input("Matrícula")
 
 if matricula:
     df_alumno =  df_limpio[df_limpio['matricula'] == matricula].sort_values('periodo')
-    df_alumno_resumen = procesar_kardex(df_alumno, umbral_reprobacion)   # metricas de un solo alumno con 1 0 2 carreras para prediccion de riesgo
-    st.write(df_alumno_resumen.columns)
+    
     num_carreras = df_alumno['carrera'].nunique()
     num_planes = df_alumno['id_plan_estudio'].nunique() 
     
@@ -70,14 +69,14 @@ if matricula:
 
         if carrera_sel != "Todas las carreras":
             df_alumno_carrera = df_alumno[df_alumno['carrera'] == carrera_sel]
-            df_alumno_metricas = df_alumno_resumen[df_alumno_resumen['carrera'] == carrera_sel]
+            df_alumno_resumen = procesar_kardex(df_alumno_carrera, umbral_reprobacion)   # metricas de un solo alumno con 1 0 2 carreras para prediccion de ries
         else:
             df_alumno_carrera = df_alumno
     
     else:
   #      id_carrera = num_carreras['id_carrera'].iloc[0]
         df_alumno_carrera = df_alumno
-        df_alumno_metricas = df_alumno_resumen
+        df_alumno_resumen = procesar_kardex(df_alumno_carrera, umbral_reprobacion) 
 
     # materias filtradas por matrícula Y carrera
   #  st.write("id_carrera", id_carrera)
@@ -138,7 +137,7 @@ if matricula:
 
     # RIESGO
     if carrera_sel != "Todas las carreras":
-        resultado_individual = identificar_riesgo_academico2(df_alumno_metricas)
+        resultado_individual = identificar_riesgo_academico2(df_alumno_resumen)
         if not resultado_individual.empty:
             status = resultado_individual.iloc[0] # Extraemos la única fila
     
