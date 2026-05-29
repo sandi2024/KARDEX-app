@@ -144,8 +144,8 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
     
     # ---------- DISTRIBUCION CALIFICACION
     st.subheader("📊 Distribución de Calificaciones")
-    st.write(df_distribucion['calificacion'].unique())
-    st.write(df_distribucion.columns)
+  #  st.write(df_distribucion['calificacion'].unique())
+  #  st.write(df_distribucion.columns)
     if not df_distribucion.empty:
         fig_hist = px.histogram(
             df_distribucion,
