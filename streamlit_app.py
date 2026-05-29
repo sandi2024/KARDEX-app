@@ -152,7 +152,8 @@ with col_der:
                                            'RIESGO': '#FF9800', 'REZAGADO': '#F44336'})
     fig2.update_layout(height=400, plot_bgcolor='white')
     st.plotly_chart(fig2, use_container_width=True)
-
+    
+    st.write(df_final['plan_estudio'].unique())
     # 4. Bar Chart: Volumen por Plan de Estudios (Escala continua)
     df_planes = df_final[['id_plan_estudio', 'plan_estudio']].drop_duplicates()
     plan_data = df_final['id_plan_estudio'].value_counts().reset_index()
