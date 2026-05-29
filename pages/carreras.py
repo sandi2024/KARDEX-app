@@ -185,7 +185,7 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
             legend_title="Indicadores",
            hovermode="x unified" # Muestra ambos valores al pasar el mouse
         )
-        fig_bar.update_layout(xaxis=dict(type='category'))
+        fig_evolucion.update_layout(xaxis=dict(type='category'))
         st.plotly_chart(fig_evolucion, use_container_width=True)
 
 
