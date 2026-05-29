@@ -76,7 +76,7 @@ st.title("🚨 Sistema de Alerta Temprana")
 # Mostrar métricas de resumen
 critico = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Crítico'])
 moderado = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Moderado'])
-
+st.write(tasa)
 col_info1, col_info2 = st.columns(2)    
 with col_info1:
    if moderado > 0:
