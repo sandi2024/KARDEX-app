@@ -97,7 +97,7 @@ st.markdown("---")
 #    use_container_width=True
 #)
 st.dataframe(
-    df_con_riesgo,
+    df_con_riesgo[df_con_riesgo['nivel_riesgo'] != 'Bajo'],
     column_order=("id_estudiante", "nivel_riesgo", "alerta_score"),
     use_container_width=True
 )
