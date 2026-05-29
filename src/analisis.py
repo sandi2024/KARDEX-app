@@ -2,14 +2,11 @@ import pandas as pd
 import numpy as np
 
 def procesar_kardex(df, umbral_reprobacion):
-    # --- 1. PRE-PROCESAMIENTO DE CALIFICACIONES ---
-    # Creamos una copia para no alterar el DataFrame original
+
     df_proc = df.copy()
 
-    # Agrupamos por el ID único del alumno
     grupos = df_proc.groupby('id_estudiante')
 
-    # --- 2. CÁLCULO DE MÉTRICAS ---
     resumen_alumnos = pd.DataFrame()
 
     # Promedio Final: mean() de pandas ignora los NaN (NP) por defecto, 
@@ -279,15 +276,15 @@ def distribucion_calificaciones(df_limpio):
 
 
 
-# Supongamos que tu fuente de datos es df_original
-# Paso 1: Filtrar solo las columnas necesarias y eliminar valores nulos
-df_distribucion = df_original[['calificacion']].dropna()
+    # Supongamos que tu fuente de datos es df_original
+    # Paso 1: Filtrar solo las columnas necesarias y eliminar valores nulos
+    df_distribucion = df_original[['calificacion']].dropna()
 
-# Paso 2: Asegurar que la columna sea numérica (float o int)
-df_distribucion['calificacion'] = pd.to_numeric(df_distribucion['calificacion'], errors='coerce')
+    # Paso 2: Asegurar que la columna sea numérica (float o int)
+    df_distribucion['calificacion'] = pd.to_numeric(df_distribucion['calificacion'], errors='coerce')
 
-# Paso 3: Eliminar posibles errores tras la conversión
-df_distribucion = df_distribucion.dropna(subset=['calificacion'])
+    # Paso 3: Eliminar posibles errores tras la conversión
+    df_distribucion = df_distribucion.dropna(subset=['calificacion'])
 
   
 
@@ -330,3 +327,45 @@ def predecir_riesgo(df_alumno, umbral_aprobacion=70):
     else: estatus = "ESTABLE"
 
     return min(score, 100), estatus
+
+
+
+def identificar_riesgo_academico(df_resumen, umbral_promedio_critico, umbral_eficiencia_baja, umbral_NP_SP):
+    """
+    Recibe el DataFrame generado por procesar_kardex y añade 
+    columnas de clasificación de riesgo.
+    """
+    if df_resumen.empty:
+        return df_resumen
+
+    # 1. Definición de umbrales (Ajustables según normativa)
+    UMBRAL_PROMEDIO_CRITICO = 70
+    UMBRAL_EFICIENCIA_BAJA = 15  # Créditos promedio por periodo
+    UMBRAL_NP_SD_ALTO = 3        # Más de 3 ausencias o faltas de derecho
+    
+    # 2. Creación de Reglas de Riesgo
+    condiciones = [
+        # RIESGO CRÍTICO (Rojo)
+        (df_resumen['promedio_final'] < umbral_promedio_critico) | 
+        ((df_resumen['conteo_SD'] + df_resumen['conteo_NP']) >= umbral_NP_SP),
+        
+        # RIESGO MODERADO (Amarillo)
+        (df_resumen['promedio_final'] < 80) | 
+        (df_resumen['tasa_extraordinarios'] > 0.25) |
+        (df_resumen['eficiencia_creditos'] < umbral_eficiencia_baja)
+    ]
+    
+    opciones = ['Crítico', 'Moderado']
+    
+    # 3. Aplicación de etiquetas
+    df_resumen['nivel_riesgo'] = np.select(condiciones, opciones, default='Bajo')
+    
+    # 4. Cálculo de un "Score de Alerta" (0 a 100)
+    # Entre más alto, más atención requiere el alumno
+    df_resumen['alerta_score'] = (
+        (100 - df_resumen['promedio_final'].fillna(0)) * 0.4 +
+        (df_resumen['tasa_extraordinarios'] * 100) * 0.3 +
+        (df_resumen['conteo_NP'] * 10) * 0.3
+    ).clip(0, 100)
+
+    return df_resumen.sort_values(by='alerta_score', ascending=False)
