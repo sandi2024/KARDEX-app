@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.express as px
-from src.utils import load_css, render_header, create_uabc_metric_card, render_footer
+from src.utils import load_css, render_header, create_uabc_metric_card, render_footer, create_uabc_alert
 from src.queries import get_data_analisis_completo        
 from src.analisis import normalizar_datos_academicos, predecir_riesgo, identificar_riesgo_academico2, procesar_kardex
 
@@ -111,17 +111,13 @@ if matricula:
             st.metric("Materias Cursadas", len(df_materias_aprobadas))
         with col3:
         # Ejemplo si tienes columna de créditos
-            total_creditos = df_materias_aprobadas['creditos_materia'].sum()
-            
+            total_creditos = df_materias_aprobadas['creditos_materia'].sum()         
             #if 'creditos' in df_materias_aprobadas.columns else 0
             st.metric("Créditos Totales", total_creditos)
 
-   
-   
-   
-   
-   
-   
+
+
+
         # 3. LISTA COMPLETA DE ASIGNATURAS (El Kardex)
         st.subheader("📚 Historial Académico Completo")
     
@@ -148,8 +144,18 @@ if matricula:
             status = resultado_individual.iloc[0] # Extraemos la única fila
     
             st.subheader(f"Análisis de Riesgo: {matricula} ")
-            st.info("Nivel de Riesgo", status['nivel_riesgo'])
-            st.info(f"Motivos detectados: {status['motivo_riesgo']}")
+
+            col_info1, col_info2 = st.columns(2)    
+            with col_info1:
+                if status['motivo_riesgo'] > 0:
+                    st.markdown(create_uabc_alert(f"⚠️ Nivel de riesgo: {status['nivel_riesgo']} ", "metric"), unsafe_allow_html=True)
+    
+            with col_info2:
+                if status['motivo_riesgo'] > 0:
+                    st.markdown(create_uabc_alert(f" Motivo detectado: {status['motivo_riesgo']} ", "warning"), unsafe_allow_html=True)
+
+   #         st.metric("Nivel de Riesgo", status['nivel_riesgo'])
+   #         st.warning(f"Motivos detectados: {status['motivo_riesgo']}")
             st.info(f"Puntaje de Alerta: {status['alerta_score']}/100")
 
      
