@@ -90,7 +90,7 @@ def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
         return 'REGULAR'
     
     def avance_credito(row):
-        return row['total_creditos_logrados']/row['creditos_totales']*100
+        return row['total_creditos_logrados']/row['creditos_total']*100
 
     resumen_alumnos['estatus'] = resumen_alumnos.apply(asignar_estatus, axis=1)
     resumen_alumnos['avance_porcentaje'] = resumen_alumnos.apply(avance_credito, axis=1)
