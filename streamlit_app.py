@@ -167,6 +167,7 @@ with col_der:
         color_continuous_scale='Blues',
         title='📚 Volumen por Plan de Estudios'
     )
+    fig4.update_layout(xaxis=dict(type='category'))
     st.plotly_chart(fig4, use_container_width=True)
 
 
