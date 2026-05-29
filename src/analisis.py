@@ -235,7 +235,7 @@ def identificar_riesgo_academico2(df_resumen, promedio_min, eficiencia_min, extr
         motivos = []
         if row['promedio_final'] < promedio_min: motivos.append("Bajo Promedio")
         if (row['conteo_SD'] + row['conteo_NP']) > umbral_np_sp: motivos.append("Abandono/Inasistencia (NP/SD)")
-        if row['tasa_extraordinarios'] > extras_max: motivos.append("Alta Recurrencia (Extras)")
+        if row['tasa_extraordinarios'] > (extras_max/100): motivos.append("Alta Recurrencia (Extras)")
         if row['eficiencia_creditos'] < eficiencia_min: motivos.append("Rezago en Créditos")
         
         return ", ".join(motivos) if motivos else "Ninguno"
