@@ -154,7 +154,7 @@ with col_der:
     st.plotly_chart(fig2, use_container_width=True)
 
     # 4. Bar Chart: Volumen por Plan de Estudios (Escala continua)
-    plan_data = df_final['plan_estudio'].value_counts().reset_index()
+    plan_data = df_final['id_plan_estudio'].value_counts().reset_index()
     fig4 = px.bar(plan_data, x='plan_estudio', y='count',
                   color='count', color_continuous_scale='Blues',
                   title='📚 Volumen por Plan de Estudios')
