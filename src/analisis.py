@@ -59,11 +59,12 @@ def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
     resumen_alumnos['promedio_final'] = grupos['calificacion'].mean()
     # Créditos Logrados: Solo sumamos créditos si aprobó (calif >= umbral)
     # NP (NaN) y SD (0) fallarán la condición >= 70, por lo que no sumarán créditos.
+    
     resumen_alumnos['total_creditos_logrados'] = grupos.apply(
         lambda x: x[x['calificacion'] >= umbral_reprobacion]['creditos_materia'].sum()
     )
    
-    resumen_alumnos['avance_porcentaje'] = (grupos['total_creditos_logrados'] / grupos['creditos_totales_plan']) * 100
+    resumen_alumnos['avance_porcentaje'] = (resumen_alumnos['total_creditos_logrados'] / grupos['creditos_totales_plan']) * 100
    
     resumen_alumnos['conteo_extraordinarios'] = grupos.apply(
         lambda x: (x['tipo_examen'] == 'Ext').sum()
