@@ -1,7 +1,7 @@
 import streamlit as st
 from src.queries import fetch_analisis_reprobacion, get_data_completo
 from src.analisis import calcular_indice_riesgo, normalizar_datos_academicos, procesar_kardex, identificar_riesgo_academico
-from src.utils import load_css, render_header, create_uabc_metric_card, render_footer
+from src.utils import load_css, render_header, create_uabc_metric_card, render_footer, create_uabc_alert, create_progress_bar
 import pandas as pd
 
 
@@ -41,7 +41,7 @@ with st.sidebar:
     umbral_eficiencia = st.slider("Creditos promedio por periodo", 0, 100, 60)
     umbral_np_sp = st.slider("Limite de examenes NP ySD", 0, 100, 60)
 
-    mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos en riesgo")
+    mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos criticos")
     mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
 
 
@@ -101,12 +101,29 @@ st.title("🚨 Sistema de Alerta Temprana")
 
 # Mostrar métricas de resumen
 col1, col2 = st.columns(2)
-col1.metric("Alumnos en Riesgo Crítico", len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Crítico']))
-col2.metric("Alumnos en Riesgo Moderado", len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Moderado']))
+critico = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Crítico'])
+moderado = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Moderado'])
+
+# Alertas destacadas
+col_info1, col_info2 = st.columns(2)
+    
+with col_info1:
+   if moderado > 0:
+        st.markdown(create_uabc_alert(f"⚠️ Se han identificado {moderado} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
+    
+with col_info2:
+    if critico > 0:
+        st.markdown(create_uabc_alert(f"⚠️ Se han identificado {critico} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
+
+        st.markdown(create_progress_bar(f"⚠️ Se han identificado {critico} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
+    
+st.markdown("---")
 
 # Mostrar tabla filtrada (Solo Críticos y Moderados)
 st.dataframe(
     df_con_riesgo[df_con_riesgo['nivel_riesgo'] != 'Bajo'],
     use_container_width=True
 )
+
+
 render_footer()

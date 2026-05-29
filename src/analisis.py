@@ -369,3 +369,63 @@ def identificar_riesgo_academico(df_resumen, umbral_promedio_critico, umbral_efi
     ).clip(0, 100)
 
     return df_resumen.sort_values(by='alerta_score', ascending=False)
+
+def identificar_riesgo_academico2(df_resumen):
+    """
+    Analiza las métricas de desempeño y clasifica a los alumnos por nivel de riesgo,
+    detallando la razón principal de la alerta.
+    """
+    if df_resumen.empty:
+        return df_resumen
+
+    # Copia para evitar advertencias de SettingWithCopy
+    df_riesgo = df_resumen.copy()
+
+    # --- 1. CONFIGURACIÓN DE UMBRALES ---
+    PROMEDIO_MIN = 70
+    EFICIENCIA_MIN = 10  # Créditos por periodo
+    EXTRAS_MAX = 0.40    # 40% de sus exámenes son extraordinarios
+    NP_SD_MAX = 2        # Máximo de abandonos permitidos
+
+    # --- 2. LÓGICA DE MOTIVOS (Para saber QUÉ pasa con el alumno) ---
+    def determinar_motivo(row):
+        motivos = []
+        if row['promedio_final'] < PROMEDIO_MIN: motivos.append("Bajo Promedio")
+        if (row['conteo_SD'] + row['conteo_NP']) > NP_SD_MAX: motivos.append("Abandono/Inasistencia (NP/SD)")
+        if row['tasa_extraordinarios'] > EXTRAS_MAX: motivos.append("Alta Recurrencia (Extras)")
+        if row['eficiencia_creditos'] < EFICIENCIA_MIN: motivos.append("Rezago en Créditos")
+        
+        return ", ".join(motivos) if motivos else "Ninguno"
+
+    df_riesgo['motivo_riesgo'] = df_riesgo.apply(determinar_motivo, axis=1)
+
+    # --- 3. CLASIFICACIÓN DE NIVELES ---
+    # Condiciones para Riesgo CRÍTICO
+    cond_critico = (
+        (df_riesgo['promedio_final'] < PROMEDIO_MIN) | 
+        ((df_riesgo['conteo_SD'] + df_riesgo['conteo_NP']) > NP_SD_MAX)
+    )
+    
+    # Condiciones para Riesgo MODERADO
+    cond_moderado = (
+        (df_riesgo['promedio_final'] < 80) | 
+        (df_riesgo['tasa_extraordinarios'] > 0.20) |
+        (df_riesgo['eficiencia_creditos'] < 15)
+    )
+
+    df_riesgo['nivel_riesgo'] = np.select(
+        [cond_critico, cond_moderado], 
+        ['Crítico', 'Moderado'], 
+        default='Bajo'
+    )
+
+    # --- 4. SCORE DE ALERTA (Priorización de 0 a 100) ---
+    # Damos peso: 40% al promedio, 30% a NP/SD y 30% a extraordinarios
+    df_riesgo['alerta_score'] = (
+        (100 - df_riesgo['promedio_final'].fillna(0)) * 0.4 +
+        ((df_riesgo['conteo_SD'] + df_riesgo['conteo_NP']) * 15) * 0.3 +
+        (df_riesgo['tasa_extraordinarios'] * 100) * 0.3
+    ).clip(0, 100).round(2)
+
+    # Ordenar por el score más alto (los más urgentes primero)
+    return df_riesgo.sort_values(by='alerta_score', ascending=False)
