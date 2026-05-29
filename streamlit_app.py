@@ -154,8 +154,8 @@ with col_der:
     st.plotly_chart(fig2, use_container_width=True)
 
     # 4. Bar Chart: Volumen por Plan de Estudios (Escala continua)
-    plan_data = df_final['id_plan_estudio'].value_counts().reset_index()
-    fig4 = px.bar(plan_data, x='id_plan_estudio', y='count',
+    plan_data = df_final['nombre_plan'].value_counts().reset_index()
+    fig4 = px.bar(plan_data, x='nombre_plan', y='count',
                   color='count', color_continuous_scale='Blues',
                   title='📚 Volumen por Plan de Estudios')
     st.plotly_chart(fig4, use_container_width=True)
@@ -168,7 +168,7 @@ columna1, columna2 = st.columns(2)
 
 with columna1:
      # Gráfico de promedios por carrera 
-    carrera_promedio = df_final.groupby('carrera')['promedio_general'].mean().sort_values(ascending=False)
+    carrera_promedio = df_final.groupby('carrera')['promedio_fina'].mean().sort_values(ascending=False)
     fig5 = px.bar(x=carrera_promedio.values, y=carrera_promedio.index,
                 orientation='h', title='Promedio General por Carrera',
                 color=carrera_promedio.values, color_continuous_scale='Blues',
@@ -190,7 +190,7 @@ with columna2:
 # Gráfico comparativo 
 st.markdown("###  Comparativa de Indicadores")
 carrera_metrics = df_final.groupby('carrera').agg({
-         'promedio_general': 'mean',
+         'promedio_final': 'mean',
         'avance_porcentaje': 'mean'
     }).reset_index()
     
