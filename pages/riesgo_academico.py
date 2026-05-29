@@ -106,7 +106,7 @@ if ocultar_bajos:
 # 3. Imprimir el resultado
 st.dataframe(
     df_mostrar,
-    column_order=("id_estudiante", "nivel_riesgo", "alerta_score"),
+    column_order=("id_estudiante", "nivel_riesgo", "alerta_score", "tasa_etraordinario"),
     use_container_width=True
 )
 
