@@ -135,10 +135,10 @@ if matricula:
     ################################ riesgo academico 
  #   score_riesgo, nivel = predecir_riesgo(df_alumno)
 
-    resultado_individual = identificar_riesgo_academico2(df_alumno_metricas)
 
-    # 3. Muestras la "Ficha de Riesgo" en Streamlit
+    # RIESGO
     if carrera_sel != "Todas las carreras":
+        resultado_individual = identificar_riesgo_academico2(df_alumno_metricas)
         if not resultado_individual.empty:
             status = resultado_individual.iloc[0] # Extraemos la única fila
     
