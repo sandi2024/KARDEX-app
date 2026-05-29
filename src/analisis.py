@@ -55,6 +55,7 @@ def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
     # Promedio Final: mean() de pandas ignora los NaN (NP) por defecto, 
     # pero sí promedia los 0 (SD). Es el comportamiento académico estándar.
     resumen_alumnos['carrera'] = grupos['carrera'].first()
+    resumen_alumnos['id_plan_estudio'] = grupos['id_plan_estudio'].first()
     resumen_alumnos['plan_estudio'] = grupos['nombre_plan'].first()
     resumen_alumnos['promedio_final'] = grupos['calificacion'].mean()
     # Créditos Logrados: Solo sumamos créditos si aprobó (calif >= umbral)
@@ -175,7 +176,8 @@ def normalizar_datos_academicos(df):
     
     # 2. Creación de llave única: Matricula + Carrera
     df['id_estudiante'] = df['matricula'].astype(str) + "_" + df['carrera']
-    
+    df = df.sort_values(['id_estudiante', 'orden_prioritario'], ascending=True)
+
     return df
 
 
