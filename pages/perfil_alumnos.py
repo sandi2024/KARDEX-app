@@ -58,7 +58,7 @@ matricula = st.text_input("Matrícula")
 if matricula:
     df_alumno =  df_limpio[df_limpio['matricula'] == matricula].sort_values('periodo')
     df_alumno_resumen = procesar_kardex(df_alumno, umbral_reprobacion)   # metricas de un solo alumno con 1 0 2 carreras para prediccion de riesgo
-  
+    st.write(df_alumno_resumen.columns)
     num_carreras = df_alumno['carrera'].nunique()
     num_planes = df_alumno['id_plan_estudio'].nunique() 
     
