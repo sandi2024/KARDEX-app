@@ -137,9 +137,10 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
         title="Rendimiento Promedio por Periodo y Carrera"
     )
     st.plotly_chart(fig_heat, use_container_width=True)
-
+    
     # ---------- DISTRIBUCION CALIFICACION
     st.subheader("📊 Distribución de Calificaciones")
+    st.write(df_distribucion['calificacion'].unique())
     if not df_distribucion.empty:
         fig_hist = px.histogram(
             df_distribucion,
