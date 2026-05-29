@@ -114,10 +114,20 @@ if matricula:
             total_creditos = df_materias_aprobadas['creditos_materia'].sum()         
             #if 'creditos' in df_materias_aprobadas.columns else 0
             st.metric("Créditos Totales", total_creditos)
+ 
+        col1, col2, col3= st.columns(3)
+        with col1:
+            st.markdown(create_uabc_metric_card("Promedio general", f"{df_alumno_carrera['calificacion'].mean():.2f}", " ",icon=" "), unsafe_allow_html=True)
+    
+        with col2:
+            st.markdown(create_uabc_metric_card("Materias cursadas", len(df_materias_aprobadas),  " ",icon=" "), unsafe_allow_html=True)
+        
+        with col3:
+            st.markdown(create_uabc_metric_card("Creditos totales", total_creditos,  " ",icon=" "), unsafe_allow_html=True)  
+    
+        st.markdown("---")
 
-
-
-
+        
         # 3. LISTA COMPLETA DE ASIGNATURAS (El Kardex)
         st.subheader("📚 Historial Académico Completo")
     
@@ -147,7 +157,6 @@ if matricula:
 
             col_info1, col_info2 = st.columns(2)    
             with col_info1:
-                
                 st.markdown(create_uabc_alert(f"⚠️ Nivel de riesgo: {status['nivel_riesgo']} ", "metric"), unsafe_allow_html=True)
     
             with col_info2:
