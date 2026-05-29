@@ -110,12 +110,12 @@ col_info1, col_info2 = st.columns(2)
 with col_info1:
    if moderado > 0:
         st.markdown(create_uabc_alert(f"⚠️ Se han identificado {moderado} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
-        st.markdown(create_progress_bar(moderado, type="warning"), unsafe_allow_html=True)
+   #     st.markdown(create_progress_bar(moderado, type="warning"), unsafe_allow_html=True)
     
 with col_info2:
     if critico > 0:
         st.markdown(create_uabc_alert(f"⚠️ Se han identificado {critico} alumnos en situación de riesgo académico", "warning"), unsafe_allow_html=True)
-        st.markdown(create_progress_bar(critico, type="warning"), unsafe_allow_html=True)
+   #     st.markdown(create_progress_bar(critico, type="warning"), unsafe_allow_html=True)
 
 
 st.markdown("---")
