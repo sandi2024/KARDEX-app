@@ -147,12 +147,12 @@ if matricula:
 
             col_info1, col_info2 = st.columns(2)    
             with col_info1:
-                if status['motivo_riesgo'] > 0:
-                    st.markdown(create_uabc_alert(f"⚠️ Nivel de riesgo: {status['nivel_riesgo']} ", "metric"), unsafe_allow_html=True)
+                
+                st.markdown(create_uabc_alert(f"⚠️ Nivel de riesgo: {status['nivel_riesgo']} ", "metric"), unsafe_allow_html=True)
     
             with col_info2:
-                if status['motivo_riesgo'] > 0:
-                    st.markdown(create_uabc_alert(f" Motivo detectado: {status['motivo_riesgo']} ", "warning"), unsafe_allow_html=True)
+                
+                st.markdown(create_uabc_alert(f" Motivo detectado: {status['motivo_riesgo']} ", "warning"), unsafe_allow_html=True)
 
    #         st.metric("Nivel de Riesgo", status['nivel_riesgo'])
    #         st.warning(f"Motivos detectados: {status['motivo_riesgo']}")
