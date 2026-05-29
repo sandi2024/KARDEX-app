@@ -272,27 +272,18 @@ def calcular_evolucion_academica(df_limpio, umbral):
 def distribucion_calificaciones(df_limpio):
     """Prepara los datos para un histograma de frecuencias."""
     # 1. Supongamos que tienes un buscador o selectbox en el sidebar
-    materia_seleccionada = st.sidebar.selectbox("Selecciona Materia", df['materia'].unique())
+  #  materia_seleccionada = st.sidebar.selectbox("Selecciona Materia", df['materia'].unique())
 
+    # Filtrar solo las columnas necesarias y eliminar valores nulos
+    df_distribucion = df_limpio[['calificacion']].dropna()
 
-
-    # Supongamos que tu fuente de datos es df_original
-    # Paso 1: Filtrar solo las columnas necesarias y eliminar valores nulos
-    df_distribucion = df_original[['calificacion']].dropna()
-
-    # Paso 2: Asegurar que la columna sea numérica (float o int)
+    # Asegurar que la columna sea numérica (float o int)
     df_distribucion['calificacion'] = pd.to_numeric(df_distribucion['calificacion'], errors='coerce')
 
-    # Paso 3: Eliminar posibles errores tras la conversión
+    # Eliminar posibles errores tras la conversión
     df_distribucion = df_distribucion.dropna(subset=['calificacion'])
 
-  
-
-
-
-
-
-    return df_limpio[['calificacion']]    
+    return df_distribucion
 
 
 def predecir_riesgo(df_alumno, umbral_aprobacion=70):
@@ -380,12 +371,6 @@ def identificar_riesgo_academico2(df_resumen, promedio_min, eficiencia_min, extr
 
     # Copia para evitar advertencias de SettingWithCopy
     df_riesgo = df_resumen.copy()
-
-    # --- 1. CONFIGURACIÓN DE UMBRALES ---
-    PROMEDIO_MIN = 70
-    EFICIENCIA_MIN = 10  # Créditos por periodo
-    EXTRAS_MAX = 0.40    # 40% de sus exámenes son extraordinarios
-    NP_SD_MAX = 2        # Máximo de abandonos permitidos
 
     # --- 2. LÓGICA DE MOTIVOS (Para saber QUÉ pasa con el alumno) ---
     def determinar_motivo(row):
