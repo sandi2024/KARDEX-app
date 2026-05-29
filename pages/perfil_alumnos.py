@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.express as px
 from src.utils import load_css, render_header, create_uabc_metric_card, render_footer
 from src.queries import get_data_analisis_completo        
-from src.analisis import normalizar_datos_academicos, predecir_riesgo
+from src.analisis import normalizar_datos_academicos, predecir_riesgo, identificar_riesgo_academico2, procesar_kardex
 
 load_css()
 render_header()
@@ -31,20 +31,25 @@ with st.sidebar:
     st.markdown("### ⚙️ Configuración")
     
       # Filtro de Umbral
-    umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
+    umbral_reprobacion = st.slider("Umbral de promedio critico", 0, 100, 60)
+    umbral_eficiencia = st.slider("Creditos promedio por periodo", 0, 100, 40)
+    umbral_np_sp = st.slider("Limite de examenes NP ySD", 0, 10, 5)
+    tasa = st.slider("Tasa (%) extraordinarios", min_value=0, max_value=100, value=10, step=1)
 
     # Filtros adicionales
-    mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
+ #   mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
 
     # Guardamos en session_state para que otras páginas lo usen
-    st.session_state['umbral_reprobacion'] = umbral
-    st.session_state['mostrar_detalles'] = mostrar_detalles
+    st.session_state['umbral_reprobacion'] = umbral_reprobacion
+    st.session_state['umbral_reprobacion'] = umbral_reprobacion
+    st.session_state['umbral_eficiencia'] = umbral_eficiencia
+    st.session_state['umbral_np_sp'] = umbral_np_sp
 
 
 #============================ PROCESAR DATOS ================================
 
 df_limpio = normalizar_datos_academicos(df_datos)
-
+df_resumen = procesar_kardex(df_limpio, umbral_reprobacion)
 # ============================================CUERPO DEL DASHBOARD ============================================
 st.title("📈 Consulta Alumnos")
 
@@ -121,26 +126,39 @@ if matricula:
         )
 
     ################################ riesgo academico 
-    score_riesgo, nivel = predecir_riesgo(df_alumno)
+ #   score_riesgo, nivel = predecir_riesgo(df_alumno)
 
-    # Mostrar con un indicador visual
-    st.subheader("🔮 Predicción de Riesgo Académico")
+    df_alumno_resumen =  df_resumen[df_resumen['matricula'] == matricula]
+    resultado_individual = identificar_riesgo_academico2(df_alumno_resumen)
 
-    col1, col2 = st.columns(2)
-    with col1:
-        color = "red" if score_riesgo >= 70 else "orange" if score_riesgo >= 40 else "green"
-        st.markdown(f"### Nivel: :{color}[{nivel}]")
+    # 3. Muestras la "Ficha de Riesgo" en Streamlit
+    if not resultado_individual.empty:
+        status = resultado_individual.iloc[0] # Extraemos la única fila
+    
+        st.subheader(f"Análisis de Riesgo: {matricula} ")
+        st.metric("Nivel de Riesgo", status['nivel_riesgo'])
+        st.warning(f"Motivos detectados: {status['motivo_riesgo']}")
+        st.info(f"Puntaje de Alerta: {status['alerta_score']}/100")
 
-    with col2:
-        st.metric("Índice de Riesgo", f"{score_riesgo}%", delta_color="inverse")
+     
+     
+        # Mostrar con un indicador visual
+#       st.subheader("🔮 Predicción de Riesgo Académico")
+#    col1, col2 = st.columns(2)
+#    with col1:
+#        color = "red" if score_riesgo >= 70 else "orange" if score_riesgo >= 40 else "green"
+#        st.markdown(f"### Nivel: :{color}[{nivel}]")
+
+#    with col2:
+#        st.metric("Índice de Riesgo", f"{score_riesgo}%", delta_color="inverse")
 
     # Explicación del riesgo
-    if score_riesgo >= 40:
-        st.warning("🚨 **Factores detectados:**")
-        if df_alumno['calificacion'].mean() < 75:
-            st.write("- El promedio general es muy bajo.")
-        if (df_alumno['calificacion'] < 70).sum() > 0:
-            st.write("- Existen materias reprobadas en el historial.")
+#    if score_riesgo >= 40:
+#        st.warning("🚨 **Factores detectados:**")
+#        if df_alumno['calificacion'].mean() < 75:
+#            st.write("- El promedio general es muy bajo.")
+#        if (df_alumno['calificacion'] < 70).sum() > 0:
+#            st.write("- Existen materias reprobadas en el historial.")
 
 
     ###############################  GRAFICA
