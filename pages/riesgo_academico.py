@@ -76,6 +76,7 @@ st.title("🚨 Sistema de Alerta Temprana")
 # Mostrar métricas de resumen
 critico = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Crítico'])
 moderado = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Moderado'])
+total = moderado = len(df_con_riesgo)
 col_info1, col_info2 = st.columns(2)
     
 with col_info1:
@@ -90,7 +91,7 @@ with col_info2:
 
 
 st.markdown("---")
-
+st.write(total)
 # Mostrar tabla filtrada (Solo Críticos y Moderados)
 #st.dataframe(
 #    df_con_riesgo[df_con_riesgo['nivel_riesgo'] != 'Bajo'],
