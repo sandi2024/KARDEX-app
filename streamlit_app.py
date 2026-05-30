@@ -44,7 +44,17 @@ with st.sidebar:
     # Filtro de Periodo
     lista_periodos = ["Todos los periodos"] + sorted(df_datos['periodo'].unique().tolist())
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
-    
+
+    # Intervalo numérico (ej. rango de precios)
+    rango_precios = st.slider(
+        "Selecciona el rango de precio",
+        min_value=0,
+        max_value=100,
+        value=(25, 75)  # Tupla con el valor inicial y final
+    )
+
+
+
     # Filtro de Umbral
     umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
     max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
@@ -79,6 +89,7 @@ metricas = calcular_metricas_generales(df_final)
 
 # ===================================== CUERPO DEL DASHBOARD ===========================================
 st.title(f"📊 Visión General {periodo_sel}")
+st.write(f"Precio seleccionado: de ${rango_precios[0]} a ${rango_precios[1]}")
 
 # Ejemplo de cómo usar las métricas ahora:
 col1, col2, col3, col4, col5= st.columns(5)

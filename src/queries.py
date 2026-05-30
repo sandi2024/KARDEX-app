@@ -23,49 +23,12 @@ def get_kardex_alumno(matricula):
 
 
 @st.cache_data(ttl=3600) # El caché dura 1 hora (3600 seg)
-def fetch_analisis_reprobacion(id_carrera=None, id_periodo=None):
-    """
-    Obtiene los datos de reprobación siguiendo la ruta correcta del diagrama.
-    Ruta: alumno_asignatura -> Alumno -> alumno_plan_estudio -> plan_estudio -> programaEducativo
-    """
-    query = """
-    SELECT 
-        pe.nombre AS nombre_carrera,
-        aa.id_periodo,
-        asig.nombre AS materia,
-        aa.calificacion,
-        CASE WHEN aa.calificacion < 60 THEN 1 ELSE 0 END AS es_reprobado
-    FROM alumno_asignatura aa
-    -- Unimos con Alumno para saber quién es
-    JOIN Alumno al ON aa.matricula = al.matricula
-    -- Unimos Alumno con su Plan de Estudio (Aquí estaba el error)
-    JOIN alumno_plan_estudio ape ON al.matricula = ape.matricula
-    JOIN plan_estudio ple ON ape.id_plan_estudio = ple.id_plan_estudio
-    -- Ahora sí llegamos al Programa Educativo (Carrera)
-    JOIN programaEducativo pe ON ple.id_programa = pe.id_programa
-    -- Unimos con las materias
-    JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
-    JOIN Asignatura asig ON ap.id_asignatura = asig.id_asignatura
-    WHERE 1=1
-    """
-    
-    params = []
-    
-    if id_carrera:
-        query += " AND pe.id_programa = %s"
-        params.append(id_carrera)
-        
-    if id_periodo:
-        query += " AND aa.id_periodo = %s"
-        params.append(id_periodo)
-        
-    return run_query(query, tuple(params) if params else None)
 
 
 
 #@st.cache_data(ttl=3600) # El caché dura 1 hora (3600 seg)
 @st.cache_data(persist="disk") # <--- ESTO ES LA CLAVE
-def fetch_detalle_por_periodo(matricula, id_carrera):
+def detalle_por_periodo(matricula, id_carrera):
     """
     Obtiene el historial académico detallado de un alumno filtrado por carrera,
     ordenado cronológicamente por periodo usando run_query.
