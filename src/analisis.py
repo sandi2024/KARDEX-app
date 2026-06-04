@@ -185,19 +185,49 @@ def calcular_evolucion_academica(df_limpio, umbral):
     df_limpio = df_limpio.copy()
     df_limpio['es_reprobado'] = df_limpio['calificacion'] < umbral
     
-    # Agrupamos para obtener ambos datos
+    # ... (resto del código igual)
     evolucion = df_limpio.groupby('periodo').agg(
-        total_alumnos=('id_estudiante', 'nunique'),
+        total_alumnos=('id_estudiante', 'count'),  # <--- CAMBIADO: Cuenta total de registros/inscripciones
         reprobados=('es_reprobado', 'sum'),
-        promedio_periodo=('calificacion', 'mean') # Nueva métrica
+        promedio_periodo=('calificacion', 'mean')
     ).reset_index()
-    
+    # ...
+
     evolucion['porcentaje_reprobacion'] = (evolucion['reprobados'] / evolucion['total_alumnos']) * 100
     evolucion['periodo'] = evolucion['periodo'].astype(str)
     
     return evolucion.sort_values('periodo')
 
 
+
+def calcular_evolucion_academica(df_limpio, umbral):
+    """Calcula reprobación y promedio por periodo basándose en alumnos únicos."""
+    if df_limpio.empty: return pd.DataFrame()
+
+    df_limpio = df_limpio.copy()
+    df_limpio['es_reprobado'] = df_limpio['calificacion'] < umbral
+    
+    # 1. Primero agrupamos por periodo Y por estudiante para ver quién reprobó al menos una materia
+    por_estudiante = df_limpio.groupby(['periodo', 'id_estudiante']).agg(
+        reprobo_algo=('es_reprobado', 'any'), # True si reprobó al menos 1 materia
+        promedio_alumno=('calificacion', 'mean')
+    ).reset_index()
+    
+    # 2. Ahora agrupamos solo por periodo para obtener la evolución real por alumno
+    evolucion = por_estudiante.groupby('periodo').agg(
+        total_alumnos=('id_estudiante', 'count'),       # Ya están únicos por el paso 1
+        reprobados=('reprobo_algo', 'sum'),             # Cuenta cuántos alumnos únicos reprobaron
+    ).reset_index()
+    
+    # 3. El promedio global del periodo lo calculamos del df original para mantener el peso por materia
+    promedios = df_limpio.groupby('periodo')['calificacion'].mean().reset_index(name='promedio_periodo')
+    evolucion = evolucion.merge(promedios, on='periodo')
+    
+    # Porcentaje y formato
+    evolucion['porcentaje_reprobacion'] = (evolucion['reprobados'] / evolucion['total_alumnos']) * 100
+    evolucion['periodo'] = evolucion['periodo'].astype(str)
+    
+    return evolucion.sort_values('periodo')
 
 def distribucion_calificaciones(df_limpio):
     """Prepara los datos para un histograma de frecuencias."""
