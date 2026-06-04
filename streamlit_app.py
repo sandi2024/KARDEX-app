@@ -72,11 +72,13 @@ with st.sidebar:
 
 
 # ============================================== PROCESAMIENTO ============================================
-
-if periodo_sel != "Todos los periodos":
-    df_filtrado = df_datos[df_datos['periodo'] == periodo_sel]
+if  mostrar_intervalo_periodo:
+    df_filtrado = df_datos[(df_datos['periodo'] >= rango_periodos[0]) & (df_datos['periodo'] <= rango_periodos[1])]
 else:
-    df_filtrado = df_datos
+    if periodo_sel != "Todos los periodos":
+        df_filtrado = df_datos[df_datos['periodo'] == periodo_sel]
+    else:
+        df_filtrado = df_datos
 
 df_norm = normalizar_datos_academicos(df_filtrado)
 df_final = procesar_kardex_general(df_norm, umbral, max_extraordinarios)
