@@ -41,18 +41,21 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
     
+  #  mostrar_solo_criticos = st.checkbox("Filtar periodo por intervalo")
+    
     # Filtro de Periodo
     lista_periodos = ["Todos los periodos"] + sorted(df_datos['periodo'].unique().tolist())
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
 
-    # Intervalo numérico (ej. rango de precios)
-    rango_precios = st.slider(
-        "Selecciona el rango de precio",
-        min_value=0,
-        max_value=100,
-        value=(25, 75)  # Tupla con el valor inicial y final
-    )
+  
+    # Obtener la lista de años únicos, ordenados de menor a mayor
+    lista_años = sorted(df["periodo"].unique().tolist())
 
+    rango_años_exactos = st.select_slider(
+        "Selecciona el intervalo de años escolares",
+        options=lista_años,
+        value=(lista_años[0], lista_años[-1]) # Selecciona el primero y el último por defecto
+    )
 
 
     # Filtro de Umbral
