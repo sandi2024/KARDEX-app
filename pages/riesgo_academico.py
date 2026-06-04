@@ -95,7 +95,7 @@ with col_metrica2:
         max_value=1000.0,
         value=40.0,
         step=0.50,          # Incrementos de 50 centavos
-        format="%.2f"       # Fuerza a mostrar siempre 2 decimales
+        format="%.2f",       # Fuerza a mostrar siempre 2 decimales
         key="precio_producto"
     )
     st.write(f"Precio establecido: **${precio}**")
@@ -107,7 +107,7 @@ with col_metrica3:
         max_value=1000.0,
         value=30.0,
         step=0.50,          # Incrementos de 50 centavos
-        format="%.2f"       # Fuerza a mostrar siempre 2 decimales
+        format="%.2f",       # Fuerza a mostrar siempre 2 decimales
         key="ponderacion_producto"
     )
     st.write(f"Precio establecido: **${ponderacion}**")
