@@ -41,22 +41,19 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
     
-  #  mostrar_solo_criticos = st.checkbox("Filtar periodo por intervalo")
-    
     # Filtro de Periodo
     lista_periodos = ["Todos los periodos"] + sorted(df_datos['periodo'].unique().tolist())
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
-
-    mostrar_detalles = st.checkbox(" Filtar por intervalo de periodos")
-    # Obtener la lista de años únicos, ordenados de menor a mayor
-    lista_años = sorted(df_datos["periodo"].unique().tolist())
     
-   
-    rango_periodos = st.select_slider(
+
+    mostrar_intervalo_periodo = st.checkbox(" Filtar periodo por intervalos")
+    if  mostrar_intervalo_periodo:
+        lista_años = sorted(df_datos["periodo"].unique().tolist())
+        rango_periodos = st.select_slider(
         "Selecciona el intervalo de periodos",
         options=lista_años,
         value=(lista_años[0], lista_años[-1]) # Selecciona el primero y el último por defecto
-    )
+        )
 
 
     # Filtro de Umbral
@@ -91,16 +88,8 @@ metricas = calcular_metricas_generales(df_final)
 
 # ===================================== CUERPO DEL DASHBOARD ===========================================
 st.title(f"📊 Visión General {periodo_sel}")
-lista_años = sorted(df_datos["periodo"].unique().tolist())
-    
-   
-rango_periodos = st.select_slider(
-        "Selecciona el intervalo de periodos",
-        options=lista_años,
-        value=(lista_años[0], lista_años[-1]) # Selecciona el primero y el último por defecto
-    )
 
-# Ejemplo de cómo usar las métricas ahora:
+# METRICAS DESTACADAS
 col1, col2, col3, col4, col5= st.columns(5)
 with col1:
     st.markdown(create_uabc_metric_card("Total Alumnos", metricas["total_alumno"], " ",icon="🎓"), unsafe_allow_html=True)
