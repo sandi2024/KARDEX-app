@@ -1,5 +1,5 @@
 import streamlit as st
-from src.database import get_neon_connection, run_query
+from src.database import get_neon_connection
 import pandas as pd
 
 # Aquí definimos las funciones de consulta específicas para cada página, utilizando run_query para ejecutar las consultas SQL.
