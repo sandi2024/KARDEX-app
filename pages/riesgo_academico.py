@@ -73,14 +73,14 @@ st.title("🚨 Sistema de Alerta Temprana")
 
 import streamlit as st
 
-st.title("Ejemplo de st.number_input")
+st.title("Indices de riesgo academico")
 
 # 1. Ejemplo con número entero (Integer)
 edad = st.number_input(
     label="Introduce tu edad:",
     min_value=0,        # Límite mínimo
     max_value=120,      # Límite máximo
-    value=25,           # Valor por defecto inicial
+    value=40,           # Valor por defecto inicial
     step=1              # Cuánto suma/resta con los botones + y -
 )
 
@@ -91,7 +91,7 @@ precio = st.number_input(
     label="Define el precio del producto (USD):",
     min_value=0.0,      # Al usar .0, Streamlit sabe que es decimal
     max_value=1000.0,
-    value=19.99,
+    value=40.0,
     step=0.50,          # Incrementos de 50 centavos
     format="%.2f"       # Fuerza a mostrar siempre 2 decimales
 )
