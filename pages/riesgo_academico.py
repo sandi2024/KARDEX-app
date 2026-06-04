@@ -1,5 +1,5 @@
 import streamlit as st
-from src.queries import fetch_analisis_reprobacion, get_data_completo
+from src.database import get_data_completo
 from src.analisis import normalizar_datos_academicos, procesar_kardex, identificar_riesgo_academico2
 from src.utils import load_css, render_header, create_uabc_metric_card, render_footer, create_uabc_alert, create_progress_bar
 import pandas as pd
