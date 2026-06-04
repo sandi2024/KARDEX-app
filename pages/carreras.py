@@ -69,8 +69,9 @@ top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
 
 df_distribucion = distribucion_calificaciones(df_carrera)
 
-df_procesada = procesar_kardex_general(df_carrera, umbral, max_extraordinarios)
-df_evo = calcular_evolucion_academica(df_procesada, umbral)
+#df_procesada = procesar_kardex_general(df_carrera, umbral, max_extraordinarios)
+df_evo = calcular_evolucion_academica(df_carrera, umbral)
+
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 metricas = calcular_metricas_generales(df_final)
@@ -165,7 +166,7 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
 
 
    # df_evo = calcular_evolucion_academica(df_limpio, umbral)
-
+    st.write(df_evo.columns)
     if not df_evo.empty:
         fig_evolucion = px.line(
             df_evo,
