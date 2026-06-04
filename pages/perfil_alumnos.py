@@ -161,6 +161,7 @@ if matricula:
    #         st.warning(f"Motivos detectados: {status['motivo_riesgo']}")
             st.info(f"Puntaje de Alerta: {status['alerta_score']}/100")
 
-     
+else:
+    st.info("🔍 Ingrese una matrícula para consultar el perfil académico del alumno.") 
 
 render_footer()
