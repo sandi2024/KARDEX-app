@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.express as px
-from database import get_data_completo
+from src.database import get_data_completo
 from src.utils import load_css, create_uabc_metric_card, render_header, render_footer, create_uabc_alert
 from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normalizar_datos_academicos, distribucion_calificaciones, calcular_evolucion_academica, procesar_kardex_general, calcular_metricas_generales
 
