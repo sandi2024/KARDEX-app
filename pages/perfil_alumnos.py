@@ -23,8 +23,8 @@ with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
     st.markdown("### Panel de Control")
     st.sidebar.page_link("streamlit_app.py", label="Inicio", icon="🏠")
-    st.page_link("pages/carreras.py", label="Carreras", icon="📊") 
-    st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🎓") 
+    st.page_link("pages/carreras.py", label="Carreras", icon="🎓") 
+    st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🧑‍🎓") 
     st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") 
         
     st.markdown("---")
@@ -35,9 +35,6 @@ with st.sidebar:
     umbral_eficiencia = st.slider("Creditos promedio por periodo", 0, 100, 40)
     umbral_np_sp = st.slider("Limite de examenes NP ySD", 0, 10, 5)
     tasa = st.slider("Tasa (%) extraordinarios", min_value=0, max_value=100, value=10, step=1)
-
-    # Filtros adicionales
- #   mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
 
     # Guardamos en session_state para que otras páginas lo usen
     st.session_state['umbral_reprobacion'] = umbral_reprobacion

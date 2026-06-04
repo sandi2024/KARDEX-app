@@ -25,8 +25,8 @@ with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
     st.markdown("### Panel de Control")
     st.sidebar.page_link("streamlit_app.py", label="Inicio", icon="🏠")
-    st.page_link("pages/carreras.py", label="Carreras", icon="📊") # APARECE DESPUÉS
-    st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🎓") # APARECE DESPUÉS
+    st.page_link("pages/carreras.py", label="Carreras", icon="🎓") # APARECE DESPUÉS
+    st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🧑‍🎓") # APARECE DESPUÉS
     st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") # APARECE DESPUÉS
         
     st.markdown("---")
@@ -43,8 +43,8 @@ with st.sidebar:
     tasa = st.slider("Tasa (%) extraordinarios", min_value=0, max_value=100, value=10, step=1)
 
 
-    mostrar_solo_criticos = st.checkbox("⚠️ Mostrar solo alumnos criticos")
-    mostrar_solo_moderados = st.checkbox("⚠️ Mostrar solo alumnos moderados")
+    mostrar_solo_criticos = st.checkbox("📋 Mostrar solo alumnos criticos")
+    mostrar_solo_moderados = st.checkbox("📋 Mostrar solo alumnos moderados")
     ocultar_bajos = st.checkbox(" Ocultar solo alumnos de riesgo bajo")
 
     # Guardamos en session_state para que otras páginas lo usen

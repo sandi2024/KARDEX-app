@@ -15,11 +15,6 @@ render_header()   # Renderizamos el header común a todas las páginas
 # ============================================
 # CARGA DE DATOS
 # ============================================
-#if 'df_raw' not in st.session_state:
-    # Solo se ejecuta la primera vez que abre la app
-#    with st.spinner("Cargando base de datos por primera vez..."):
- #       st.session_state.df_raw = get_data_analisis_completo()
-
 if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
     with st.spinner("Cargando base de datos"):
         st.session_state.df_raw = get_data_completo()
@@ -46,7 +41,7 @@ with st.sidebar:
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
     
 
-    mostrar_intervalo_periodo = st.checkbox(" Filtar periodo por intervalos")
+    mostrar_intervalo_periodo = st.checkbox(" Filtar periodo por intervalos ∨")
     if  mostrar_intervalo_periodo:
         lista_años = sorted(df_datos["periodo"].unique().tolist())
         rango_periodos = st.select_slider(
@@ -62,13 +57,9 @@ with st.sidebar:
 
 
     # Guardamos en session_state para que otras páginas lo usen
- #   st.session_state['carrera'] = carrera_global
     st.session_state['periodo'] = periodo_sel
     st.session_state['umbral_reprobacion'] = umbral
     st.session_state['max_extraordinarios'] = max_extraordinarios
-   # st.session_state['mostrar_detalles'] = mostrar_detalles
-
-
 
 
 # ============================================== PROCESAMIENTO ============================================
@@ -82,7 +73,6 @@ else:
 
 df_norm = normalizar_datos_academicos(df_filtrado)
 df_final = procesar_kardex_general(df_norm, umbral, max_extraordinarios)
-#df_final = calcular_metricas_academicas(df_norm, umbral)   # Según periodo y umbral seleccionado
 
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
@@ -115,7 +105,7 @@ col_info1, col_info2 = st.columns(2)
     
 with col_info1:
   if metricas["sobresalientes"] > 0:
-    st.markdown(create_uabc_alert(f"🎉 {metricas["sobresalientes"]} alumnos con promedio sobresaliente (≥90)", "success"), unsafe_allow_html=True)
+    st.markdown(create_uabc_alert(f"🏆 {metricas["sobresalientes"]} alumnos con promedio sobresaliente (≥90)", "success"), unsafe_allow_html=True)
     
 with col_info2:
     if metricas["en_riesgo"] > 0:

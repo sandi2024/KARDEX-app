@@ -10,20 +10,18 @@ render_header()
 if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
     st.session_state.df_raw = get_data_analisis_completo()
     df_datos = st.session_state.df_raw
-    st.warning("VACIO")  
 else:
     df_datos = st.session_state.df_raw
     st.write("Datos recuperados de la sesión con éxito.")
-    # Aquí ya puedes usar df para tus gráficas de carrera
 
 
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
     st.markdown("### Panel de Control")
     st.sidebar.page_link("streamlit_app.py", label="Inicio", icon="🏠")
-    st.page_link("pages/carreras.py", label="Carreras", icon="📊") # APARECE DESPUÉS
-    st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🎓") # APARECE DESPUÉS
-    st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") # APARECE DESPUÉS
+    st.page_link("pages/carreras.py", label="Carreras", icon="🎓") 
+    st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🧑‍🎓") 
+    st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") 
         
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
@@ -106,7 +104,7 @@ st.markdown("---")
 col_info1, col_info2 = st.columns(2) 
 with col_info1:
     if metricas["sobresalientes"] > 0:
-        st.markdown(create_uabc_alert(f"🎉 {metricas["sobresalientes"]} alumnos con promedio sobresaliente (≥90)", "success"), unsafe_allow_html=True)
+        st.markdown(create_uabc_alert(f"🏆 {metricas["sobresalientes"]} alumnos con promedio sobresaliente (≥90)", "success"), unsafe_allow_html=True)
     
 with col_info2:
     if metricas["en_riesgo"] > 0:
