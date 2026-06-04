@@ -52,7 +52,7 @@ with st.sidebar:
     lista_años = sorted(df_datos["periodo"].unique().tolist())
 
     rango_años_exactos = st.select_slider(
-        "Selecciona el intervalo de años escolares",
+        "Selecciona el intervalo de periodos",
         options=lista_años,
         value=(lista_años[0], lista_años[-1]) # Selecciona el primero y el último por defecto
     )
@@ -92,7 +92,6 @@ metricas = calcular_metricas_generales(df_final)
 
 # ===================================== CUERPO DEL DASHBOARD ===========================================
 st.title(f"📊 Visión General {periodo_sel}")
-st.write(f"Precio seleccionado: de ${rango_precios[0]} a ${rango_precios[1]}")
 
 # Ejemplo de cómo usar las métricas ahora:
 col1, col2, col3, col4, col5= st.columns(5)
