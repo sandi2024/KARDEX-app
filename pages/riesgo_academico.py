@@ -73,7 +73,7 @@ st.title("🚨 Sistema de Alerta Temprana")
 
 import streamlit as st
 
-st.title("Indices de riesgo academico")
+st.subheader("Indices de riesgo academico")
 
 # 1. Ejemplo con número entero (Integer)
 edad = st.number_input(
