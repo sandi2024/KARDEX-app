@@ -45,7 +45,7 @@ with st.sidebar:
 
     mostrar_solo_criticos = st.checkbox("🔴 Mostrar solo alumnos criticos")
     mostrar_solo_moderados = st.checkbox("🟡 Mostrar solo alumnos moderados")
-    ocultar_bajos = st.checkbox("❌ 🟢 Ocultar solo alumnos de riesgo bajo")
+    ocultar_bajos = st.checkbox("🟢 Ocultar solo alumnos de riesgo bajo")
 
     # Guardamos en session_state para que otras páginas lo usen
     st.session_state['carrera'] = carrera_sel
