@@ -67,50 +67,64 @@ df_norm = normalizar_datos_academicos(df_filtrado)
 df_resumen = procesar_kardex(df_norm, umbral_reprobacion)
 df_con_riesgo = identificar_riesgo_academico2(df_resumen, umbral_reprobacion, umbral_eficiencia, tasa, umbral_np_sp)
 
+
 #============================================CUERPO DEL DASHBOARD ============================================
 
 st.title("🚨 Sistema de Alerta Temprana")
 
-import streamlit as st
+
 
 st.markdown("Indices de riesgo academico")
 
 col_metrica1, col_metrica2, col_metrica3 = st.columns(3)
 with col_metrica1:
-# 1. Ejemplo con número entero (Integer)
-    edad = st.number_input(
-        label="Introduce tu edad:",
-        min_value=0,        # Límite mínimo
-        max_value=120,      # Límite máximo
-        value=40,           # Valor por defecto inicial
-        step=1              # Cuánto suma/resta con los botones + y -
-    )
-    st.write(f"Edad ingresada: **{edad}** años.")
-
-with col_metrica2:
-# 2. Ejemplo con número decimal (Float)
-    precio = st.number_input(
-        label="Define el precio del producto (USD):",
+    peso_promedio = st.number_input(
+        label="Define el peso del promedio (porcentaje):",
         min_value=0.0,      # Al usar .0, Streamlit sabe que es decimal
-        max_value=1000.0,
+        max_value=100.0,
         value=40.0,
         step=0.50,          # Incrementos de 50 centavos
         format="%.2f",       # Fuerza a mostrar siempre 2 decimales
-        key="precio_producto"
+        key="peso_promedio"
     )
-    st.write(f"Precio establecido: **${precio}**")
 
-with col_metrica3:
-    ponderacion = st.number_input(
-        label="Define el precio del producto (USD):",
+with col_metrica2:
+# 2. Ejemplo con número decimal (Float)
+    peso_abandono = st.number_input(
+        label="Define el peso del abandono (porcentaje):",
         min_value=0.0,      # Al usar .0, Streamlit sabe que es decimal
-        max_value=1000.0,
+        max_value=100.0,
         value=30.0,
         step=0.50,          # Incrementos de 50 centavos
         format="%.2f",       # Fuerza a mostrar siempre 2 decimales
-        key="ponderacion_producto"
+        key="peso_abandono"
     )
-    st.write(f"Precio establecido: **${ponderacion}**")
+
+with col_metrica3:
+    peso_extra = st.number_input(
+        label="Define el peso de los extraordinarios (porcentaje):",
+        min_value=0.0,      # Al usar .0, Streamlit sabe que es decimal
+        max_value=100.0,
+        value=30.0,
+        step=0.50,          # Incrementos de 50 centavos
+        format="%.2f",       # Fuerza a mostrar siempre 2 decimales
+        key="peso_extra"
+    )
+
+st.write(f"Total porcentaje: **{peso_promedio + peso_abandono + peso_extra}%**")
+
+# 2. Crear el botón que ejecutará la suma
+if st.button("Nueva prediccion", type="primary"):
+    # El código aquí adentro SOLO se ejecuta al hacer clic
+    resultado = peso_promedio + peso_abandono + peso_extra
+    
+    # 3. Mostrar el resultado de forma visual
+    st.success(f"¡Cálculo completado! El resultado es: **{resultado}**")
+
+
+
+
+
 
 
 # Mostrar métricas de resumen
@@ -149,5 +163,6 @@ st.dataframe(
     column_order=("id_estudiante", "nivel_riesgo", "alerta_score", "tasa_extraordinarios", "eficiencia_creditos"),
     use_container_width=True
 )
+
 
 render_footer()

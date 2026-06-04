@@ -47,7 +47,7 @@ df_limpio = normalizar_datos_academicos(df_datos)
 # ============================================CUERPO DEL DASHBOARD ============================================
 st.title("📈 Consulta Alumnos")
 
-matricula = st.text_input("Matrícula")
+matricula = st.text_input("Ingresar matrícula:")
 
 if matricula:
     df_alumno =  df_limpio[df_limpio['matricula'] == matricula].sort_values('periodo')
