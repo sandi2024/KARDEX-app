@@ -71,7 +71,8 @@ df_con_riesgo = identificar_riesgo_academico2(df_resumen, umbral_reprobacion, um
 
 st.title("🚨 Sistema de Alerta Temprana")
 
-
+umbral_reprobacion = st.slider("Umbral de promedio critico", 0, 100, 60)
+umbral_reprobacion = st.slider("Umbral de promedio critico", 0, 100, 60)
 
 # 1. Título de la aplicación
 st.title("Ejemplo de st.selectbox")
