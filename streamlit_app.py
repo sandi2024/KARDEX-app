@@ -49,7 +49,7 @@ with st.sidebar:
 
   
     # Obtener la lista de años únicos, ordenados de menor a mayor
-    lista_años = sorted(df["periodo"].unique().tolist())
+    lista_años = sorted(df_datos["periodo"].unique().tolist())
 
     rango_años_exactos = st.select_slider(
         "Selecciona el intervalo de años escolares",
