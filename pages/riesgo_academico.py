@@ -11,13 +11,11 @@ render_header()
 ############################# CARGAR DATOS ##############################
 # No necesitas volver a llamar a queries.py
 if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
+    st.warning("Cargando datos desde la base de datos...")
     st.session_state.df_raw = get_data_completo()
     df_datos = st.session_state.df_raw
-    st.warning("VACIO")  
 else:
     df_datos = st.session_state.df_raw
-    st.write("Datos recuperados de la sesión con éxito.")
-    # Aquí ya puedes usar df para tus gráficas de carrera
 
 
 # ======================== SIDEBAR COMPARTIDO ==================================
