@@ -75,28 +75,29 @@ import streamlit as st
 
 st.subheader("Indices de riesgo academico")
 
+col_metrica1, col_metrica2, col_metrica3 = st.columns(3)
+with col_metrica1:
 # 1. Ejemplo con número entero (Integer)
-edad = st.number_input(
-    label="Introduce tu edad:",
-    min_value=0,        # Límite mínimo
-    max_value=120,      # Límite máximo
-    value=40,           # Valor por defecto inicial
-    step=1              # Cuánto suma/resta con los botones + y -
-)
+    edad = st.number_input(
+        label="Introduce tu edad:",
+        min_value=0,        # Límite mínimo
+        max_value=120,      # Límite máximo
+        value=40,           # Valor por defecto inicial
+        step=1              # Cuánto suma/resta con los botones + y -
+    )
+    st.write(f"Edad ingresada: **{edad}** años.")
 
-st.write(f"Edad ingresada: **{edad}** años.")
-
+with col_metrica2:
 # 2. Ejemplo con número decimal (Float)
-precio = st.number_input(
-    label="Define el precio del producto (USD):",
-    min_value=0.0,      # Al usar .0, Streamlit sabe que es decimal
-    max_value=1000.0,
-    value=40.0,
-    step=0.50,          # Incrementos de 50 centavos
-    format="%.2f"       # Fuerza a mostrar siempre 2 decimales
-)
-
-st.write(f"Precio establecido: **${precio}**")
+    precio = st.number_input(
+        label="Define el precio del producto (USD):",
+        min_value=0.0,      # Al usar .0, Streamlit sabe que es decimal
+        max_value=1000.0,
+        value=40.0,
+        step=0.50,          # Incrementos de 50 centavos
+        format="%.2f"       # Fuerza a mostrar siempre 2 decimales
+    )
+    st.write(f"Precio establecido: **${precio}**")
 
 
 
