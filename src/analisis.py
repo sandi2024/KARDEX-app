@@ -178,26 +178,6 @@ def calcular_metricas_reprobacion(df_normalizado, calificacion_minima):
     return conteo_reprobadas.head(10).sort_values(ascending=True)
 
 
-def calcular_evolucion_academica(df_limpio, umbral):
-    """Calcula reprobación y promedio por periodo."""
-    if df_limpio.empty: return pd.DataFrame()
-
-    df_limpio = df_limpio.copy()
-    df_limpio['es_reprobado'] = df_limpio['calificacion'] < umbral
-    
-    # ... (resto del código igual)
-    evolucion = df_limpio.groupby('periodo').agg(
-        total_alumnos=('id_estudiante', 'count'),  # <--- CAMBIADO: Cuenta total de registros/inscripciones
-        reprobados=('es_reprobado', 'sum'),
-        promedio_periodo=('calificacion', 'mean')
-    ).reset_index()
-    # ...
-
-    evolucion['porcentaje_reprobacion'] = (evolucion['reprobados'] / evolucion['total_alumnos']) * 100
-    evolucion['periodo'] = evolucion['periodo'].astype(str)
-    
-    return evolucion.sort_values('periodo')
-
 
 
 def calcular_evolucion_academica(df_limpio, umbral):

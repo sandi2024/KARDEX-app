@@ -33,6 +33,15 @@ with st.sidebar:
      # Filtro de Periodo
     lista_periodos = ["Todos los periodos"] + sorted(df_datos['periodo'].unique().tolist())
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
+
+    mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
+    if  mostrar_intervalo_periodo:
+        lista_años = sorted(df_datos["periodo"].unique().tolist())
+        rango_periodos = st.select_slider(
+        "Selecciona el intervalo de periodos",
+        options=lista_años,
+        value=(lista_años[0], lista_años[-1]) # Selecciona el primero y el último por defecto
+        )
     
     # Filtro de Umbral
     umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
@@ -59,11 +68,20 @@ if carrera_sel != "Todas las carreras":
 else:
     df_carrera = df_limpio
 
-df_filtrados = filtrar_datos(df_carrera, periodo_sel)
 
-df_final = procesar_kardex_general(df_filtrados, umbral, max_extraordinarios)
+if mostrar_intervalo_periodo:
+        df_periodo = df_carrera[(df_carrera['periodo'] >= rango_periodos[0]) & (df_carrera['periodo'] <= rango_periodos[1])]
+else:
+    if periodo_sel != "Todos los periodos":
+        df_periodo = df_carrera[df_carrera['periodo'] == periodo_sel]
+    else:
+        df_periodo = df_carrera
 
-top_reprobadas = calcular_metricas_reprobacion(df_filtrados, umbral)
+
+
+df_final = procesar_kardex_general(df_periodo, umbral, max_extraordinarios)
+
+top_reprobadas = calcular_metricas_reprobacion(df_periodo, umbral)
 
 df_distribucion = distribucion_calificaciones(df_carrera)
 
@@ -73,13 +91,9 @@ df_evo = calcular_evolucion_academica(df_carrera, umbral)
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
 metricas = calcular_metricas_generales(df_final)
-#total_alumnos = len(df_final)
-#sobresalientes = len(df_final[df_final['promedio_general'] >= 90])
-#en_riesgo = len(df_final[df_final['estatus'] == 'RIESGO'])
-#extras = df_final['conteo_extraordinarios'].mean()
 
 # ============================================CUERPO DEL DASHBOARD ============================================
-st.title(f"📈 Análisis por Carrera - {carrera_sel}")
+st.title(f"📈 Análisis por Carrera - {carrera_sel if carrera_sel != 'Todas las carreras' else '' + rango_periodos[0] + '/' + rango_periodos[1] if mostrar_intervalo_periodo else ''}")
 
 # --- CARDS DE METRICAS --
 col1, col2, col3, col4, col5= st.columns(5)

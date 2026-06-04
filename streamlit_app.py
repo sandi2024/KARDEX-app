@@ -41,7 +41,7 @@ with st.sidebar:
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
     
 
-    mostrar_intervalo_periodo = st.checkbox(" Filtar periodo por intervalos ∨")
+    mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
     if  mostrar_intervalo_periodo:
         lista_años = sorted(df_datos["periodo"].unique().tolist())
         rango_periodos = st.select_slider(
