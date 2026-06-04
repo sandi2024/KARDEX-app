@@ -73,11 +73,12 @@ st.title("🚨 Sistema de Alerta Temprana")
 
 import streamlit as st
 
-st.subheader("Indices de riesgo academico")
+st.markdown("Indices de riesgo academico")
 
 col_metrica1, col_metrica2, col_metrica3 = st.columns(3)
 with col_metrica1:
 # 1. Ejemplo con número entero (Integer)
+    st.write("Configura los umbrales para identificar el riesgo académico:")
     edad = st.number_input(
         label="Introduce tu edad:",
         min_value=0,        # Límite mínimo
@@ -89,6 +90,7 @@ with col_metrica1:
 
 with col_metrica2:
 # 2. Ejemplo con número decimal (Float)
+    st.write("Configura los umbrales para identificar el riesgo académico:")
     precio = st.number_input(
         label="Define el precio del producto (USD):",
         min_value=0.0,      # Al usar .0, Streamlit sabe que es decimal
@@ -101,6 +103,7 @@ with col_metrica2:
     st.write(f"Precio establecido: **${precio}**")
 
 with col_metrica3:
+    st.write("Configura los umbrales para identificar el riesgo académico:")
     ponderacion = st.number_input(
         label="Define el precio del producto (USD):",
         min_value=0.0,      # Al usar .0, Streamlit sabe que es decimal
