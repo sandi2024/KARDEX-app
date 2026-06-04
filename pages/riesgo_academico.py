@@ -71,6 +71,34 @@ df_con_riesgo = identificar_riesgo_academico2(df_resumen, umbral_reprobacion, um
 
 st.title("🚨 Sistema de Alerta Temprana")
 
+
+
+# 1. Título de la aplicación
+st.title("Ejemplo de st.selectbox")
+
+# 2. Definir las opciones para el menú
+opciones_frutas = ["Manzana", "Plátano", "Naranja", "Fresa"]
+
+# 3. Crear el componente selectbox
+fruta_seleccionada = st.selectbox(
+    label="¿Cuál es tu fruta favorita?",  # Texto que ve el usuario
+    options=opciones_frutas,             # Lista de opciones disponibles
+    index=0                              # Opción por defecto (0 es la primera)
+)
+
+# 4. Usar el valor seleccionado por el usuario
+st.write(f"Has seleccionado: **{fruta_seleccionada}**")
+
+# Ejemplo práctico de lógica condicional basada en la selección
+if fruta_seleccionada == "Manzana":
+    st.success("¡Excelente elección! Una manzana al día mantiene al médico en la lejanía.")
+elif fruta_seleccionada == "Plátano":
+    st.info("El plátano es genial por su alto contenido de potasio.")
+
+
+
+
+
 # Mostrar métricas de resumen
 critico = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Crítico'])
 moderado = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Moderado'])
