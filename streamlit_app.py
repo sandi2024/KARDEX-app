@@ -47,11 +47,12 @@ with st.sidebar:
     lista_periodos = ["Todos los periodos"] + sorted(df_datos['periodo'].unique().tolist())
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
 
-  
+    mostrar_detalles = st.checkbox(" Filtar por intervalo de peridos")
     # Obtener la lista de años únicos, ordenados de menor a mayor
     lista_años = sorted(df_datos["periodo"].unique().tolist())
-
-    rango_años_exactos = st.select_slider(
+    
+   
+    rango_periodos = st.select_slider(
         "Selecciona el intervalo de periodos",
         options=lista_años,
         value=(lista_años[0], lista_años[-1]) # Selecciona el primero y el último por defecto
@@ -61,8 +62,6 @@ with st.sidebar:
     # Filtro de Umbral
     umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
     max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
-
- #   mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
 
 
     # Guardamos en session_state para que otras páginas lo usen
