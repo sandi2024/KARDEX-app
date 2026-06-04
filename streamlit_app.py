@@ -89,7 +89,7 @@ df_final = procesar_kardex_general(df_norm, umbral, max_extraordinarios)
 metricas = calcular_metricas_generales(df_final)
 
 # ===================================== CUERPO DEL DASHBOARD ===========================================
-st.title(f" Visión General del Rendimiento Académico {periodo_sel if periodo_sel != 'Todos los periodos' else 'rangos seleccionados'}")
+st.title(f" Visión General del Rendimiento Académico {periodo_sel if periodo_sel != 'Todos los periodos' else 'rangos seleccionados' + rango_periodos[0] + '-' + rango_periodos[1] if mostrar_intervalo_periodo else ''}")
 
 # METRICAS DESTACADAS
 col1, col2, col3, col4, col5= st.columns(5)
