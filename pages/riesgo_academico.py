@@ -99,6 +99,16 @@ with col_metrica2:
     )
     st.write(f"Precio establecido: **${precio}**")
 
+with col_metrica3:
+     ponderacion = st.number_input(
+        label="Define el precio del producto (USD):",
+        min_value=0.0,      # Al usar .0, Streamlit sabe que es decimal
+        max_value=1000.0,
+        value=40.0,
+        step=0.50,          # Incrementos de 50 centavos
+        format="%.2f"       # Fuerza a mostrar siempre 2 decimales
+    )
+    st.write(f"Precio establecido: **${ponderacion}**")
 
 
 # Mostrar métricas de resumen
