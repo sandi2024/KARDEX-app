@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.express as px
-from src.queries import get_data_analisis_completo
+from database import get_data_completo
 from src.utils import load_css, create_uabc_metric_card, render_header, render_footer, create_uabc_alert
 from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normalizar_datos_academicos, distribucion_calificaciones, calcular_evolucion_academica, procesar_kardex_general, calcular_metricas_generales
 
@@ -8,7 +8,7 @@ load_css()
 render_header()
 
 if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
-    st.session_state.df_raw = get_data_analisis_completo()
+    st.session_state.df_raw = get_data_completo()
     df_datos = st.session_state.df_raw
 else:
     df_datos = st.session_state.df_raw
