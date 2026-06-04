@@ -8,15 +8,12 @@ load_css()
 render_header()
 
 ############################# CARGAR DATOS ##############################
-# No necesitas volver a llamar a queries.py
 if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
+    st.warning("Cargando datos desde la base de datos...")
     st.session_state.df_raw = get_data_analisis_completo()
     df_datos = st.session_state.df_raw
-    st.warning("VACIO")  
 else:
     df_datos = st.session_state.df_raw
-    st.write("Datos recuperados de la sesión con éxito.")
-    # Aquí ya puedes usar df para tus gráficas de carrera
 
 # --- SIDEBAR COMPARTIDO ---
 with st.sidebar:
@@ -33,7 +30,7 @@ with st.sidebar:
       # Filtro de Umbral
     umbral_reprobacion = st.slider("Umbral de promedio critico", 0, 100, 60)
     umbral_eficiencia = st.slider("Creditos promedio por periodo", 0, 100, 40)
-    umbral_np_sp = st.slider("Limite de examenes NP ySD", 0, 10, 5)
+    umbral_np_sp = st.slider("Limite de examenes NP y SD", 0, 10, 5)
     tasa = st.slider("Tasa (%) extraordinarios", min_value=0, max_value=100, value=10, step=1)
 
     # Guardamos en session_state para que otras páginas lo usen

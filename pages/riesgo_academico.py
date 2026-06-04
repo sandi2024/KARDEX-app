@@ -43,9 +43,9 @@ with st.sidebar:
     tasa = st.slider("Tasa (%) extraordinarios", min_value=0, max_value=100, value=10, step=1)
 
 
-    mostrar_solo_criticos = st.checkbox("📋 Mostrar solo alumnos criticos")
-    mostrar_solo_moderados = st.checkbox("📋 Mostrar solo alumnos moderados")
-    ocultar_bajos = st.checkbox(" Ocultar solo alumnos de riesgo bajo")
+    mostrar_solo_criticos = st.checkbox("🔴 Mostrar solo alumnos criticos")
+    mostrar_solo_moderados = st.checkbox("🟡 Mostrar solo alumnos moderados")
+    ocultar_bajos = st.checkbox("❌ 🟢 Ocultar solo alumnos de riesgo bajo")
 
     # Guardamos en session_state para que otras páginas lo usen
     st.session_state['carrera'] = carrera_sel

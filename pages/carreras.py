@@ -47,11 +47,6 @@ with st.sidebar:
     umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
     max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
 
-        
-    # Filtros adicionales
- #   mostrar_solo_riesgo = st.checkbox("⚠️ Mostrar solo alumnos en riesgo")
- #   mostrar_detalles = st.checkbox("📋 Mostrar detalles académicos")
-
 
     # Guardamos en session_state para que otras páginas lo usen
     st.session_state['carrera'] = carrera_sel   
@@ -93,7 +88,7 @@ df_evo = calcular_evolucion_academica(df_carrera, umbral)
 metricas = calcular_metricas_generales(df_final)
 
 # ============================================CUERPO DEL DASHBOARD ============================================
-st.title(f"📈 Análisis por Carrera - {carrera_sel if carrera_sel != 'Todas las carreras' else '' + rango_periodos[0] + '/' + rango_periodos[1] if mostrar_intervalo_periodo else ''}")
+st.title(f"📈 Análisis por Carrera {carrera_sel if carrera_sel != 'Todas las carreras' else '' + rango_periodos[0] + '/' + rango_periodos[1] if mostrar_intervalo_periodo else ''}")
 
 # --- CARDS DE METRICAS --
 col1, col2, col3, col4, col5= st.columns(5)
