@@ -52,6 +52,16 @@ matricula = st.text_input("Ingresar matrícula:")
 if matricula:
     df_alumno =  df_limpio[df_limpio['matricula'] == matricula].sort_values('periodo')
     
+  #  resultado = procesar_kardex(df_kardex, matricula, umbral)
+
+    if df_alumno is None:
+        st.error("❌ No se encontró la matrícula ingresada.")
+    else:
+        st.success("✔ Matrícula encontrada")
+        st.dataframe(df_alumno)
+
+
+
     num_carreras = df_alumno['carrera'].nunique()
     num_planes = df_alumno['id_plan_estudio'].nunique() 
     
@@ -163,5 +173,6 @@ if matricula:
 
 else:
     st.info("🔍 Ingrese una matrícula para consultar el perfil académico del alumno.") 
+
 
 render_footer()
