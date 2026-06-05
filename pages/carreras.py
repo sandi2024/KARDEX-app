@@ -181,7 +181,7 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
             y=['porcentaje_reprobacion', 'promedio_periodo'], # Graficamos ambas columnas
             title="Evolución: Reprobación vs Promedio General",
             markers=True,
-            line_shape="linear", #
+            line_shape="spline", #
             labels={
                 'value': 'Escala 0-100',
                 'periodo': 'Periodo',
