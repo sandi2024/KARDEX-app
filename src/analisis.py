@@ -112,25 +112,6 @@ def calcular_metricas_generales(df_kardex):
     }
 
 
-
-@st.cache_data
-def calcular_metricas_alumno(df_kardex):
-    total_materias = len(df_kardex)
-    aprobadas = len(df_kardex[df_kardex['calificacion'] >= 60])
-    promedio = df_kardex['calificacion'].mean()
-    
-    # Análisis de riesgo
-    reprobadas = total_materias - aprobadas
-    nivel_riesgo = "Bajo"
-    if reprobadas >= 2: nivel_riesgo = "Moderado"
-    if reprobadas >= 4 or promedio < 60: nivel_riesgo = "Alto"
-    
-    return {
-        "promedio": promedio,
-        "avance": (aprobadas / total_materias) * 100,
-        "riesgo": nivel_riesgo
-    }
-
 @st.cache_data
 def normalizar_datos_academicos(df):
     """Limpia nulos y genera llaves únicas para el análisis."""
