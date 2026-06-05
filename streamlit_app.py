@@ -15,30 +15,22 @@ render_header()   # Renderizamos el header común a todas las páginas
 # ============================================
 # CARGA DE DATOS
 # ============================================
-#if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
-#    with st.spinner("Cargando base de datos"):
-#        st.session_state.df_raw = get_data_completo()
 
-
-# usamos los datos de la memoria de la sesión para evitar recargas innecesarias
 df_datos = get_data_completo()
 lista_periodos_base = obtener_lista_periodos(df_datos)
 lista_periodos = ["Todos los periodos"] + lista_periodos_base
 
 # --- SIDEBAR  ---
 with st.sidebar:
-  #  st.image("assets/UABC-logo.png", width=150)
-   # st.markdown("### Panel de Control")
-   # Logo en sidebar
     logo_base64 = get_image_base64("assets/UABC-logo.png")
     logo_html = f'<img src="data:image/jpeg;base64,{logo_base64}" alt="UABC" style="height: 200px;">' if logo_base64 else '<div style="height: 80px;"></div>'
        
     st.markdown(f"""
-        <div class="sidebar-logo">
-            {logo_html}
-            <p style="font-size: 1.2rem; color: #666;">UABC</p>
-        </div>
-        """, unsafe_allow_html=True)
+            <div class="sidebar-logo">
+                {logo_html}
+                <p style="font-size: 1.2rem; color: #666;">UABC</p>
+            </div>
+            """, unsafe_allow_html=True)
 
     st.markdown("<div class='sidebar-title'> Panel de Control</div>", unsafe_allow_html=True)
 
@@ -51,15 +43,15 @@ with st.sidebar:
     st.markdown("---")
     
     mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
-    # Creamos un formulario para los filtros de configuración
+        # Creamos un formulario para los filtros de configuración
     with st.form("filtros_configuracion"):
         st.markdown("### ⚙️ Configuración")
         
         if mostrar_intervalo_periodo:
             rango_periodos = st.select_slider(
-                "Selecciona el intervalo de periodos",
-                options=lista_periodos_base,
-                value=(lista_periodos_base[0], lista_periodos_base[-1])
+                    "Selecciona el intervalo de periodos",
+                    options=lista_periodos_base,
+                    value=(lista_periodos_base[0], lista_periodos_base[-1])
             )
             # Variable auxiliar interna del formulario para saber qué se seleccionó
             periodo_sel = None 

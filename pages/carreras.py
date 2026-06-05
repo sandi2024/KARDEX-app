@@ -1,58 +1,70 @@
 import streamlit as st
 import plotly.express as px
 from src.database import get_data_completo
-from src.utils import load_css, create_uabc_metric_card, render_header, render_footer, create_uabc_alert
+from src.utils import get_image_base64, load_css, create_uabc_metric_card, render_header, render_footer, create_uabc_alert
 from src.analisis import calcular_metricas_reprobacion, normalizar_datos_academicos, distribucion_calificaciones, calcular_evolucion_academica, obtener_lista_carreras, obtener_lista_periodos, procesar_kardex_general, calcular_metricas_generales
+
+
+def render_sidebar():
+    with st.sidebar:
+ 
+        logo_base64 = get_image_base64("assets/UABC-logo.png")
+        logo_html = f'<img src="data:image/jpeg;base64,{logo_base64}" alt="UABC" style="height: 200px;">' if logo_base64 else '<div style="height: 80px;"></div>'
+       
+        st.markdown(f"""
+               <div class="sidebar-logo">
+                   {logo_html}
+                   <p style="font-size: 1.2rem; color: #666;">UABC</p>
+               </div>
+               """, unsafe_allow_html=True)
+
+        st.markdown("<div class='sidebar-title'> Panel de Control</div>", unsafe_allow_html=True)
+        st.sidebar.page_link("streamlit_app.py", label="Inicio", icon="🏠")
+        st.page_link("pages/carreras.py", label="Carreras", icon="🎓") 
+        st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🧑‍🎓") 
+        st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") 
+        
+        st.markdown("---")
+        st.markdown("### ⚙️ Configuración")
+    
+        # Filtro de carrera
+        carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
+    
+      # Filtro de Periodo
+        periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
+
+        mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
+        if  mostrar_intervalo_periodo:
+            lista_años = sorted(df_datos["periodo"].unique().tolist())
+            rango_periodos = st.select_slider(
+               "Selecciona el intervalo de periodos",
+                options=lista_años,
+             value=(lista_años[0], lista_años[-1]) # Selecciona el primero y el último por defecto
+            )
+    
+         # Filtro de Umbral
+        umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
+        max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
+
+
+        # Guardamos en session_state para que otras páginas lo usen
+        st.session_state['carrera'] = carrera_sel   
+        st.session_state['periodo'] = periodo_sel
+        st.session_state['umbral_reprobacion'] = umbral
+        st.session_state['max_extraordinarios'] = max_extraordinarios
+
+        return carrera_sel, periodo_sel, umbral, max_extraordinarios, mostrar_intervalo_periodo, rango_periodos
+
+
 
 load_css()
 render_header()
 
-#if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
-#    st.warning("Cargando datos desde la base de datos...")
-#    st.session_state.df_raw = get_data_completo()
-#    df_datos = st.session_state.df_raw
-#else:
 df_datos = get_data_completo()
 lista_carreras = obtener_lista_carreras(df_datos)
-
-with st.sidebar:
-    st.image("assets/UABC-logo.png", width=150)
-    st.markdown("### Panel de Control")
-    st.sidebar.page_link("streamlit_app.py", label="Inicio", icon="🏠")
-    st.page_link("pages/carreras.py", label="Carreras", icon="🎓") 
-    st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🧑‍🎓") 
-    st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") 
-        
-    st.markdown("---")
-    st.markdown("### ⚙️ Configuración")
-    
-    # Filtro de carrera
-    carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
-    
-     # Filtro de Periodo
-    lista_periodos = obtener_lista_periodos(df_datos)
-    periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
-
-    mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
-    if  mostrar_intervalo_periodo:
-        lista_años = sorted(df_datos["periodo"].unique().tolist())
-        rango_periodos = st.select_slider(
-        "Selecciona el intervalo de periodos",
-        options=lista_años,
-        value=(lista_años[0], lista_años[-1]) # Selecciona el primero y el último por defecto
-        )
-    
-    # Filtro de Umbral
-    umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
-    max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
-
-
-    # Guardamos en session_state para que otras páginas lo usen
-    st.session_state['carrera'] = carrera_sel   
-    st.session_state['periodo'] = periodo_sel
-    st.session_state['umbral_reprobacion'] = umbral
-    st.session_state['max_extraordinarios'] = max_extraordinarios
-
+lista_periodos_base = obtener_lista_periodos(df_datos)
+lista_periodos = ["Todos los periodos"] + lista_periodos_base
+carrera_sel, periodo_sel, umbral, max_extraordinarios, mostrar_intervalo_periodo, rango_periodos = render_sidebar()
 # ============================================== PROCESAMIENTO ============================================
 
 df_limpio = normalizar_datos_academicos(df_datos)
