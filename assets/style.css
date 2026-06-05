@@ -37,15 +37,18 @@
     --font-primary: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
+/*
 .stApp {
     background-color: var(--gray);
     color: black;
 
 }
+    
 
  .stAppHeader {
-    background-color: var(--blue); /* Elige tu color aquí */
+    background-color: var(--blue); 
  }
+*/
 
 /* ========== HEADER INSTITUCIONAL ========== */
 .uabc-header {

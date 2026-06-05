@@ -205,7 +205,6 @@ with columna2:
         'conteo_extraordinarios': 'mean'
     }).round(2)
     metrics_table.columns = ['📊 Promedio', '📈 Avance Promedio', '📝 Extraordinarios']
-    #st.dataframe(metrics_table, use_container_width=True)
     st.dataframe(metrics_table.style.background_gradient(subset=['📊 Promedio'], cmap='Blues'))
     
     
