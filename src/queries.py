@@ -54,7 +54,6 @@ def get_data_analisis_completo():
     """
     
     try:
-        # Al usar cache_data, st.connection se vuelve ultra veloz
         return conn.query(query)
     except Exception as e:
         st.error(f"Error: {e}")
