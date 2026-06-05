@@ -5,7 +5,7 @@ from src.utils import get_image_base64, load_css, create_uabc_metric_card, rende
 from src.analisis import calcular_metricas_reprobacion, normalizar_datos_academicos, distribucion_calificaciones, calcular_evolucion_academica, obtener_lista_carreras, obtener_lista_periodos, procesar_kardex_general, calcular_metricas_generales
 
 
-def render_sidebar():
+def render_sidebar(lista_periodos: list[str], lista_carreras: list[str], lista_periodos_base: list[str]):
     with st.sidebar:
  
         logo_base64 = get_image_base64("assets/UABC-logo.png")
@@ -34,14 +34,12 @@ def render_sidebar():
         periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
 
         mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
-        if  mostrar_intervalo_periodo:
-            lista_años = sorted(df_datos["periodo"].unique().tolist())
+        if mostrar_intervalo_periodo:
             rango_periodos = st.select_slider(
-               "Selecciona el intervalo de periodos",
-                options=lista_años,
-             value=(lista_años[0], lista_años[-1]) # Selecciona el primero y el último por defecto
+                    "Selecciona el intervalo de periodos",
+                    options=lista_periodos_base,
+                    value=(lista_periodos_base[0], lista_periodos_base[-1])
             )
-    
          # Filtro de Umbral
         umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
         max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
@@ -64,7 +62,7 @@ df_datos = get_data_completo()
 lista_carreras = obtener_lista_carreras(df_datos)
 lista_periodos_base = obtener_lista_periodos(df_datos)
 lista_periodos = ["Todos los periodos"] + lista_periodos_base
-carrera_sel, periodo_sel, umbral, max_extraordinarios, mostrar_intervalo_periodo, rango_periodos = render_sidebar()
+carrera_sel, periodo_sel, umbral, max_extraordinarios, mostrar_intervalo_periodo, rango_periodos = render_sidebar(lista_periodos, lista_carreras, lista_periodos_base)
 # ============================================== PROCESAMIENTO ============================================
 
 df_limpio = normalizar_datos_academicos(df_datos)
