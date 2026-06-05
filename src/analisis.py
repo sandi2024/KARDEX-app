@@ -2,20 +2,15 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+@st.cache_data
 def procesar_kardex(df, umbral_reprobacion):
 
     df_proc = df.copy()
-
     grupos = df_proc.groupby('id_estudiante')
-
     resumen_alumnos = pd.DataFrame()
 
-    # Promedio Final: mean() de pandas ignora los NaN (NP) por defecto, 
-    # pero sí promedia los 0 (SD). Es el comportamiento académico estándar.
     resumen_alumnos['promedio_final'] = grupos['calificacion'].mean()
 
-    # Créditos Logrados: Solo sumamos créditos si aprobó (calif >= umbral)
-    # NP (NaN) y SD (0) fallarán la condición >= 70, por lo que no sumarán créditos.
     resumen_alumnos['total_creditos_logrados'] = grupos.apply(
         lambda x: x[x['calificacion'] >= umbral_reprobacion]['creditos_materia'].sum()
     )
@@ -39,6 +34,7 @@ def procesar_kardex(df, umbral_reprobacion):
 
     return resumen_alumnos
 
+@st.cache_data
 def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
  
     df_proc = df.copy()
@@ -117,7 +113,7 @@ def calcular_metricas_generales(df_kardex):
 
 
 
-
+@st.cache_data
 def calcular_metricas_alumno(df_kardex):
     total_materias = len(df_kardex)
     aprobadas = len(df_kardex[df_kardex['calificacion'] >= 60])
@@ -135,6 +131,7 @@ def calcular_metricas_alumno(df_kardex):
         "riesgo": nivel_riesgo
     }
 
+@st.cache_data
 def normalizar_datos_academicos(df):
     """Limpia nulos y genera llaves únicas para el análisis."""
     if df.empty:
@@ -153,17 +150,7 @@ def normalizar_datos_academicos(df):
     return df
 
 
-# Suponiendo que carrera_sel y periodo_sel vienen de un selectbox de Streamlit
-def filtrar_datos(df, periodo_sel):
-    df_filtrado = df.copy()
-    
-    # Filtro por Periodo
-    if periodo_sel != "Todos los periodos":
-        df_filtrado = df_filtrado[df_filtrado['periodo'] == periodo_sel]
-    
-    return df_filtrado
-
-
+@st.cache_data
 def calcular_metricas_reprobacion(df_normalizado, calificacion_minima):
  
     if df_normalizado.empty:
@@ -275,5 +262,16 @@ def identificar_riesgo_academico2(df_resumen, promedio_min, eficiencia_min, extr
     # Ordenar por el score más alto (los más urgentes primero)
     return df_riesgo.sort_values(by='alerta_score', ascending=False)
 
+@st.cache_data
 def existe_matricula(df, matricula):
     return matricula in df['matricula'].values
+
+@st.cache_data
+def obtener_lista_carreras(df):
+    return ["Todas las carreras"] + sorted(df['carrera'].unique().tolist())
+
+@st.cache_data
+def obtener_lista_periodos(df):
+    return ["Todos los periodos"] + sorted(df['periodo'].unique().tolist())
+
+
