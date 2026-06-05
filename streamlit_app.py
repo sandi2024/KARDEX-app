@@ -62,19 +62,17 @@ def render_sidebar(lista_periodos: list[str], lista_periodos_base: list[str]):
         return periodo_sel, umbral, max_extraordinarios, mostrar_intervalo_periodo, rango_periodos
 
 
-
-# ========================= Cargar datos ===========================
 st.set_page_config(page_title="Dashboard Académico - FCQI", layout="wide")
 load_css()    # Cargamos los estilos personalizados
 render_header()   # Renderizamos el header común a todas las páginas
+
 
 
 df_datos = get_data_completo()
 lista_periodos_base = obtener_lista_periodos(df_datos)
 lista_periodos = ["Todos los periodos"] + lista_periodos_base
 periodo_sel, umbral, max_extraordinarios, mostrar_intervalo_periodo, rango_periodos = render_sidebar(lista_periodos, lista_periodos_base)
-lista_periodos_base = obtener_lista_periodos(df_datos)
-lista_periodos = ["Todos los periodos"] + lista_periodos_base
+
 # ============================================== PROCESAMIENTO ============================================
 if  mostrar_intervalo_periodo:
     df_filtrado = df_datos[(df_datos['periodo'] >= rango_periodos[0]) & (df_datos['periodo'] <= rango_periodos[1])]
