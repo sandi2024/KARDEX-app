@@ -1,5 +1,6 @@
 import streamlit as st
 import plotly.express as px
+from src.database import get_data_completo
 from src.utils import load_css, render_header, create_uabc_metric_card, render_footer, create_uabc_alert
 from src.queries import get_data_analisis_completo        
 from src.analisis import existe_matricula, normalizar_datos_academicos, identificar_riesgo_academico2, procesar_kardex
@@ -10,12 +11,12 @@ render_header()
 ############################# CARGAR DATOS ##############################
 #if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
 #    st.warning("Cargando datos desde la base de datos...")
-df_datos = get_data_analisis_completo()
+df_datos = get_data_completo()
 #df_datos = st.session_state.df_raw
 #else:
 #    df_datos = st.session_state.df_raw
 
-# --- SIDEBAR COMPARTIDO ---
+# ------------------------- SIDEBAR COMPARTIDO -------------------------------
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
     st.markdown("### Panel de Control")
