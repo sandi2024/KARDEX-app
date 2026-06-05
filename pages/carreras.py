@@ -173,7 +173,7 @@ if not df_final.empty:  # Si hay datos para la carrera seleccionada
 
 
    # df_evo = calcular_evolucion_academica(df_limpio, umbral)
-    st.dataframe(df_evo)
+  #  st.dataframe(df_evo)
     if not df_evo.empty:
         fig_evolucion = px.line(
             df_evo,
