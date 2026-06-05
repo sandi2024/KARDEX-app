@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.express as px
 from src.utils import load_css, render_header, create_uabc_metric_card, render_footer, create_uabc_alert
 from src.queries import get_data_analisis_completo        
-from src.analisis import buscar_alumno, existe_matricula, normalizar_datos_academicos, identificar_riesgo_academico2, procesar_kardex
+from src.analisis import existe_matricula, normalizar_datos_academicos, identificar_riesgo_academico2, procesar_kardex
 
 load_css()
 render_header()
@@ -77,8 +77,8 @@ if matricula:
             nombre_alumno = df_alumno_carrera['nombre'].iloc[0] if 'nombre' in df_alumno_carrera.columns else "Estudiante"
             carrera_alumno = df_alumno_carrera['carrera'].iloc[0]
             df_materias_aprobadas = df_alumno_carrera[df_alumno_carrera['calificacion'] > umbral_reprobacion]
-        
-            st.title(f"📂 Expediente: {nombre_alumno}")
+            total_creditos = df_materias_aprobadas['creditos_materia'].sum() if 'creditos_materia' in df_alumno_carrera.columns else 0
+            st.subheader(f"📂 Expediente: {nombre_alumno}")
             st.info(f"**Matrícula:** {matricula} | **Carrera:** {carrera_alumno}")
 
             # MÉTRICAS RESUMIDAS 
