@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from src.utils import load_css, render_header, render_footer, create_uabc_metric_card, create_uabc_alert
+from src.utils import get_image_base64, load_css, render_header, render_footer, create_uabc_metric_card, create_uabc_alert
 from src.database import get_data_completo
 from src.analisis import normalizar_datos_academicos, calcular_metricas_generales, obtener_lista_periodos, procesar_kardex_general
 import plotly.express as px
@@ -25,10 +25,24 @@ df_datos = get_data_completo()
 lista_periodos_base = obtener_lista_periodos(df_datos)
 lista_periodos = ["Todos los periodos"] + lista_periodos_base
 
-# --- SIDEBAR COMPARTIDO ---
+# --- SIDEBAR  ---
 with st.sidebar:
-    st.image("assets/UABC-logo.png", width=150)
-    st.markdown("### Panel de Control")
+  #  st.image("assets/UABC-logo.png", width=150)
+   # st.markdown("### Panel de Control")
+   # Logo en sidebar
+    logo_base64 = get_image_base64("assets/UABC-logo.png")
+    logo_html = f'<img src="data:image/jpeg;base64,{logo_base64}" alt="UABC" style="height: 200px;">' if logo_base64 else '<div style="height: 80px;"></div>'
+       
+    st.markdown(f"""
+        <div class="sidebar-logo">
+            {logo_html}
+            <p style="font-size: 1.2rem; color: #666;">UABC</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<div class='sidebar-title'> Panel de Control</div>", unsafe_allow_html=True)
+
+
     st.sidebar.page_link("streamlit_app.py", label="Inicio", icon="🏠")
     st.page_link("pages/carreras.py", label="Carreras", icon="🎓") # APARECE DESPUÉS
     st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🧑‍🎓") # APARECE DESPUÉS
@@ -136,14 +150,6 @@ with col_izq:
     st.plotly_chart(fig2, use_container_width=True)
 
 with col_der:
-    # 3. Scatter Plot 4D
-    # X: Créditos, Y: Promedio, Color: Estatus, Size: Extraordinarios
- #   fig3 = px.scatter(df_final, x='creditos_cursados', y='promedio_general',
- #                     color='estatus', size='conteo_extraordinarios',
- #                     title=' Relación: Créditos vs Promedio (4D)',
- #                     color_discrete_map=color_map,
- #                     hover_data=['carrera'])
- #   st.plotly_chart(fig3, use_container_width=True)
      
      # Avance crediticio
     fig2 = px.scatter(df_final, x='total_creditos_logrados', y='promedio_final',
@@ -156,24 +162,8 @@ with col_der:
     fig2.update_layout(height=400, plot_bgcolor='white')
     st.plotly_chart(fig2, use_container_width=True)
     
-   # st.write(df_final['plan_estudio'].unique())
+
     # 4. Bar Chart: Volumen por Plan de Estudios (Escala continua)
-  #  df_planes = df_final[['id_plan_estudio', 'plan_estudio']].drop_duplicates()
-   # plan_data = df_final['id_plan_estudio'].value_counts().reset_index()
-   # plan_data.columns = ['id_plan_estudio', 'count']
-   # plan_data = plan_data.merge(df_planes, on='id_plan_estudio', how='left')
-   # fig4 = px.bar(
-   #     plan_data,
-   #     x='plan_estudio',   # ← ahora usa el nombre del plan
-   #     y='count',
-   #     color='count',
-   #     color_continuous_scale='Blues',
-   #     title='📚 Volumen por Plan de Estudios'
-   # )
-   # fig4.update_layout(xaxis=dict(type='category'))
-    #st.plotly_chart(fig4, use_container_width=True)
-
-
     plan_data = df_final['plan_estudio'].value_counts().reset_index()
     fig4 = px.bar(plan_data, x='plan_estudio', y='count',
                   color='count', color_continuous_scale='Blues',
