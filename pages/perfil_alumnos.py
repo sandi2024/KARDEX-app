@@ -75,8 +75,7 @@ if matricula:
         if not df_alumno_carrera.empty:
          # 1. INFORMACIÓN GENERAL (Encabezado)
             nombre_alumno = df_alumno_carrera['nombre'].iloc[0] if 'nombre' in df_alumno_carrera.columns else "Estudiante"
-            carrera_alumno = df_alumno_carrera['carrera'].iloc[0]
-            df_materias_aprobadas = df_alumno_carrera[df_alumno_carrera['calificacion'] > umbral_reprobacion]
+            df_materias_aprobadas = df_alumno_carrera[df_alumno_carrera['calificacion'] >= umbral_reprobacion]
             total_creditos = df_materias_aprobadas['creditos_materia'].sum() if 'creditos_materia' in df_alumno_carrera.columns else 0
            
             st.subheader(f"📂 Expediente: {nombre_alumno}")
