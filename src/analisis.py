@@ -272,7 +272,6 @@ def obtener_lista_carreras(df):
     return ["Todas las carreras"] + sorted(df['carrera'].unique().tolist())
 
 @st.cache_data
+@st.cache_data
 def obtener_lista_periodos(df):
-    return ["Todos los periodos"] + sorted(df['periodo'].unique().tolist())
-
-
+    return sorted(df['periodo'].unique().tolist())

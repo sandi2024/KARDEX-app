@@ -22,7 +22,8 @@ render_header()   # Renderizamos el header común a todas las páginas
 
 # usamos los datos de la memoria de la sesión para evitar recargas innecesarias
 df_datos = get_data_completo()
-
+lista_periodos_base = obtener_lista_periodos(df_datos)
+lista_periodos = ["Todos los periodos"] + lista_periodos_base
 
 # --- SIDEBAR COMPARTIDO ---
 with st.sidebar:
@@ -35,22 +36,22 @@ with st.sidebar:
         
     st.markdown("---")
     
+    mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
     # Creamos un formulario para los filtros de configuración
     with st.form("filtros_configuracion"):
         st.markdown("### ⚙️ Configuración")
-        lista_periodos = obtener_lista_periodos(df_datos)
-        periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
-    
         
-        # Nota: El checkbox activa/desactiva visualmente, pero puedes manejarlo dentro del form
-        mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
-        if  mostrar_intervalo_periodo:
-            lista_años = sorted(df_datos["periodo"].unique().tolist())
+        if mostrar_intervalo_periodo:
             rango_periodos = st.select_slider(
-            "Selecciona el intervalo de periodos",
-            options=lista_años,
-            value=(lista_años[0], lista_años[-1]) # Selecciona el primero y el último por defecto
-        )
+                "Selecciona el intervalo de periodos",
+                options=lista_periodos_base,
+                value=(lista_periodos_base[0], lista_periodos_base[-1])
+            )
+            # Variable auxiliar interna del formulario para saber qué se seleccionó
+            periodo_sel = None 
+        else:
+            periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos_con_todos)
+            rango_periodos = None
         
         umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
         max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
