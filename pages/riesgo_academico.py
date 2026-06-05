@@ -1,7 +1,7 @@
 import streamlit as st
 from src.database import get_data_completo
 from src.analisis import normalizar_datos_academicos, obtener_lista_carreras, procesar_kardex, identificar_riesgo_academico2
-from src.utils import load_css, render_header, create_uabc_metric_card, render_footer, create_uabc_alert, create_progress_bar
+from src.utils import get_image_base64, load_css, render_header, create_uabc_metric_card, render_footer, create_uabc_alert, create_progress_bar
 import pandas as pd
 
 
@@ -16,8 +16,15 @@ lista_carreras = obtener_lista_carreras(df_datos)
 
 # ======================== SIDEBAR COMPARTIDO ==================================
 with st.sidebar:
-    st.image("assets/UABC-logo.png", width=150)
-    st.markdown("### Panel de Control")
+    logo_base64 = get_image_base64("assets/UABC-logo.png")
+    logo_html = f'<img src="data:image/jpeg;base64,{logo_base64}" alt="UABC" style="height: 200px;">' if logo_base64 else '<div style="height: 80px;"></div>'
+    st.markdown(f"""
+            <div class="sidebar-logo">
+                {logo_html}
+                <p style="font-size: 1.2rem; color: #666;">UABC</p>
+            </div>
+            """, unsafe_allow_html=True)
+    st.markdown("<div class='sidebar-title'> Panel de Control</div>", unsafe_allow_html=True)
     st.sidebar.page_link("streamlit_app.py", label="Inicio", icon="🏠")
     st.page_link("pages/carreras.py", label="Carreras", icon="🎓") # APARECE DESPUÉS
     st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🧑‍🎓") # APARECE DESPUÉS
