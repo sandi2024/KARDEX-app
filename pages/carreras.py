@@ -13,7 +13,7 @@ render_header()
 #    df_datos = st.session_state.df_raw
 #else:
 df_datos = get_data_completo()
-
+lista_carreras = obtener_lista_carreras(df_datos)
 
 with st.sidebar:
     st.image("assets/UABC-logo.png", width=150)
@@ -27,7 +27,6 @@ with st.sidebar:
     st.markdown("### ⚙️ Configuración")
     
     # Filtro de carrera
-    lista_carreras = obtener_lista_carreras(df_datos)
     carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
     
      # Filtro de Periodo

@@ -58,7 +58,7 @@ with st.sidebar:
         
         # El botón indispensable que frena las recargas automáticas
         procesar_boton = st.form_submit_button("Aplicar Filtros 🚀")
-
+        
     # Guardamos en session_state para que otras páginas lo usen
     if mostrar_intervalo_periodo:
         st.session_state['periodo'] = rango_periodos
@@ -205,7 +205,8 @@ with columna2:
         'conteo_extraordinarios': 'mean'
     }).round(2)
     metrics_table.columns = ['📊 Promedio', '📈 Avance Promedio', '📝 Extraordinarios']
-    st.dataframe(metrics_table, use_container_width=True)
+    #st.dataframe(metrics_table, use_container_width=True)
+    st.dataframe(metrics_table.style.background_gradient(subset=['📊 Promedio'], cmap='Blues'))
     
     
 # Gráfico comparativo 
