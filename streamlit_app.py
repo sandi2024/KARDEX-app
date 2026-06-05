@@ -34,7 +34,6 @@ with st.sidebar:
     st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") # APARECE DESPUÉS
         
     st.markdown("---")
-    st.markdown("### ⚙️ Configuración")
     
     # Creamos un formulario para los filtros de configuración
     with st.form("filtros_configuracion"):
