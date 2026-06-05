@@ -42,7 +42,6 @@ def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
     # Agrupamos por el ID único del alumno
     grupos = df_proc.groupby('id_estudiante')
 
-    # CÁLCULO DE MÉTRICAS 
     resumen_alumnos = pd.DataFrame()
 
 
