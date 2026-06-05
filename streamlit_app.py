@@ -36,24 +36,45 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### ⚙️ Configuración")
     
+    # Creamos un formulario para los filtros de configuración
+    with st.form("filtros_configuracion"):
+        st.markdown("### ⚙️ Configuración")
+        lista_periodos = obtener_lista_periodos(df_datos)
+        periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
+    
+        
+        # Nota: El checkbox activa/desactiva visualmente, pero puedes manejarlo dentro del form
+        mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
+        
+        umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
+        max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
+        
+        # El botón indispensable que frena las recargas automáticas
+        procesar_boton = st.form_submit_button("Aplicar Filtros 🚀")
+
+
+
+
+
+
     # Filtro de Periodo
-    lista_periodos = obtener_lista_periodos(df_datos)
-    periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
+ #   lista_periodos = obtener_lista_periodos(df_datos)
+ #   periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
     
 
-    mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
-    if  mostrar_intervalo_periodo:
-        lista_años = sorted(df_datos["periodo"].unique().tolist())
-        rango_periodos = st.select_slider(
-        "Selecciona el intervalo de periodos",
-        options=lista_años,
-        value=(lista_años[0], lista_años[-1]) # Selecciona el primero y el último por defecto
-        )
+ #   mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
+ #   if  mostrar_intervalo_periodo:
+ #       lista_años = sorted(df_datos["periodo"].unique().tolist())
+ #       rango_periodos = st.select_slider(
+ #       "Selecciona el intervalo de periodos",
+ #       options=lista_años,
+ #       value=(lista_años[0], lista_años[-1]) # Selecciona el primero y el último por defecto
+ #       )
 
 
     # Filtro de Umbral
-    umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
-    max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
+ #   umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
+ #   max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
 
 
     # Guardamos en session_state para que otras páginas lo usen
