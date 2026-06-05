@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.express as px
 from src.database import get_data_completo
 from src.utils import load_css, create_uabc_metric_card, render_header, render_footer, create_uabc_alert
-from src.analisis import calcular_metricas_reprobacion, filtrar_datos, normalizar_datos_academicos, distribucion_calificaciones, calcular_evolucion_academica, procesar_kardex_general, calcular_metricas_generales
+from src.analisis import calcular_metricas_reprobacion, normalizar_datos_academicos, distribucion_calificaciones, calcular_evolucion_academica, obtener_lista_carreras, obtener_lista_periodos, procesar_kardex_general, calcular_metricas_generales
 
 load_css()
 render_header()
@@ -27,11 +27,11 @@ with st.sidebar:
     st.markdown("### ⚙️ Configuración")
     
     # Filtro de carrera
-    lista_carreras = ["Todas las carreras"] + sorted(df_datos['carrera'].unique().tolist())
+    lista_carreras = obtener_lista_carreras(df_datos)
     carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
     
      # Filtro de Periodo
-    lista_periodos = ["Todos los periodos"] + sorted(df_datos['periodo'].unique().tolist())
+    lista_periodos = obtener_lista_periodos(df_datos)
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
 
     mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")

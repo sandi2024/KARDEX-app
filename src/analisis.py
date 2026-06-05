@@ -1,3 +1,4 @@
+import streamlit as st
 import pandas as pd
 import numpy as np
 
@@ -93,7 +94,7 @@ def procesar_kardex_general(df, umbral_reprobacion, max_extraordinario):
 
     return resumen_alumnos
 
-
+@st.cache_data
 def calcular_metricas_generales(df_kardex):
     total_alumnos = len(df_kardex)
     promedio_general = df_kardex['promedio_final'].mean()

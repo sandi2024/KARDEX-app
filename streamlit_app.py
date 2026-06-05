@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from src.utils import load_css, render_header, render_footer, create_uabc_metric_card, create_uabc_alert
 from src.database import get_data_completo
-from src.analisis import normalizar_datos_academicos, calcular_metricas_generales, procesar_kardex_general
+from src.analisis import normalizar_datos_academicos, calcular_metricas_generales, obtener_lista_periodos, procesar_kardex_general
 import plotly.express as px
 import numpy as np
 import plotly.graph_objects as go
@@ -37,7 +37,7 @@ with st.sidebar:
     st.markdown("### ⚙️ Configuración")
     
     # Filtro de Periodo
-    lista_periodos = ["Todos los periodos"] + sorted(df_datos['periodo'].unique().tolist())
+    lista_periodos = obtener_lista_periodos(df_datos)
     periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
     
 
