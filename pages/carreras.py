@@ -41,9 +41,9 @@ def render_sidebar(lista_periodos: list[str], lista_carreras: list[str], lista_p
                     value=(lista_periodos_base[0], lista_periodos_base[-1])
             )
          # Filtro de Umbral
+       
         umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
         max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
-
 
         # Guardamos en session_state para que otras páginas lo usen
         st.session_state['carrera'] = carrera_sel   
