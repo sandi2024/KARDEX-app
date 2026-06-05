@@ -30,7 +30,7 @@ def get_kardex_alumno(matricula):
         return pd.DataFrame()
 
 
-
+@st.cache_data(ttl=3600) 
 def get_data_analisis_completo():
     conn = get_neon_connection()
     
@@ -54,9 +54,8 @@ def get_data_analisis_completo():
     """
     
     try:
-        # Ejecuta la consulta y gestiona el caché (1 hora = 3600 segundos) de forma nativa
-        df = conn.query(query, ttl=3600)
-        return df
+        # Al usar cache_data, st.connection se vuelve ultra veloz
+        return conn.query(query)
     except Exception as e:
-        st.error(f"Error al consultar Neon: {e}")
+        st.error(f"Error: {e}")
         return pd.DataFrame()
