@@ -30,8 +30,7 @@ def render_sidebar(lista_periodos: list[str], lista_periodos_base: list[str]):
         
         st.markdown("---")
     
-        mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
-        # Creamos un formulario para los filtros de configuración
+    
         st.markdown("### ⚙️ Configuración")
         mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
         if mostrar_intervalo_periodo:
