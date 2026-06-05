@@ -64,8 +64,8 @@ if matricula:
         else:
             carrera_sel = df_alumno['carrera'].iloc[0]
         
-################### INFORMACION GENERAL ############################################333
-        if carrera_sel != "Todas las carreras":
+        #-------------------- INFORMACION GENERAL ----------------------
+        if carrera_sel != "Todas las carreras" and num_carreras > 1:
             df_alumno_carrera = df_alumno[df_alumno['carrera'] == carrera_sel]
         else:
             df_alumno_carrera = df_alumno
@@ -78,8 +78,9 @@ if matricula:
             carrera_alumno = df_alumno_carrera['carrera'].iloc[0]
             df_materias_aprobadas = df_alumno_carrera[df_alumno_carrera['calificacion'] > umbral_reprobacion]
             total_creditos = df_materias_aprobadas['creditos_materia'].sum() if 'creditos_materia' in df_alumno_carrera.columns else 0
+           
             st.subheader(f"📂 Expediente: {nombre_alumno}")
-            st.info(f"**Matrícula:** {matricula} | **Carrera:** {carrera_alumno}")
+            st.info(f"**Matrícula:** {matricula} | **Carrera:** {carrera_sel}")
 
             # MÉTRICAS RESUMIDAS 
             col1, col2, col3= st.columns(3)
