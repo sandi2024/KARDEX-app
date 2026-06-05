@@ -70,7 +70,9 @@ render_header()   # Renderizamos el header común a todas las páginas
 
 
 df_datos = get_data_completo()
-periodo_sel, umbral, max_extraordinarios, mostrar_intervalo_periodo, rango_periodos = render_sidebar(obtener_lista_periodos(df_datos), obtener_lista_periodos(df_datos))    
+lista_periodos_base = obtener_lista_periodos(df_datos)
+lista_periodos = ["Todos los periodos"] + lista_periodos_base
+periodo_sel, umbral, max_extraordinarios, mostrar_intervalo_periodo, rango_periodos = render_sidebar(lista_periodos, lista_periodos_base)
 lista_periodos_base = obtener_lista_periodos(df_datos)
 lista_periodos = ["Todos los periodos"] + lista_periodos_base
 # ============================================== PROCESAMIENTO ============================================
