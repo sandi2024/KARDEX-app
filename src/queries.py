@@ -2,25 +2,6 @@ import streamlit as st
 from src.database import get_neon_connection
 import pandas as pd
 
-# Aquí definimos las funciones de consulta específicas para cada página, utilizando run_query para ejecutar las consultas SQL.
-@st.cache_data(ttl=3600) # El caché dura 1 hora (3600 seg)
-def get_kardex_alumno(matricula):
-    query = """
-    SELECT 
-        a.nombre AS Materia,
-        aa.calificacion,
-        aa.fecha_examen,
-        aa.tipo_examen,
-        p.anio_periodo AS Periodo
-    FROM alumno_asignatura aa
-    JOIN Asignatura_Plan ap ON aa.id_asignatura_plan = ap.id_asignatura_plan
-    JOIN Asignatura a ON ap.id_asignatura = a.id_asignatura
-    JOIN Periodo p ON aa.id_periodo = p.id_periodo
-    WHERE aa.matricula = %s
-    ORDER BY p.anio_periodo ASC;
-    """
-    return run_query(query, (matricula,))  
-
 def get_kardex_alumno(matricula):
     conn = get_neon_connection()
     
