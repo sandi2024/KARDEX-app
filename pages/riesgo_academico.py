@@ -1,6 +1,6 @@
 import streamlit as st
 from src.database import get_data_completo
-from src.analisis import normalizar_datos_academicos, procesar_kardex, identificar_riesgo_academico2
+from src.analisis import normalizar_datos_academicos, obtener_lista_carreras, procesar_kardex, identificar_riesgo_academico2
 from src.utils import load_css, render_header, create_uabc_metric_card, render_footer, create_uabc_alert, create_progress_bar
 import pandas as pd
 
@@ -31,7 +31,7 @@ with st.sidebar:
     st.markdown("### ⚙️ Configuración")
         
     # Filtros adicionales
-    lista_carreras = ["Todas las carreras"] + sorted(df_datos['carrera'].unique().tolist())
+    lista_carreras = obtener_lista_carreras(df_datos)
     carrera_sel = st.selectbox("📚 Seleccione carrera", lista_carreras)
     
 

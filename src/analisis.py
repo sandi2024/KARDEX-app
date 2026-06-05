@@ -167,7 +167,7 @@ def calcular_metricas_reprobacion(df_normalizado, calificacion_minima):
 
 
 
-
+@st.cache_data
 def calcular_evolucion_academica(df_limpio, umbral):
     """Calcula reprobación y promedio por periodo basándose en alumnos únicos."""
     if df_limpio.empty: return pd.DataFrame()
@@ -197,6 +197,7 @@ def calcular_evolucion_academica(df_limpio, umbral):
     
     return evolucion.sort_values('periodo')
 
+@st.cache_data
 def distribucion_calificaciones(df_limpio):
 
     # Filtrar solo las columnas necesarias y eliminar valores nulos
@@ -210,7 +211,7 @@ def distribucion_calificaciones(df_limpio):
 
     return df_distribucion
 
-
+@st.cache_data
 def identificar_riesgo_academico2(df_resumen, promedio_min, eficiencia_min, extras_max, umbral_np_sp):
     """
     Analiza las métricas de desempeño y clasifica a los alumnos por nivel de riesgo,
