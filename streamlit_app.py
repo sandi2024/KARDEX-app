@@ -7,21 +7,9 @@ import plotly.express as px
 import numpy as np
 import plotly.graph_objects as go
 
-st.set_page_config(page_title="Dashboard Académico - FCQI", layout="wide")
-load_css()    # Cargamos los estilos personalizados
-render_header()   # Renderizamos el header común a todas las páginas
-
-
-# ============================================
-# CARGA DE DATOS
-# ============================================
-
-df_datos = get_data_completo()
-lista_periodos_base = obtener_lista_periodos(df_datos)
-lista_periodos = ["Todos los periodos"] + lista_periodos_base
 
 # --- SIDEBAR  ---
-def render_sidebar(lista_periodos: list[str], lista_carreras: list[str], lista_periodos_base: list[str]):
+def render_sidebar(lista_periodos: list[str], lista_periodos_base: list[str]):
     with st.sidebar:
         logo_base64 = get_image_base64("assets/UABC-logo.png")
         logo_html = f'<img src="data:image/jpeg;base64,{logo_base64}" alt="UABC" style="height: 200px;">' if logo_base64 else '<div style="height: 80px;"></div>'
@@ -74,6 +62,17 @@ def render_sidebar(lista_periodos: list[str], lista_carreras: list[str], lista_p
         return periodo_sel, umbral, max_extraordinarios, mostrar_intervalo_periodo, rango_periodos
 
 
+
+# ========================= Cargar datos ===========================
+st.set_page_config(page_title="Dashboard Académico - FCQI", layout="wide")
+load_css()    # Cargamos los estilos personalizados
+render_header()   # Renderizamos el header común a todas las páginas
+
+
+df_datos = get_data_completo()
+periodo_sel, umbral, max_extraordinarios, mostrar_intervalo_periodo, rango_periodos = render_sidebar(obtener_lista_periodos(df_datos), obtener_lista_periodos(df_datos))    
+lista_periodos_base = obtener_lista_periodos(df_datos)
+lista_periodos = ["Todos los periodos"] + lista_periodos_base
 # ============================================== PROCESAMIENTO ============================================
 if  mostrar_intervalo_periodo:
     df_filtrado = df_datos[(df_datos['periodo'] >= rango_periodos[0]) & (df_datos['periodo'] <= rango_periodos[1])]
