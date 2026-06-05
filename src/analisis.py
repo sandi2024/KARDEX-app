@@ -210,8 +210,6 @@ def calcular_evolucion_academica(df_limpio, umbral):
     return evolucion.sort_values('periodo')
 
 def distribucion_calificaciones(df_limpio):
-    """Prepara los datos para un histograma de frecuencias."""
-
 
     # Filtrar solo las columnas necesarias y eliminar valores nulos
     df_distribucion = df_limpio[['calificacion']].dropna()
@@ -265,7 +263,6 @@ def identificar_riesgo_academico2(df_resumen, promedio_min, eficiencia_min, extr
         ['Crítico', 'Moderado'], 
         default='Bajo'
     )
-
     
     # Damos peso: 40% al promedio, 30% a NP/SD y 30% a extraordinarios
     df_riesgo['alerta_score'] = (
@@ -276,3 +273,6 @@ def identificar_riesgo_academico2(df_resumen, promedio_min, eficiencia_min, extr
 
     # Ordenar por el score más alto (los más urgentes primero)
     return df_riesgo.sort_values(by='alerta_score', ascending=False)
+
+def existe_matricula(df, matricula):
+    return matricula in df['matricula'].values
