@@ -50,7 +50,7 @@ with st.sidebar:
             # Variable auxiliar interna del formulario para saber qué se seleccionó
             periodo_sel = None 
         else:
-            periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos_con_todos)
+            periodo_sel = st.selectbox("📅 Seleccione Periodo Académico", lista_periodos)
             rango_periodos = None
         
         umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
