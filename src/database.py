@@ -6,7 +6,8 @@ import pandas as pd
 def get_neon_connection():
     return st.connection("postgresql", type="sql")
 
-# El caché se maneja directamente con el argumento 'ttl' en conn.query()
+
+@st.cache_data(ttl=3600) 
 def get_data_completo():
     conn = get_neon_connection()
     
@@ -34,11 +35,9 @@ def get_data_completo():
     LEFT JOIN alumno_plan_estudio ape ON aa.matricula = ape.matricula 
                                      AND pl.id_plan_estudio = ape.id_plan_estudio
     """
-    
     try:
-        # Ejecuta la consulta y gestiona el caché (1 hora = 3600 segundos) de forma nativa
-        df = conn.query(query, ttl=3600)
-        return df
+        # Al usar cache_data, st.connection se vuelve ultra veloz
+        return conn.query(query)
     except Exception as e:
-        st.error(f"Error al consultar Neon: {e}")
+        st.error(f"Error: {e}")
         return pd.DataFrame()

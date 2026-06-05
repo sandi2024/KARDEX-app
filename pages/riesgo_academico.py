@@ -10,12 +10,12 @@ render_header()
 
 ############################# CARGAR DATOS ##############################
 # No necesitas volver a llamar a queries.py
-if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
-    st.warning("Cargando datos desde la base de datos...")
-    st.session_state.df_raw = get_data_completo()
-    df_datos = st.session_state.df_raw
-else:
-    df_datos = st.session_state.df_raw
+#if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
+#    st.warning("Cargando datos desde la base de datos...")
+#    st.session_state.df_raw = get_data_completo()
+df_datos = get_data_completo()
+#else:
+#    df_datos = st.session_state.df_raw
 
 
 # ======================== SIDEBAR COMPARTIDO ==================================

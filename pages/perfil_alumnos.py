@@ -8,12 +8,12 @@ load_css()
 render_header()
 
 ############################# CARGAR DATOS ##############################
-if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
-    st.warning("Cargando datos desde la base de datos...")
-    st.session_state.df_raw = get_data_analisis_completo()
-    df_datos = st.session_state.df_raw
-else:
-    df_datos = st.session_state.df_raw
+#if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
+#    st.warning("Cargando datos desde la base de datos...")
+df_datos = get_data_analisis_completo()
+#df_datos = st.session_state.df_raw
+#else:
+#    df_datos = st.session_state.df_raw
 
 # --- SIDEBAR COMPARTIDO ---
 with st.sidebar:

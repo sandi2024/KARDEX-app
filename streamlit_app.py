@@ -15,13 +15,13 @@ render_header()   # Renderizamos el header común a todas las páginas
 # ============================================
 # CARGA DE DATOS
 # ============================================
-if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
-    with st.spinner("Cargando base de datos"):
-        st.session_state.df_raw = get_data_completo()
+#if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
+#    with st.spinner("Cargando base de datos"):
+#        st.session_state.df_raw = get_data_completo()
 
 
 # usamos los datos de la memoria de la sesión para evitar recargas innecesarias
-df_datos = st.session_state.df_raw
+df_datos = get_data_completo()
 
 
 # --- SIDEBAR COMPARTIDO ---
