@@ -40,8 +40,10 @@ def render_sidebar(lista_periodos: list[str], lista_carreras: list[str], lista_p
                     options=lista_periodos_base,
                     value=(lista_periodos_base[0], lista_periodos_base[-1])
             )
+         else:
+            rango_periodos = None
+            
          # Filtro de Umbral
-       
         umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
         max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
 
