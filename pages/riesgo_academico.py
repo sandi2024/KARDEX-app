@@ -74,60 +74,6 @@ df_con_riesgo = identificar_riesgo_academico2(df_resumen, umbral_reprobacion, um
 st.title("🚨 Sistema de Alerta Temprana")
 
 
-
-st.markdown("Indices de riesgo academico")
-
-col_metrica1, col_metrica2, col_metrica3 = st.columns(3)
-with col_metrica1:
-    peso_promedio = st.number_input(
-        label="Define el peso del promedio (porcentaje):",
-        min_value=0.0,      # Al usar .0, Streamlit sabe que es decimal
-        max_value=100.0,
-        value=40.0,
-        step=0.50,          # Incrementos de 50 centavos
-        format="%.2f",       # Fuerza a mostrar siempre 2 decimales
-        key="peso_promedio"
-    )
-
-with col_metrica2:
-# 2. Ejemplo con número decimal (Float)
-    peso_abandono = st.number_input(
-        label="Define el peso del abandono (porcentaje):",
-        min_value=0.0,      # Al usar .0, Streamlit sabe que es decimal
-        max_value=100.0,
-        value=30.0,
-        step=0.50,          # Incrementos de 50 centavos
-        format="%.2f",       # Fuerza a mostrar siempre 2 decimales
-        key="peso_abandono"
-    )
-
-with col_metrica3:
-    peso_extra = st.number_input(
-        label="Define el peso de los extraordinarios (porcentaje):",
-        min_value=0.0,      # Al usar .0, Streamlit sabe que es decimal
-        max_value=100.0,
-        value=30.0,
-        step=0.50,          # Incrementos de 50 centavos
-        format="%.2f",       # Fuerza a mostrar siempre 2 decimales
-        key="peso_extra"
-    )
-
-st.write(f"Total porcentaje: **{peso_promedio + peso_abandono + peso_extra}%**")
-
-# 2. Crear el botón que ejecutará la suma
-if st.button("Nueva prediccion", type="primary"):
-    # El código aquí adentro SOLO se ejecuta al hacer clic
-    resultado = peso_promedio + peso_abandono + peso_extra
-    
-    # 3. Mostrar el resultado de forma visual
-    st.success(f"¡Cálculo completado! El resultado es: **{resultado}**")
-
-
-
-
-
-
-
 # Mostrar métricas de resumen
 critico = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Crítico'])
 moderado = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Moderado'])
