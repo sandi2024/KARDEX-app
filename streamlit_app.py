@@ -48,10 +48,7 @@ def render_sidebar(lista_periodos: list[str], lista_periodos_base: list[str]):
         umbral = st.slider("Umbral de reprobación (Calificación)", 0, 100, 60)
         max_extraordinarios = st.slider("No. max extraordinario", 0, 10, 3)
         
-        # El botón indispensable que frena las recargas automáticas
-        procesar_boton = st.form_submit_button("Aplicar Filtros 🚀")
         
-    # Guardamos en session_state para que otras páginas lo usen
         if mostrar_intervalo_periodo:
             st.session_state['periodo'] = rango_periodos
         else:
@@ -61,10 +58,10 @@ def render_sidebar(lista_periodos: list[str], lista_periodos_base: list[str]):
         return periodo_sel, umbral, max_extraordinarios, mostrar_intervalo_periodo, rango_periodos
 
 
+
 st.set_page_config(page_title="Dashboard Académico - FCQI", layout="wide")
 load_css()    # Cargamos los estilos personalizados
 render_header()   # Renderizamos el header común a todas las páginas
-
 
 
 df_datos = get_data_completo()
