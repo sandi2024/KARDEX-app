@@ -51,7 +51,7 @@ matricula = st.text_input("Ingresar matrícula:")
 
 if matricula:
     if existe_matricula(df_limpio, matricula):
-        st.success("✔ Matrícula encontrada")
+
         df_alumno =  df_limpio[df_limpio['matricula'] == matricula].sort_values('periodo')  
         num_carreras = df_alumno['carrera'].nunique()
         num_planes = df_alumno['id_plan_estudio'].nunique() 
@@ -77,9 +77,10 @@ if matricula:
             nombre_alumno = df_alumno_carrera['nombre'].iloc[0] if 'nombre' in df_alumno_carrera.columns else "Estudiante"
             df_materias_aprobadas = df_alumno_carrera[df_alumno_carrera['calificacion'] >= umbral_reprobacion]
             total_creditos = df_materias_aprobadas['creditos_materia'].sum() if 'creditos_materia' in df_alumno_carrera.columns else 0
-           
+            plan_estudio = df_alumno_carrera['nombre_plan'].iloc[0] if 'nombre_plan' in df_alumno_carrera.columns else "Desconocido"
+
             st.subheader(f"📂 Expediente: {nombre_alumno}")
-            st.info(f"**Matrícula:** {matricula} | **Carrera:** {carrera_sel}")
+            st.info(f"**Matrícula:** {matricula}  |  **Carrera:** {carrera_sel}")
 
             # MÉTRICAS RESUMIDAS 
             col1, col2, col3= st.columns(3)
