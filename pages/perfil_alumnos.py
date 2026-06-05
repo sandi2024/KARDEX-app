@@ -1,45 +1,50 @@
 import streamlit as st
 import plotly.express as px
 from src.database import get_data_completo
-from src.utils import load_css, render_header, create_uabc_metric_card, render_footer, create_uabc_alert     
+from src.utils import get_image_base64, load_css, render_header, create_uabc_metric_card, render_footer, create_uabc_alert     
 from src.analisis import existe_matricula, normalizar_datos_academicos, identificar_riesgo_academico2, procesar_kardex
+
+
+# ------------------------- SIDEBAR COMPARTIDO -------------------------------
+def render_sidebar():
+    with st.sidebar:
+        logo_base64 = get_image_base64("assets/UABC-logo.png")
+        logo_html = f'<img src="data:image/jpeg;base64,{logo_base64}" alt="UABC" style="height: 200px;">' if logo_base64 else '<div style="height: 80px;"></div>'
+        st.markdown(f"""
+               <div class="sidebar-logo">
+                   {logo_html}
+                   <p style="font-size: 1.2rem; color: #666;">UABC</p>
+               </div>
+               """, unsafe_allow_html=True)
+        st.markdown("<div class='sidebar-title'> Panel de Control</div>", unsafe_allow_html=True)
+        st.sidebar.page_link("streamlit_app.py", label="Inicio", icon="🏠")
+        st.page_link("pages/carreras.py", label="Carreras", icon="🎓") 
+        st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🧑‍🎓") 
+        st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") 
+        
+        st.markdown("---")
+        st.markdown("### ⚙️ Configuración")
+    
+        # Filtro de Umbral
+        umbral_reprobacion = st.slider("Umbral de promedio critico", 0, 100, 60)
+        umbral_eficiencia = st.slider("Creditos promedio por periodo", 0, 100, 40)
+        umbral_np_sp = st.slider("Limite de examenes NP y SD", 0, 10, 5)
+        tasa = st.slider("Tasa (%) extraordinarios", min_value=0, max_value=100, value=10, step=1)
+
+        # Guardamos en session_state para que otras páginas lo usen
+        st.session_state['umbral_reprobacion'] = umbral_reprobacion
+        st.session_state['umbral_eficiencia'] = umbral_eficiencia
+        st.session_state['umbral_np_sp'] = umbral_np_sp
+        st.session_state['tasa'] = tasa
+    
+        return umbral_reprobacion, umbral_eficiencia, umbral_np_sp, tasa
+
 
 load_css()
 render_header()
 
-############################# CARGAR DATOS ##############################
-#if 'df_raw' not in st.session_state or st.session_state.df_raw.empty:
-#    st.warning("Cargando datos desde la base de datos...")
 df_datos = get_data_completo()
-#df_datos = st.session_state.df_raw
-#else:
-#    df_datos = st.session_state.df_raw
-
-# ------------------------- SIDEBAR COMPARTIDO -------------------------------
-with st.sidebar:
-    st.image("assets/UABC-logo.png", width=150)
-    st.markdown("### Panel de Control")
-    st.sidebar.page_link("streamlit_app.py", label="Inicio", icon="🏠")
-    st.page_link("pages/carreras.py", label="Carreras", icon="🎓") 
-    st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🧑‍🎓") 
-    st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") 
-        
-    st.markdown("---")
-    st.markdown("### ⚙️ Configuración")
-    
-      # Filtro de Umbral
-    umbral_reprobacion = st.slider("Umbral de promedio critico", 0, 100, 60)
-    umbral_eficiencia = st.slider("Creditos promedio por periodo", 0, 100, 40)
-    umbral_np_sp = st.slider("Limite de examenes NP y SD", 0, 10, 5)
-    tasa = st.slider("Tasa (%) extraordinarios", min_value=0, max_value=100, value=10, step=1)
-
-    # Guardamos en session_state para que otras páginas lo usen
-    st.session_state['umbral_reprobacion'] = umbral_reprobacion
-    st.session_state['umbral_eficiencia'] = umbral_eficiencia
-    st.session_state['umbral_np_sp'] = umbral_np_sp
-    st.session_state['tasa'] = tasa
-
-
+umbral_reprobacion, umbral_eficiencia, umbral_np_sp, tasa = render_sidebar()
 #============================ PROCESAR DATOS ================================
 
 df_limpio = normalizar_datos_academicos(df_datos)
