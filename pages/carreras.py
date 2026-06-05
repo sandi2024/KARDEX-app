@@ -91,8 +91,10 @@ top_reprobadas = calcular_metricas_reprobacion(df_periodo, umbral)
 
 df_distribucion = distribucion_calificaciones(df_carrera)
 
-#df_procesada = procesar_kardex_general(df_carrera, umbral, max_extraordinarios)
-df_evo = calcular_evolucion_academica(df_carrera, umbral)
+if mostrar_intervalo_periodo:
+    df_evo = calcular_evolucion_academica(df_periodo, umbral)
+else:
+    df_evo = calcular_evolucion_academica(df_carrera, umbral)
 
 # ============================================== MÉTRICAS PRINCIPALES ============================================
 
