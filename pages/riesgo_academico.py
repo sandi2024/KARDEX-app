@@ -97,7 +97,7 @@ with col1:
         <div class="stat-circle-uabc">
             <span>{moderado}</span>
         </div>
-        <p style="text-align: center; margin-top: 10px;">Progreso Actual</p>
+        <p style="text-align: center; margin-top: 10px; font-weight: 500;">Casos Críticos</p>
         """
     )
 
@@ -107,7 +107,7 @@ with col2:
         <div class="stat-circle-uabc">
             <span>{critico}</span>
         </div>
-        <p style="text-align: center; margin-top: 10px;">Tareas Listas</p>
+        <p style="text-align: center; margin-top: 10px; font-weight: 500;">Casos Críticos</p>
         """
     )
 
