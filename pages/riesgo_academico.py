@@ -95,7 +95,7 @@ with col1:
     st.html(
         """
         <div class="stat-circle-uabc">
-            <span>{moderado}</span>
+            <span>moderado</span>
         </div>
         <p style="text-align: center; margin-top: 10px;">Progreso Actual</p>
         """
