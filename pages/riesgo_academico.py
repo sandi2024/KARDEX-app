@@ -89,7 +89,7 @@ with col_info2:
         st.markdown(create_uabc_alert(f"⚠️ Se han identificado {critico} alumnos en situación de riesgo académico critico", "warning"), unsafe_allow_html=True)
    #     st.markdown(create_progress_bar(critico, type="warning"), unsafe_allow_html=True)
 
-col1, col2, col3 = st.columns(3)
+col1, col2 = st.columns(2)
 
 with col1:
     st.html(
