@@ -117,6 +117,15 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+
+st.html(
+    """
+    <div class="card-uabc">
+        <h3 style="margin-top: 0; color: #00723F;">Facultad de Ciencias</h3>
+        <p>El efecto hover elevará sutilmente esta tarjeta al pasar el cursor por encima.</p>
+    </div>
+    """
+)
 #  Imprimir el resultado
 st.dataframe(
     df_mostrar,
