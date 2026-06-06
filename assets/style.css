@@ -236,6 +236,11 @@
     width: 100%;
 }
 
+.stPageLink div p {
+        color: var(--white) !important;
+        font-weight: bold;
+        font-size: 18px;
+}
 /* ========== TABS ========== */
 .stTabs [data-baseweb="tab-list"] {
     gap: 0.5rem;
