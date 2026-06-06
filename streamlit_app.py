@@ -32,7 +32,7 @@ def render_sidebar(lista_periodos: list[str], lista_periodos_base: list[str]):
     
     
    #     st.markdown("### ⚙️ Configuración")
-        st.markdown("<div class='title-container'> ⚙️ Configuracion</div>", unsafe_allow_html=True)
+        st.markdown("<div class='title-container h1'> ⚙️ Configuracion</div>", unsafe_allow_html=True)
         mostrar_intervalo_periodo = st.checkbox(" Filtra periodo por intervalos ")
         if mostrar_intervalo_periodo:
             rango_periodos = st.select_slider(
