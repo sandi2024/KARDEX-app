@@ -211,7 +211,10 @@
     background: var(--primary-gradient);
 }
 
-[data-testid="stSidebar"] .stCheckbox label,
+[data-testid="stSidebar"] .stCheckbox label p {
+    color: var(--white) !important;
+}
+
 [data-testid="stSidebar"] .stSlider label,
 [data-testid="stSidebar"] .stSelectbox label {
     color: #FFFFFF !important;
