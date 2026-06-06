@@ -126,6 +126,32 @@ st.html(
     </div>
     """
 )
+
+st.title("Ejemplo de Dashboard con Streamlit")
+
+# 2. Crear columnas para mostrar el componente
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.html(
+        """
+        <div class="stat-circle-uabc">
+            <span>85%</span>
+        </div>
+        <p style="text-align: center; margin-top: 10px;">Progreso Actual</p>
+        """
+    )
+
+with col2:
+    st.html(
+        """
+        <div class="stat-circle-uabc">
+            <span>24</span>
+        </div>
+        <p style="text-align: center; margin-top: 10px;">Tareas Listas</p>
+        """
+    )
+    
 #  Imprimir el resultado
 st.dataframe(
     df_mostrar,
