@@ -396,10 +396,8 @@
     background-color: var(--blue) !important;
 }
 
-/* ========== CHECKBOX ========== */
-.stCheckbox label {
-    color: var(--dark-blue) !important;
-}
+
+
 
 /* ========== EXPANDERS ========== */
 .streamlit-expanderHeader {
