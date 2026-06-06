@@ -23,7 +23,7 @@ def render_sidebar(lista_periodos: list[str], lista_periodos_base: list[str]):
 
         st.markdown("<div class='sidebar-title'> Panel de Control</div>", unsafe_allow_html=True)
 
-        st.sidebar.page_link("streamlit_app.py", label="Inicio", icon="🏠")
+        st.sidebar.page_link("streamlit_app.py", label="<div class='sidebar-link'>Inicio</div>", icon="🏠")
         st.page_link("pages/carreras.py", label="Carreras", icon="🎓") # APARECE DESPUÉS
         st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🧑‍🎓") # APARECE DESPUÉS
         st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") # APARECE DESPUÉS
