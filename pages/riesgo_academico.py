@@ -97,7 +97,7 @@ with col1:
         <div class="stat-circle-uabc">
             <span>{moderado}</span>
         </div>
-        <p style="text-align: center; margin-top: 10px; font-weight: 500;">Casos Críticos</p>
+        <p style="text-align: center; margin-top: 10px; font-weight: 500;">Casos Moderados</p>
         """
     )
 
