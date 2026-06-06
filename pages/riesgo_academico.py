@@ -93,9 +93,9 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     st.html(
-        """
+        f"""
         <div class="stat-circle-uabc">
-            <span>moderado</span>
+            <span>{moderado}</span>
         </div>
         <p style="text-align: center; margin-top: 10px;">Progreso Actual</p>
         """
@@ -103,7 +103,7 @@ with col1:
 
 with col2:
     st.html(
-        """
+        f"""
         <div class="stat-circle-uabc">
             <span>{critico}</span>
         </div>
