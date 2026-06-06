@@ -384,7 +384,7 @@
 
 /* Estilo para el título del selector */
 .stSelectbox label {
-    color: var(--blue) !important; /* Título azul */
+    color: var(--white) !important; /* Título azul */
     font-weight: 500 !important;
 }
 
