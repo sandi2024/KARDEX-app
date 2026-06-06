@@ -374,13 +374,17 @@
 }
 
 /* ========== SELECTORES ========== */
+/* Estilo para la caja del selector (Combinado y sin duplicados) */
 .stSelectbox > div > div {
-    border-color: var(--blue) !important;
-    border-radius: var(--border-radius-sm) !important;
+    background-color: white !important;
+    color: black !important; /* Texto interno negro */
+    border-color: var(--blue) !important; /* Borde azul recuperado */
+    border-radius: var(--border-radius-sm) !important; /* Esquinas redondeadas */
 }
 
+/* Estilo para el título del selector */
 .stSelectbox label {
-    color: var(--blue) !important;
+    color: var(--blue) !important; /* Título azul */
     font-weight: 500 !important;
 }
 
@@ -419,14 +423,6 @@
     border-top: 3px solid var(--blue);
     border-radius: 50%;
     animation: spin 1s linear infinite;
-}
-
-/*========== SELECTBOX ========== */
-/* Fondo blanco del selectbox */
-.stSelectbox > div > div {
-    background-color: white !important;
-    color: black !important; /* Texto negro */
-    border-radius: var(--border-radius-sm) !important;
 }
 
 /* ========== ANIMACIONES ========== */
