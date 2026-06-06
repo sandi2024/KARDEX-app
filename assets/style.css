@@ -37,18 +37,6 @@
     --font-primary: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
-/*
-.stApp {
-    background-color: var(--gray);
-    color: black;
-
-}
-    
-
- .stAppHeader {
-    background-color: var(--blue); 
- }
-*/
 
 /* ========== HEADER INSTITUCIONAL ========== */
 .uabc-header {
@@ -396,8 +384,10 @@
     background-color: var(--blue) !important;
 }
 
-
-
+/* ========== CHECKBOX ========== */
+.stCheckbox label {
+    color: var(--dark-blue) !important;
+}
 
 /* ========== EXPANDERS ========== */
 .streamlit-expanderHeader {
