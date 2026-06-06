@@ -78,17 +78,6 @@ st.title("🚨 Sistema de Alerta Temprana")
 critico = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Crítico'])
 moderado = len(df_con_riesgo[df_con_riesgo['nivel_riesgo'] == 'Moderado'])
 
-col_info1, col_info2 = st.columns(2)    
-with col_info1:
-   if moderado > 0:
-        st.markdown(create_uabc_alert(f"⚠️ Se han identificado {moderado} alumnos en situación de riesgo académico moderado", "warning"), unsafe_allow_html=True)
-   #     st.markdown(create_progress_bar(moderado, type="warning"), unsafe_allow_html=True)
-    
-with col_info2:
-    if critico > 0:
-        st.markdown(create_uabc_alert(f"⚠️ Se han identificado {critico} alumnos en situación de riesgo académico critico", "warning"), unsafe_allow_html=True)
-   #     st.markdown(create_progress_bar(critico, type="warning"), unsafe_allow_html=True)
-
 col1, col2 = st.columns(2)
 
 with col1:
