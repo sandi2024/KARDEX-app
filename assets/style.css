@@ -223,6 +223,10 @@
     background: var(--primary-gradient);
 }
 
+[data-testid="stSidebar"] .stCheckbox label {
+    color: #FFFFFF !important;
+}
+
 
 .sidebar-title {
     text-align: center;
@@ -395,7 +399,7 @@
 
 /* ========== CHECKBOX ========== */
 .stCheckbox label {
-    color: var(--white) !important;
+    color: var(--dark-blue) !important;
 }
 
 /* ========== EXPANDERS ========== */
