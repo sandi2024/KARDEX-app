@@ -395,7 +395,7 @@
 
 /* ========== CHECKBOX ========== */
 .stCheckbox label {
-    color: var(--dark-blue) !important;
+    color: var(--white) !important;
 }
 
 /* ========== EXPANDERS ========== */
