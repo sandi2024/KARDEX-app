@@ -50,7 +50,7 @@ umbral_reprobacion, umbral_eficiencia, umbral_np_sp, tasa = render_sidebar()
 df_limpio = normalizar_datos_academicos(df_datos)
 
 # ============================================CUERPO DEL DASHBOARD ============================================
-st.title("📈 Consulta Alumnos")
+st.title(" Consulta Alumnos")
 
 matricula = st.text_input("Ingresar matrícula:")
 
