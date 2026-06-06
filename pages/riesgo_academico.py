@@ -148,8 +148,22 @@ st.html(
     """
 )
 
-st.title("Ejemplo de Dashboard con Streamlit")
 
+st.title("Ejemplo de Tooltip en Streamlit")
+
+st.write("Pasa el mouse por la palabra marcada para ver la magia:")
+
+html_tooltip = """
+<p>
+    El siguiente concepto es clave para la 
+    <span class="tooltip-uabc">UABC
+        <span class="tooltip-text">Universidad Autónoma de Baja California</span>
+    </span> 
+    en su desarrollo académico.
+</p>
+"""
+
+st.markdown(html_tooltip, unsafe_allow_html=True)
 
 
 #  Imprimir el resultado
