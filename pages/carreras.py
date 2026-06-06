@@ -10,19 +10,22 @@ def render_sidebar(lista_periodos: list[str], lista_carreras: list[str], lista_p
  
         logo_base64 = get_image_base64("assets/UABC-logo.png")
         logo_html = f'<img src="data:image/jpeg;base64,{logo_base64}" alt="UABC" style="height: 200px;">' if logo_base64 else '<div style="height: 80px;"></div>'
-       
         st.markdown(f"""
                <div class="sidebar-logo">
                    {logo_html}
                    <p style="font-size: 1.2rem; color: #666;">UABC</p>
                </div>
                """, unsafe_allow_html=True)
-
         st.markdown("<div class='sidebar-title'> Panel de Control</div>", unsafe_allow_html=True)
         st.sidebar.page_link("streamlit_app.py", label="Inicio", icon="🏠")
         st.page_link("pages/carreras.py", label="Carreras", icon="🎓") 
         st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🧑‍🎓") 
-        st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") 
+        st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨")
+
+ #       st.sidebar.page_link("streamlit_app.py", label="Inicio", icon="🏠")
+ #       st.page_link("pages/carreras.py", label="Carreras", icon="🎓") 
+ #       st.page_link("pages/perfil_alumnos.py", label="Perfil de Alumnos", icon="🧑‍🎓") 
+ #       st.page_link("pages/riesgo_academico.py", label="Riesgo Académico", icon="🚨") 
         
         st.markdown("---")
         st.markdown("### ⚙️ Configuración")
@@ -101,7 +104,7 @@ else:
 metricas = calcular_metricas_generales(df_final)
 
 # ============================================CUERPO DEL DASHBOARD ============================================
-st.title(f"📈 Análisis por Carrera {carrera_sel if carrera_sel != 'Todas las carreras' else '' + rango_periodos[0] + '/' + rango_periodos[1] if mostrar_intervalo_periodo else ''}")
+st.title(f" Análisis por Carrera {carrera_sel if carrera_sel != 'Todas las carreras' else '' + rango_periodos[0] + '/' + rango_periodos[1] if mostrar_intervalo_periodo else ''}")
 
 # --- CARDS DE METRICAS --
 col1, col2, col3, col4, col5= st.columns(5)
