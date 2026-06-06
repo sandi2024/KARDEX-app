@@ -104,6 +104,19 @@ if  mostrar_solo_moderados:
 if ocultar_bajos:
     df_mostrar = df_mostrar[df_mostrar['nivel_riesgo'] != 'Bajo']
 
+
+st.markdown(
+    """
+    <div style="line-height: 2.5;">
+        • <b>Ana Gómez</b> — <span class="badge-uabc badge-excelente">Excelente</span> — Calificación: 96/100<br>
+        • <b>Pedro Vega</b> — <span class="badge-uabc badge-regular">Regular</span> — Calificación: 74/100<br>
+        • <b>Luis Arce</b> — <span class="badge-uabc badge-riesgo">En Riesgo</span> — Calificación: 52/100<br>
+        • <b>Periodo Escolar:</b> <span class="badge-uabc badge-info">2026-1</span>
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
+
 #  Imprimir el resultado
 st.dataframe(
     df_mostrar,
