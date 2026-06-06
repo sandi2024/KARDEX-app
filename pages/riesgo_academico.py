@@ -128,16 +128,6 @@ st.markdown(
 )
 
 
-st.html(
-    """
-    <div class="card-uabc">
-        <h3 style="margin-top: 0; color: #00723F;">Facultad de Ciencias</h3>
-        <p>El efecto hover elevará sutilmente esta tarjeta al pasar el cursor por encima.</p>
-    </div>
-    """
-)
-
-
 st.title("Ejemplo de Tooltip en Streamlit")
 
 st.write("Pasa el mouse por la palabra marcada para ver la magia:")
