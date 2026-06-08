@@ -127,30 +127,28 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# 3. Función para convertir el texto plano en etiquetas HTML con tus clases CSS
+def formatear_insignia(valor):
+    # Convertimos a minúsculas para que coincida exactamente con tus clases CSS (.badge-excelente, etc.)
+    clase_color = valor.lower() 
+    return f'<span class="badge-uabc badge-{clase_color}">{valor}</span>'
 
-st.title("Ejemplo de Tooltip en Streamlit")
+# 4. Aplicar el formato exclusivamente a la columna 'Estado'
+df_estilizado = df_mostrar.style.format({
+    "Estado": formatear_insignia
+})
 
-st.write("Pasa el mouse por la palabra marcada para ver la magia:")
-
-html_tooltip = """
-<p>
-    El siguiente concepto es clave para la 
-    <span class="tooltip-uabc">UABC
-        <span class="tooltip-text">Universidad Autónoma de Baja California</span>
-    </span> 
-    en su desarrollo académico.
-</p>
-"""
-
-st.markdown(html_tooltip, unsafe_allow_html=True)
+# 5. Renderizar en Streamlit (OBLIGATORIO usar unsafe_allow_html=True en st.dataframe)
+st.title("Lista de Alumnos con Insignias CSS")
+st.dataframe(df_estilizado, unsafe_allow_html=True, use_container_width=True)
 
 
 #  Imprimir el resultado
-st.dataframe(
-    df_mostrar,
-    column_order=("id_estudiante", "nivel_riesgo", "alerta_score", "tasa_extraordinarios", "eficiencia_creditos"),
-    use_container_width=True
-)
+#st.dataframe(
+#    df_mostrar,
+#    column_order=("id_estudiante", "nivel_riesgo", "alerta_score", "tasa_extraordinarios", "eficiencia_creditos"),
+#    use_container_width=True
+#)
 
 
 render_footer()
