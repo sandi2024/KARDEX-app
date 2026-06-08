@@ -140,7 +140,7 @@ df_estilizado = df_mostrar.style.format({
 
 # 5. Renderizar en Streamlit (OBLIGATORIO usar unsafe_allow_html=True en st.dataframe)
 st.title("Lista de Alumnos con Insignias CSS")
-st.dataframe(df_estilizado, unsafe_allow_html=True, use_container_width=True)
+st.dataframe(df_estilizado, use_container_width=True)
 
 
 #  Imprimir el resultado
