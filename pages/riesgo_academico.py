@@ -144,11 +144,11 @@ st.dataframe(df_estilizado, use_container_width=True)
 
 
 #  Imprimir el resultado
-#st.dataframe(
-#    df_mostrar,
-#    column_order=("id_estudiante", "nivel_riesgo", "alerta_score", "tasa_extraordinarios", "eficiencia_creditos"),
-#    use_container_width=True
-#)
+st.dataframe(
+    df_mostrar,
+    column_order=("id_estudiante", "nivel_riesgo", "alerta_score", "tasa_extraordinarios", "eficiencia_creditos"),
+    use_container_width=True
+)
 
 
 render_footer()
