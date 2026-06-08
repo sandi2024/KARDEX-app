@@ -118,9 +118,9 @@ if ocultar_bajos:
 st.markdown(
     """
     <div style="line-height: 2.5;">
-        • <b>Ana Gómez</b> — <span class="badge-uabc badge-excelente">Excelente</span> — Calificación: 96/100<br>
-        • <b>Pedro Vega</b> — <span class="badge-uabc badge-regular">Regular</span> — Calificación: 74/100<br>
-        • <b>Luis Arce</b> — <span class="badge-uabc badge-riesgo">En Riesgo</span> — Calificación: 52/100<br>
+        • <b>Ana Gómez</b> — <span class="badge-uabc badge-Bajo">Excelente</span> — Calificación: 96/100<br>
+        • <b>Pedro Vega</b> — <span class="badge-uabc badge-Moderado">Moderado</span> — Calificación: 74/100<br>
+        • <b>Luis Arce</b> — <span class="badge-uabc badge-Critico">Crítico</span> — Calificación: 52/100<br>
         • <b>Periodo Escolar:</b> <span class="badge-uabc badge-info">2026-1</span>
     </div>
     """, 
@@ -140,7 +140,7 @@ df_estilizado = df_mostrar.style.format({
 
 # 5. Renderizar en Streamlit (OBLIGATORIO usar unsafe_allow_html=True en st.dataframe)
 st.title("Lista de Alumnos con Insignias CSS")
-st.markdown(df_estilizado.to_html(escape=False), unsafe_allow_html=True)
+
 
 
 
