@@ -133,14 +133,14 @@ def formatear_insignia(valor):
     clase_color = valor.lower() 
     return f'<span class="badge-uabc badge-{clase_color}">{valor}</span>'
 
-# 4. Aplicar el formato exclusivamente a la columna 'Estado'
+# 4. Aplicar el formato exclusivamente a la columna 'nivel_riesgo'
 df_estilizado = df_mostrar.style.format({
     "nivel_riesgo": formatear_insignia
 })
 
 # 5. Renderizar en Streamlit (OBLIGATORIO usar unsafe_allow_html=True en st.dataframe)
 st.title("Lista de Alumnos con Insignias CSS")
-st.dataframe(df_estilizado, unsafe_allow_html=True, use_container_width=True)
+st.dataframe(df_estilizado, use_container_width=True)
 
 
 #  Imprimir el resultado
