@@ -303,17 +303,17 @@
     transition: var(--transition-fast);
 }
 
-.badge-excelente {
+.badge-Bajo {
     background: var(--success-gradient);
     color: var(--white);
 }
 
-.badge-regular {
+.badge-Moderado {
     background: var(--warning-gradient);
     color: var(--white);
 }
 
-.badge-riesgo {
+.badge-Critico {
     background: var(--danger-gradient);
     color: var(--white);
 }
