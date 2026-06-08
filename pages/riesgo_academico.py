@@ -135,7 +135,7 @@ def formatear_insignia(valor):
 
 # 4. Aplicar el formato exclusivamente a la columna 'Estado'
 df_estilizado = df_mostrar.style.format({
-    "Estado": formatear_insignia
+    "nivel_riesgo": formatear_insignia
 })
 
 # 5. Renderizar en Streamlit (OBLIGATORIO usar unsafe_allow_html=True en st.dataframe)
